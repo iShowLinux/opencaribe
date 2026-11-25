@@ -1,0 +1,13 @@
+{
+  "name": "@opencaribe/validation",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": { "typecheck": "tsc --noEmit" },
+  "dependencies": {
+    "@opencaribe/configuration": "workspace:*",
+    "zod": "4.6.7"
+  },
+  "devDependencies": { "typescript": "5.9.3" }
+}

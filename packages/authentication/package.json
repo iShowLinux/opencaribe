@@ -1,0 +1,13 @@
+{
+  "name": "@opencaribe/authentication",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./src/index.ts", "./rbac": "./src/rbac.ts" },
+  "scripts": { "typecheck": "tsc --noEmit" },
+  "dependencies": {
+    "@opencaribe/database": "workspace:*",
+    "better-auth": "1.7.28"
+  },
+  "devDependencies": { "typescript": "5.9.3" }
+}

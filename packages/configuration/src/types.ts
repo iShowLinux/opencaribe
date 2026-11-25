@@ -1,0 +1,66 @@
+export type Locale = 'en' | 'es';
+export type CountryCode = 'TT' | 'VE';
+export type CurrencyCode = 'TTD' | 'USD' | 'VES' | 'VED';
+export type LocalizedText = Record<Locale, string>;
+
+export interface CurrencyDefinition {
+  code: CurrencyCode;
+  digits: number;
+  symbol: string;
+  name: LocalizedText;
+  note?: string;
+}
+
+export interface CityConfig {
+  id: string;
+  names: LocalizedText;
+  approxLatitude?: number;
+  approxLongitude?: number;
+}
+
+export interface RegionConfig {
+  id: string;
+  names: LocalizedText;
+  cities: CityConfig[];
+}
+
+export interface CountryFeatureFlags {
+  requireEmailVerification: boolean;
+  allowGuestBrowsing: boolean;
+  enableMessaging: boolean;
+  enableMapSearch: boolean;
+  enableLocationDetection: boolean;
+  moderationQueue: boolean;
+  maxImagesPerListing: number;
+  listingExpirationDays: number;
+  maxListingTitleLength: number;
+  maxListingDescriptionLength: number;
+}
+
+export interface ModerationPolicy {
+  requiresApprovalCategories: string[];
+  prohibitedItemKeys: string[];
+  allowUsedGoods: boolean;
+  allowTobaccoAndAlcohol: boolean;
+  notes: string;
+}
+
+export interface CountryConfig {
+  code: CountryCode;
+  displayName: string;
+  supportedLanguages: Locale[];
+  defaultLocale: Locale;
+  supportedCurrencies: CurrencyCode[];
+  defaultCurrency: CurrencyCode;
+  telephonePrefix: string;
+  timeZone: string;
+  regions: RegionConfig[];
+  enabledCategories: string[];
+  featureFlags: CountryFeatureFlags;
+  legalDocuments: {
+    privacyPolicy: string;
+    termsOfService: string;
+    communityGuidelines: string;
+  };
+  moderation: ModerationPolicy;
+}

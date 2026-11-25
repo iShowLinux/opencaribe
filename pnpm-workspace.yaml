@@ -1,0 +1,13 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+  - 'modules/*'
+allowBuilds:
+  '@parcel/watcher': true
+  '@swc/core': true
+  esbuild: true
+minimumReleaseAgeExclude:
+  - '@vitest/mocker@5.1.2'
+  - '@vitest/spy@5.1.2'
+  - next-intl@4.16.2
+  - vitest@5.1.2

@@ -1,0 +1,19 @@
+{
+  "name": "@opencaribe/geography",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "db:seed": "tsx src/seed-cli.ts"
+  },
+  "dependencies": {
+    "@opencaribe/configuration": "workspace:*",
+    "@opencaribe/database": "workspace:*"
+  },
+  "devDependencies": {
+    "tsx": "^4.20.0",
+    "typescript": "5.9.3"
+  }
+}

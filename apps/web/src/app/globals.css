@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@source "../../../packages/ui/src";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-navy-50: #f1f5fa;
+  --color-navy-100: #dde6f1;
+  --color-navy-200: #b9cbe0;
+  --color-navy-300: #8ca7c8;
+  --color-navy-400: #5b7da6;
+  --color-navy-500: #3b5f88;
+  --color-navy-600: #2a4669;
+  --color-navy-700: #1f3654;
+  --color-navy-800: #172942;
+  --color-navy-900: #0e1d31;
+  --color-navy-950: #081324;
+
+  --color-coral-50: #fff3ef;
+  --color-coral-100: #ffe1d7;
+  --color-coral-200: #ffc2ae;
+  --color-coral-400: #f28a68;
+  --color-coral-500: #e76f51;
+  --color-coral-600: #d4553a;
+  --color-coral-700: #b03f2b;
+
+  --color-sand-50: #fbf9f5;
+  --color-sand-100: #f4efe6;
+  --color-sand-200: #e9dfcc;
+}
+
+:root {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-sand-50);
+  color: var(--color-navy-900);
+  -webkit-font-smoothing: antialiased;
+}
+
+.dark body {
+  background-color: var(--color-navy-950);
+  color: var(--color-navy-50);
+}
+
+/* Respect reduced-motion preferences: no animation-heavy UI in this project. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

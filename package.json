@@ -1,0 +1,40 @@
+{
+  "name": "opencaribe",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "packageManager": "pnpm@12.15.0",
+  "engines": {
+    "node": ">=20.11.0"
+  },
+  "description": "Open-source, country-aware classifieds marketplace for the Caribbean and Latin America.",
+  "scripts": {
+    "dev": "pnpm --filter @opencaribe/web dev",
+    "build": "pnpm --filter @opencaribe/web build",
+    "start": "pnpm --filter @opencaribe/web start",
+    "lint": "pnpm --filter @opencaribe/web lint",
+    "typecheck": "pnpm -r exec tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "db:generate": "pnpm --filter @opencaribe/database db:generate",
+    "db:push": "pnpm --filter @opencaribe/database db:push",
+    "db:seed": "pnpm --filter @opencaribe/geography db:seed"
+  },
+  "devDependencies": {
+    "@opencaribe/authentication": "workspace:*",
+    "@opencaribe/configuration": "workspace:*",
+    "@opencaribe/database": "workspace:*",
+    "@opencaribe/geography": "workspace:*",
+    "@opencaribe/listings": "workspace:*",
+    "@opencaribe/localization": "workspace:*",
+    "@opencaribe/search": "workspace:*",
+    "@opencaribe/ui": "workspace:*",
+    "@opencaribe/validation": "workspace:*",
+    "@playwright/test": "1.65.1",
+    "@types/node": "^24",
+    "drizzle-kit": "0.31.11",
+    "typescript": "5.9.3",
+    "vitest": "5.1.2"
+  }
+}

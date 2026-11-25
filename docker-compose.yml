@@ -1,0 +1,56 @@
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: opencaribe-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: opencaribe
+      POSTGRES_USER: opencaribe
+      POSTGRES_PASSWORD: opencaribe
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./infrastructure/docker/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U opencaribe -d opencaribe']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  edge:
+    image: caddy:2-alpine
+    container_name: opencaribe-edge
+    restart: unless-stopped
+    profiles: ['edge']
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./infrastructure/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+
+  app:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile
+    container_name: opencaribe-web
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://opencaribe:opencaribe@db:5432/opencaribe
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-dev-only-insecure-secret}
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL:-http://localhost:3000}
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+    ports:
+      - '3000:3000'
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:

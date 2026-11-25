@@ -1,0 +1,159 @@
+{
+  "app": {
+    "name": "OpenCaribe",
+    "tagline": "The marketplace built for our islands"
+  },
+  "nav": {
+    "browse": "Browse",
+    "post": "Post an ad",
+    "favorites": "Favorites",
+    "messages": "Messages",
+    "signIn": "Sign in",
+    "account": "My account",
+    "admin": "Administration"
+  },
+  "home": {
+    "heroTitle": "Find it close to home",
+    "heroSubtitle": "A free, open and secure classifieds marketplace for Trinidad and Tobago and Venezuela. Browse on any phone, on any connection.",
+    "heroCta": "Explore listings",
+    "heroSecondary": "Post an ad",
+    "countriesTitle": "Choose your marketplace",
+    "countriesSubtitle": "Local currency, local language, local community.",
+    "categoriesTitle": "What are you looking for?",
+    "trustTitle": "Built with you, not just for you",
+    "trustPrivacy": "Privacy by default. No exact addresses are ever required.",
+    "trustFree": "Free to browse. Low-bandwidth pages that load on modest devices.",
+    "trustOpen": "Open source. Auditable, translatable and community owned."
+  },
+  "country": {
+    "welcome": "Welcome to",
+    "subtitle": "Browse listings across {country}.",
+    "recent": "Recently posted",
+    "browseCategory": "Browse category",
+    "viewAll": "View all listings"
+  },
+  "search": {
+    "title": "Search listings",
+    "results": "results",
+    "filters": "Filters",
+    "keyword": "What are you looking for?",
+    "category": "Category",
+    "region": "Region",
+    "city": "City",
+    "currency": "Currency",
+    "minPrice": "Min price",
+    "maxPrice": "Max price",
+    "sort": "Sort by",
+    "recent": "Most recent",
+    "relevance": "Relevance",
+    "priceAsc": "Price: low to high",
+    "priceDesc": "Price: high to low",
+    "noResults": "No listings match these filters yet.",
+    "allCountries": "All countries",
+    "apply": "Apply filters",
+    "currencyNote": "Prices are never compared across different currencies."
+  },
+  "listing": {
+    "contact": "Message seller",
+    "report": "Report listing",
+    "seller": "Seller",
+    "posted": "Posted",
+    "views": "views",
+    "condition": "Condition",
+    "price": "Price",
+    "negotiable": "Negotiable",
+    "free": "Free",
+    "contactForPrice": "Contact for price",
+    "details": "Details",
+    "location": "Approximate location",
+    "share": "Share",
+    "safetyNote": "Meet in a public place and never send money before seeing an item.",
+    "memberSince": "Member since"
+  },
+  "post": {
+    "title": "Post an ad",
+    "subtitle": "Three short steps. No account needed to start a draft.",
+    "step1": "Category",
+    "step2": "Details",
+    "step3": "Review",
+    "categoryLabel": "What are you posting?",
+    "titleLabel": "Ad title",
+    "descriptionLabel": "Description",
+    "priceLabel": "Price",
+    "currencyLabel": "Currency",
+    "priceTypeLabel": "Price type",
+    "conditionLabel": "Condition",
+    "contactLabel": "How should buyers contact you?",
+    "regionLabel": "Region",
+    "cityLabel": "City",
+    "preview": "Preview",
+    "publish": "Publish listing",
+    "success": "Your draft was created.",
+    "draftNote": "Drafts are reviewed before they appear publicly.",
+    "back": "Back",
+    "next": "Continue"
+  },
+  "auth": {
+    "loginTitle": "Sign in",
+    "registerTitle": "Create your account",
+    "forgotTitle": "Reset your password",
+    "email": "Email address",
+    "password": "Password",
+    "name": "Display name",
+    "signIn": "Sign in",
+    "createAccount": "Create account",
+    "sendReset": "Send reset link",
+    "notConfigured": "Authentication is not configured in this environment. Copy .env.example to .env, set BETTER_AUTH_SECRET and connect a database, then restart.",
+    "checkEmail": "If that address is registered, a reset link has been sent."
+  },
+  "favorites": {
+    "title": "Saved listings",
+    "empty": "You have not saved any listings yet."
+  },
+  "messages": {
+    "title": "Messages",
+    "empty": "Your conversations will appear here."
+  },
+  "account": {
+    "title": "My account",
+    "profile": "Profile",
+    "settings": "Settings",
+    "dataExport": "Export my data",
+    "delete": "Delete my account",
+    "signOut": "Sign out"
+  },
+  "admin": {
+    "title": "Administration",
+    "restricted": "This area requires an authenticated moderator or administrator account.",
+    "queue": "Moderation queue",
+    "reports": "Open reports",
+    "roles": "Roles and permissions",
+    "mfaRequired": "Multi-factor authentication is mandatory for privileged accounts."
+  },
+  "legal": {
+    "about": "About the project",
+    "privacy": "Privacy policy",
+    "terms": "Terms of service",
+    "guidelines": "Community guidelines",
+    "safety": "Safety center",
+    "opensource": "Open source",
+    "placeholder": "This document is a starter template. It must be reviewed by qualified local counsel before production launch in each country."
+  },
+  "footer": {
+    "tagline": "Open marketplace infrastructure for the Caribbean and Latin America.",
+    "project": "Project",
+    "legal": "Legal & safety",
+    "rights": "OpenCaribe. Released under the MIT license."
+  },
+  "common": {
+    "loading": "Loading…",
+    "back": "Back",
+    "all": "All",
+    "english": "English",
+    "spanish": "Español",
+    "light": "Light",
+    "dark": "Dark",
+    "theme": "Theme",
+    "language": "Language"
+  }
+}

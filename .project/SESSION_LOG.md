@@ -1,0 +1,15 @@
+# Session Log
+
+## 2026-11-25 — Phase 0 foundation
+
+- Read the supplied directive; recorded its truncation at section 15 in `BLOCKERS.md`.
+- Inspected the host: Node 24.18, pnpm 12.15, git 2.56, npm registry reachable. No pre-existing OpenCaribe repository.
+- Created the repository at `C:\Users\mrjul\Documents\opencaribe` with the requested directory structure, omitting empty modules and documenting the deviation.
+- Implemented packages for configuration, database, authentication, validation, localization and UI; modules for listings, geography and search.
+- Implemented the Next.js application with 16 routes, bilingual catalogues, theme support and six legal/safety documents.
+- Added Docker Compose (PostGIS), Caddy config, Dockerfile, GitHub Actions CI and Playwright smoke tests.
+- Fixed workspace resolution issues: extensionless relative imports, root workspace dev-dependencies, next-intl plugin registration, cookie-based locale without middleware, and uppercase country-code normalisation.
+- Repaired the pnpm store after a bulk edit inadvertently touched dependency sources; reinstalled all 443 packages from a clean store and re-verified.
+- Verification: 33 unit/security tests passed; strict typecheck passed; ESLint passed; production build produced 16 routes; 14 HTTP route checks behaved as expected; search and Spanish locale behaviour confirmed by response inspection.
+- Playwright: browser installed, 3 smoke tests passed after scoping a locator to `main`.
+- Initialised git and committed the verified foundation.

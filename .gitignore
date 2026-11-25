@@ -1,0 +1,47 @@
+# dependencies
+node_modules/
+.pnpm-store/
+*.tgz
+
+# next.js
+.next/
+out/
+build/
+dist/
+*.tsbuildinfo
+
+# environment / secrets
+.env
+.env.local
+.env.*.local
+
+# databases
+*.db
+*.sqlite
+*.sql.gz
+pgdata/
+
+# media uploads
+uploads/
+public/uploads/
+
+# test artifacts
+coverage/
+playwright-report/
+test-results/
+blob-report/
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# os / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# task tooling scratch
+.project/tasks/*.tmp

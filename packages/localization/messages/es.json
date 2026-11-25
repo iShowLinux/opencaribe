@@ -1,0 +1,159 @@
+{
+  "app": {
+    "name": "OpenCaribe",
+    "tagline": "El mercado hecho para nuestras islas"
+  },
+  "nav": {
+    "browse": "Explorar",
+    "post": "Publicar anuncio",
+    "favorites": "Favoritos",
+    "messages": "Mensajes",
+    "signIn": "Iniciar sesión",
+    "account": "Mi cuenta",
+    "admin": "Administración"
+  },
+  "home": {
+    "heroTitle": "Encuentra lo que buscas cerca de ti",
+    "heroSubtitle": "Un mercado abierto, gratuito y seguro para Trinidad y Tobago y Venezuela. Navega desde cualquier teléfono, con cualquier conexión.",
+    "heroCta": "Explorar anuncios",
+    "heroSecondary": "Publicar un anuncio",
+    "countriesTitle": "Elige tu mercado",
+    "countriesSubtitle": "Moneda local, idioma local, comunidad local.",
+    "categoriesTitle": "¿Qué estás buscando?",
+    "trustTitle": "Construido contigo, no solo para ti",
+    "trustPrivacy": "Privacidad por defecto. Nunca se requiere una dirección exacta.",
+    "trustFree": "Gratis para explorar. Páginas ligeras que cargan en dispositivos modestos.",
+    "trustOpen": "Código abierto. Auditable, traducible y de la comunidad."
+  },
+  "country": {
+    "welcome": "Bienvenido a",
+    "subtitle": "Explora anuncios en {country}.",
+    "recent": "Publicados recientemente",
+    "browseCategory": "Explorar categoría",
+    "viewAll": "Ver todos los anuncios"
+  },
+  "search": {
+    "title": "Buscar anuncios",
+    "results": "resultados",
+    "filters": "Filtros",
+    "keyword": "¿Qué estás buscando?",
+    "category": "Categoría",
+    "region": "Región",
+    "city": "Ciudad",
+    "currency": "Moneda",
+    "minPrice": "Precio mínimo",
+    "maxPrice": "Precio máximo",
+    "sort": "Ordenar por",
+    "recent": "Más recientes",
+    "relevance": "Relevancia",
+    "priceAsc": "Precio: menor a mayor",
+    "priceDesc": "Precio: mayor a menor",
+    "noResults": "Aún no hay anuncios con estos filtros.",
+    "allCountries": "Todos los países",
+    "apply": "Aplicar filtros",
+    "currencyNote": "Los precios nunca se comparan entre monedas distintas."
+  },
+  "listing": {
+    "contact": "Contactar al vendedor",
+    "report": "Reportar anuncio",
+    "seller": "Vendedor",
+    "posted": "Publicado",
+    "views": "visitas",
+    "condition": "Condición",
+    "price": "Precio",
+    "negotiable": "Negociable",
+    "free": "Gratis",
+    "contactForPrice": "Consultar precio",
+    "details": "Detalles",
+    "location": "Ubicación aproximada",
+    "share": "Compartir",
+    "safetyNote": "Queda en un lugar público y nunca envíes dinero antes de ver el artículo.",
+    "memberSince": "Miembro desde"
+  },
+  "post": {
+    "title": "Publicar un anuncio",
+    "subtitle": "Tres pasos breves. No necesitas cuenta para guardar un borrador.",
+    "step1": "Categoría",
+    "step2": "Detalles",
+    "step3": "Revisión",
+    "categoryLabel": "¿Qué estás publicando?",
+    "titleLabel": "Título del anuncio",
+    "descriptionLabel": "Descripción",
+    "priceLabel": "Precio",
+    "currencyLabel": "Moneda",
+    "priceTypeLabel": "Tipo de precio",
+    "conditionLabel": "Condición",
+    "contactLabel": "¿Cómo quieren contactarte los compradores?",
+    "regionLabel": "Región",
+    "cityLabel": "Ciudad",
+    "preview": "Vista previa",
+    "publish": "Publicar anuncio",
+    "success": "Se creó tu borrador.",
+    "draftNote": "Los borradores se revisan antes de aparecer públicamente.",
+    "back": "Atrás",
+    "next": "Continuar"
+  },
+  "auth": {
+    "loginTitle": "Iniciar sesión",
+    "registerTitle": "Crea tu cuenta",
+    "forgotTitle": "Restablece tu contraseña",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "name": "Nombre visible",
+    "signIn": "Iniciar sesión",
+    "createAccount": "Crear cuenta",
+    "sendReset": "Enviar enlace",
+    "notConfigured": "La autenticación no está configurada en este entorno. Copia .env.example a .env, define BETTER_AUTH_SECRET y conecta una base de datos, luego reinicia.",
+    "checkEmail": "Si esa dirección está registrada, se envió un enlace de restablecimiento."
+  },
+  "favorites": {
+    "title": "Anuncios guardados",
+    "empty": "Aún no has guardado anuncios."
+  },
+  "messages": {
+    "title": "Mensajes",
+    "empty": "Tus conversaciones aparecerán aquí."
+  },
+  "account": {
+    "title": "Mi cuenta",
+    "profile": "Perfil",
+    "settings": "Configuración",
+    "dataExport": "Exportar mis datos",
+    "delete": "Eliminar mi cuenta",
+    "signOut": "Cerrar sesión"
+  },
+  "admin": {
+    "title": "Administración",
+    "restricted": "Esta área requiere una cuenta autenticada de moderador o administrador.",
+    "queue": "Cola de moderación",
+    "reports": "Reportes abiertos",
+    "roles": "Roles y permisos",
+    "mfaRequired": "La autenticación de dos factores es obligatoria para cuentas privilegiadas."
+  },
+  "legal": {
+    "about": "Sobre el proyecto",
+    "privacy": "Política de privacidad",
+    "terms": "Términos de servicio",
+    "guidelines": "Normas de la comunidad",
+    "safety": "Centro de seguridad",
+    "opensource": "Código abierto",
+    "placeholder": "Este documento es una plantilla inicial. Debe ser revisado por asesoría legal local antes del lanzamiento en cada país."
+  },
+  "footer": {
+    "tagline": "Infraestructura abierta de mercado para el Caribe y Latinoamérica.",
+    "project": "Proyecto",
+    "legal": "Legal y seguridad",
+    "rights": "OpenCaribe. Publicado bajo licencia MIT."
+  },
+  "common": {
+    "loading": "Cargando…",
+    "back": "Atrás",
+    "all": "Todos",
+    "english": "English",
+    "spanish": "Español",
+    "light": "Claro",
+    "dark": "Oscuro",
+    "theme": "Tema",
+    "language": "Idioma"
+  }
+}
