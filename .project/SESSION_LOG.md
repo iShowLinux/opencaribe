@@ -12,4 +12,5 @@
 - Repaired the pnpm store after a bulk edit inadvertently touched dependency sources; reinstalled all 443 packages from a clean store and re-verified.
 - Verification: 33 unit/security tests passed; strict typecheck passed; ESLint passed; production build produced 16 routes; 14 HTTP route checks behaved as expected; search and Spanish locale behaviour confirmed by response inspection.
 - Playwright: browser installed, 3 smoke tests passed after scoping a locator to `main`.
-- Initialised git and committed the verified foundation.
+- Initialised git, added `.gitattributes` to pin LF line endings, and committed the verified foundation.
+- Created the public GitHub repository `iShowLinux/opencaribe` and pushed `main`; added repository topics and verified the remote commit hash matches local HEAD.

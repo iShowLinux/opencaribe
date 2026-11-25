@@ -2,6 +2,10 @@
 
 Last updated: 2026-11-25 (Phase 0 foundation)
 
+## Repository
+
+Public GitHub repository: https://github.com/iShowLinux/opencaribe (branch `main`, commit `0173a4a`).
+
 ## Where the code lives
 
 `C:\Users\mrjul\Documents\opencaribe` — pnpm workspace, 11 projects.
