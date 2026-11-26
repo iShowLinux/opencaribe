@@ -31,3 +31,9 @@
 - Added GnoConnect metadata to the layout and flipped the payment card/wizard copy to distinguish live wallet connect from disabled settlement.
 - Added ADR 0007 superseding ADR 0006 with the four-phase rollout.
 - Verification: 40 unit/security tests (8 files), 5 Playwright tests, strict typecheck, ESLint, production build (17 routes), and HTTP checks confirming GnoConnect metadata plus testnet wallet copy on `/payments`.
+
+## 2026-11-25 — Vercel setup and production deploy
+
+- Installed Vercel CLI 67.0.0; already authenticated as `ishowlinux`. Installed the standalone Vercel skills globally (`~/.agents/skills`, visible to Hermes). Registered the Vercel MCP server in Hermes config (`npx -y mcp-remote https://mcp.vercel.com`); it needs an agent restart plus OAuth consent.
+- Linked the repo to the existing project `ishowlinux/opencaribe`; fixed an invalid region selector (`mia1` → `iad1`).
+- Deployed production: **https://opencaribe.vercel.app** (READY). Verified `/`, `/tt`, `/ve`, `/payments`, Unsplash imagery, GnoConnect metadata and Spanish locale over HTTP. Git pushes to `main` now auto-deploy.

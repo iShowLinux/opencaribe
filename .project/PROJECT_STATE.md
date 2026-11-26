@@ -4,7 +4,11 @@ Last updated: 2026-11-25 (Phase 0 foundation)
 
 ## Repository
 
-Public GitHub repository: https://github.com/iShowLinux/opencaribe (branch `main`, commit `0173a4a`).
+Public GitHub repository: https://github.com/iShowLinux/opencaribe (branch `main`, commit `00a2763`).
+
+## Live deployment
+
+**https://opencaribe.vercel.app** — Vercel production, auto-deploys from `main`. Runs in demo mode until `DATABASE_URL` is set. CLI authenticated as `ishowlinux`; project id `prj_sg1i72F8qGlCMhifSI6o2YJrLjNp`.
 
 ## Where the code lives
 
