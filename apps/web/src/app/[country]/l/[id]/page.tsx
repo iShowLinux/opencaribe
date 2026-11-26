@@ -1,10 +1,14 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { getLocale } from 'next-intl/server';
-import { formatMoney, getCategoryBySlug, toCountryCode, type Locale } from '@opencaribe/configuration';
+import { CURRENCIES, COUNTRIES, formatMoney, getCategoryBySlug, toCountryCode, type Locale } from '@opencaribe/configuration';
 import { findLocationLabel } from '@opencaribe/geography';
 import { notFound } from 'next/navigation';
-import { Badge, Button, Card, Container } from '@opencaribe/ui';
+import { Badge, Card, Container } from '@opencaribe/ui';
+import { ContactSellerButton } from '@/components/ContactSellerButton';
+import { WalletPayButton } from '@/components/WalletPayButton';
+import { getCurrentUser } from '@/lib/session';
+import { getUserById } from '@/lib/local-store';
 import { CryptoPaymentCard } from '@/components/CryptoPaymentCard';
 import { ReportForm } from '@/components/ReportForm';
 import { categoryImage } from '@/lib/images';
@@ -20,6 +24,8 @@ export default async function ListingPage({ params }: { params: Promise<{ countr
 
   const locale = (await getLocale()) as Locale;
   const t = await getT();
+  const viewer = await getCurrentUser();
+  const sellerKey = listing.sellerId.startsWith('user:') ? listing.sellerId.slice(5) : listing.sellerId;
   const category = getCategoryBySlug(listing.categoryId);
   const location = findLocationLabel(listing.cityId, locale) ?? findLocationLabel(listing.regionId, locale) ?? '';
   const price =
@@ -30,6 +36,12 @@ export default async function ListingPage({ params }: { params: Promise<{ countr
         : formatMoney(listing.amountMinor, listing.currency, locale);
 
   const attributeEntries = Object.entries(listing.attributes ?? {});
+  const crypto = COUNTRIES[code].cryptoPayments;
+  const currencyDigits = CURRENCIES[listing.currency]?.digits ?? 2;
+  const ugnotAmount = Math.round((listing.amountMinor / 10 ** currencyDigits) * 1_000_000);
+  const sellerAccount = listing.sellerId.startsWith('user:') ? await getUserById(sellerKey) : undefined;
+  const sellerWallet = listing.walletAddress ?? sellerAccount?.walletAddress;
+  const canPayCrypto = Boolean(sellerWallet) && crypto.walletConnect.enabled && ugnotAmount > 0 && listing.priceType !== 'free';
 
   return (
     <Container className="py-10">
@@ -85,9 +97,17 @@ export default async function ListingPage({ params }: { params: Promise<{ countr
               <p className="text-sm font-semibold text-navy-900 dark:text-navy-50">{t('listing.location')}</p>
               <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{location || '—'}</p>
             </div>
-            <Link href={`/${code.toLowerCase()}/messages`} className="mt-6 block">
-              <Button className="w-full">{t('listing.contact')}</Button>
-            </Link>
+            <ContactSellerButton countryCode={code} listingId={listing.id} loggedIn={Boolean(viewer)} isOwner={viewer?.id === sellerKey} />
+            {canPayCrypto && sellerWallet && (
+              <WalletPayButton
+                listingId={listing.id}
+                sellerAddress={sellerWallet}
+                ugnotAmount={ugnotAmount}
+                expectedChainId={crypto.walletConnect.chainId}
+                networkLabel={crypto.walletConnect.network}
+                faucetUrl={crypto.walletConnect.faucetUrl}
+              />
+            )}
             <p className="mt-4 rounded-lg bg-sand-100 p-3 text-xs text-slate-700 dark:bg-slate-800 dark:text-slate-300">
               ⚠️ {t('listing.safetyNote')}
             </p>

@@ -1,8 +1,8 @@
-import Link from 'next/link';
 import { getLocale } from 'next-intl/server';
 import { CATEGORIES, COUNTRIES, toCountryCode, type Locale } from '@opencaribe/configuration';
 import { notFound } from 'next/navigation';
-import { Button, Container, SectionTitle } from '@opencaribe/ui';
+import { Container, SectionTitle } from '@opencaribe/ui';
+import { LinkButton } from '@/components/LinkButton';
 import { CategoryCard } from '@/components/CategoryCard';
 import { ListingCard } from '@/components/ListingCard';
 import { getAllListings } from '@/lib/listings-store';
@@ -28,8 +28,8 @@ export default async function CountryPage({ params }: { params: Promise<{ countr
           </h1>
           <p className="mt-3 max-w-2xl text-slate-600 dark:text-slate-400">{t('country.subtitle', { country: country.displayName })}</p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link href={`/${code.toLowerCase()}/post`}><Button>{t('home.heroSecondary')}</Button></Link>
-            <Link href={`/${code.toLowerCase()}/search`}><Button variant="secondary">{t('country.viewAll')}</Button></Link>
+            <LinkButton href={`/${code.toLowerCase()}/post`}>{t('home.heroSecondary')}</LinkButton>
+            <LinkButton href={`/${code.toLowerCase()}/search`} variant="secondary">{t('country.viewAll')}</LinkButton>
           </div>
           <dl className="mt-8 flex flex-wrap gap-x-8 gap-y-3 text-sm text-slate-600 dark:text-slate-400">
             <div><dt className="font-semibold text-navy-900 dark:text-navy-50">{t('search.currency')}</dt><dd>{country.supportedCurrencies.join(' / ')}</dd></div>

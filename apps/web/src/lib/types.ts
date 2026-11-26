@@ -21,4 +21,6 @@ export interface PublicListing {
   createdAt: Date;
   viewsCount: number;
   status: string;
+  /** Set when the seller connected a gno.land wallet instead of an account. */
+  walletAddress?: string;
 }

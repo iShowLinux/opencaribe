@@ -7,6 +7,9 @@ import type { ItemCondition, PriceType } from '@opencaribe/validation';
 import { isValidLocale, translate } from '@opencaribe/localization';
 import { createListingSchema, reportListingSchema } from '@opencaribe/validation';
 import { createDraft } from '@/lib/listings-store';
+import { isGnoAddress } from '@/lib/wallet';
+import { getCurrentUser } from '@/lib/session';
+import { attachWallet } from '@/lib/local-store';
 
 export type SubmitState = {
   status: 'idle' | 'error' | 'success';
@@ -14,6 +17,23 @@ export type SubmitState = {
   errors?: Record<string, string[]>;
   listingId?: string;
 };
+
+const WALLET_POST_WINDOW_MS = 24 * 60 * 60 * 1000;
+const WALLET_POST_MAX_PER_DAY = 5;
+const walletPosts = new Map<string, number[]>();
+
+/** Cheap abuse guard for unauthenticated wallet posts: 5 per address per day. */
+function walletPostLimitReached(address: string): boolean {
+  const now = Date.now();
+  const stamps = (walletPosts.get(address) ?? []).filter((stamp) => now - stamp < WALLET_POST_WINDOW_MS);
+  if (stamps.length >= WALLET_POST_MAX_PER_DAY) {
+    walletPosts.set(address, stamps);
+    return true;
+  }
+  stamps.push(now);
+  walletPosts.set(address, stamps);
+  return false;
+}
 
 async function currentLocale() {
   const store = await cookies();
@@ -36,10 +56,23 @@ export async function setLocale(formData: FormData): Promise<void> {
 
 export async function submitListing(_previous: SubmitState, formData: FormData): Promise<SubmitState> {
   const locale = await currentLocale();
+  // Honeypot: real users never fill this field.
+  if (String(formData.get('website') ?? '').trim() !== '') {
+    return { status: 'error', message: translate(locale, 'post.botDetected') };
+  }
   const country = getCountry(String(formData.get('countryCode') ?? ''));
   if (!country) {
     return { status: 'error', message: locale === 'es' ? 'País desconocido.' : 'Unknown country.' };
   }
+
+  const walletAddress = String(formData.get('walletAddress') ?? '').trim();
+  if (walletAddress && !isGnoAddress(walletAddress)) {
+    return { status: 'error', message: translate(locale, 'post.walletInvalid') };
+  }
+  if (walletAddress && walletPostLimitReached(walletAddress)) {
+    return { status: 'error', message: translate(locale, 'post.walletLimit') };
+  }
+  const user = await getCurrentUser();
 
   const raw = {
     title: String(formData.get('title') ?? ''),
@@ -71,11 +104,19 @@ export async function submitListing(_previous: SubmitState, formData: FormData):
 
   const draft = createDraft({
     ...parsed.data,
+    cityId: parsed.data.cityId ?? '',
     currency: parsed.data.currency as CurrencyCode,
     priceType: parsed.data.priceType as PriceType,
     condition: parsed.data.condition as ItemCondition,
+    status: walletAddress || user ? 'active' : 'pending_review',
+    sellerId: walletAddress ? `wallet:${walletAddress}` : user ? `user:${user.id}` : undefined,
+    walletAddress: walletAddress || undefined,
   });
-  return { status: 'success', message: translate(locale, 'post.success'), listingId: draft.id };
+  if (walletAddress && user) {
+    await attachWallet(user.id, walletAddress);
+  }
+  const messageKey = walletAddress ? 'post.walletSuccess' : user ? 'post.accountSuccess' : 'post.reviewSuccess';
+  return { status: 'success', message: translate(locale, messageKey), listingId: draft.id };
 }
 
 export async function reportListing(formData: FormData): Promise<{ ok: boolean; message: string }> {

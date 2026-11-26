@@ -41,10 +41,10 @@ export async function getAllListings(): Promise<PublicListing[]> {
         .limit(200);
       return rows.map(mapDbRow);
     } catch {
-      return [...store.values()];
+      return [...store.values()].filter((listing) => listing.status === 'active');
     }
   }
-  return [...store.values()];
+  return [...store.values()].filter((listing) => listing.status === 'active');
 }
 
 export async function getListingById(id: string): Promise<PublicListing | undefined> {
@@ -77,15 +77,19 @@ export interface DraftInput {
   attributes: Record<string, string>;
   contactPreference: string;
   imageKeys: string[];
+  status?: 'draft' | 'pending_review' | 'active';
+  sellerId?: string;
+  walletAddress?: string;
 }
 
 /** Phase 0 creates an in-memory draft; database persistence lands with the auth integration. */
 export function createDraft(input: DraftInput): PublicListing {
-  const id = `draft-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+  const suffix = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+  const id = input.status === 'active' || input.walletAddress ? `listing-${suffix}` : `draft-${suffix}`;
   const [whole, fraction = ''] = input.price.replace(',', '.').split('.');
   const draft: PublicListing = {
     id,
-    sellerId: 'anonymous-draft',
+    sellerId: input.sellerId ?? (input.walletAddress ? `wallet:${input.walletAddress}` : 'anonymous-draft'),
     countryCode: input.countryCode,
     regionId: input.regionId,
     cityId: input.cityId,
@@ -101,7 +105,8 @@ export function createDraft(input: DraftInput): PublicListing {
     attributes: input.attributes,
     createdAt: new Date(),
     viewsCount: 0,
-    status: 'draft',
+    status: input.status ?? 'draft',
+    walletAddress: input.walletAddress,
   };
   store.set(id, draft);
   return draft;

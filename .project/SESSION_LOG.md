@@ -60,3 +60,14 @@
 - Re-scanned iptv-org country lists plus broadcaster CDNs; required manifest + media playlist + segment all to send `access-control-allow-origin`, supported codecs, and end-to-end playback in Playwright Chromium.
 - Final enabled set (all played: readyState 4, advancing currentTime): TVJ, ZNS-TV, Globovisión, Venevisión Internacional, Telemundo PR/WKAQ, TeleOnce, Prensa Latina, Haiti News Channel, Antena 21, Telesistema 11, Telenews Canal 40.
 - Dropped CBC TV8 (manifest load error from browsers), Canal I (segment fetch/CORS failed), and teleSUR (avc1.66.x unsupported by MSE). TTT and CNC3 remain listed disabled with official links.
+
+## 2026-11-26 (later) — Accounts, wallet posting, messaging, testnet checkout
+
+- Added `lib/local-store.ts`: scrypt password hashing, 30-day httpOnly sessions, per-listing message threads, payment orders; JSON mirror for durability when the filesystem is writable, memory fallback on serverless.
+- Reworked AuthForm onto those actions (register/login/forgot/logout); verified registration redirects home with `oc_session`.
+- Posting identity now has three tiers: wallet-connected (instant, 5/day, honeypot), registered account (instant), anonymous (pending review, hidden from public feeds). `cityId` made optional in the validation schema; public reads filter to active listings.
+- Built messaging inbox + conversation pages and a server action that opens one thread per listing pair; Contact seller button routes buyers into it.
+- Built testnet checkout: WalletPayButton connects Adena, signs `/bank.MsgSend` to the seller's wallet, then `recordPayment` validates the listing/seller/tx shape and stores an order shown on `/payments`.
+- Shared UI cleanup: polished `buttonVariants`, added `LinkButton` (removes `<a><button>` nesting across homepage, header, country and listing pages), responsive wizard controls, optional-city hint.
+- Playwright end-to-end walkthrough on a production build passed every step: register -> post (public listing appears in search) -> second account messages the seller -> seller inbox/thread reply -> payments page renders.
+- Fixed recurring test-harness trap: `button[type=submit]` matched the header locale switcher; all e2e selectors scoped to the auth form.

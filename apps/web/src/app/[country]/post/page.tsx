@@ -4,6 +4,7 @@ import { listRegions } from '@opencaribe/geography';
 import { notFound } from 'next/navigation';
 import { Container } from '@opencaribe/ui';
 import { PostListingWizard } from '@/components/PostListingWizard';
+import { getCurrentUser } from '@/lib/session';
 import { getT } from '@/lib/t';
 
 export default async function PostPage({ params }: { params: Promise<{ country: string }> }) {
@@ -13,6 +14,7 @@ export default async function PostPage({ params }: { params: Promise<{ country: 
   const country = COUNTRIES[code];
   const locale = (await getLocale()) as Locale;
   const t = await getT();
+  const user = await getCurrentUser();
 
   return (
     <Container className="py-10">
@@ -22,6 +24,7 @@ export default async function PostPage({ params }: { params: Promise<{ country: 
         <PostListingWizard
           countryCode={code}
           locale={locale}
+          signedIn={Boolean(user)}
           categories={CATEGORIES.map((category) => ({
             id: category.id,
             slug: category.slug,

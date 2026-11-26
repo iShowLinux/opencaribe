@@ -1,54 +1,51 @@
 'use client';
 
+import { useRef, useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import { useState, type FormEvent } from 'react';
 import { useTranslations } from 'next-intl';
 import type { SocialProvider } from '@opencaribe/authentication';
 import { Button, Card, Container, Input, Label } from '@opencaribe/ui';
-
-const ENDPOINTS: Record<Mode, string> = {
-  login: '/api/auth/sign-in/email',
-  register: '/api/auth/sign-up/email',
-  forgot: '/api/auth/forget-password',
-};
+import { forgotAction, loginAction, registerAction, type AuthState } from '@/app/auth-actions';
 
 type Mode = 'login' | 'register' | 'forgot';
+const initialState: AuthState = { status: 'idle' };
 
-export function AuthForm({ mode, configured, socialProviders = [] }: { mode: Mode; configured: boolean; socialProviders?: SocialProvider[] }) {
+interface Props {
+  mode: Mode;
+  /** Kept for backwards compatibility; local demo auth always works. */
+  configured?: boolean;
+  socialProviders?: SocialProvider[];
+}
+
+export function AuthForm({ mode, socialProviders = [] }: Props) {
   const t = useTranslations('auth');
   const router = useRouter();
+  const formRef = useRef<HTMLFormElement | null>(null);
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!configured) {
-      setMessage(t('notConfigured'));
-      return;
-    }
+    const form = event.currentTarget;
+    const formData = new FormData(form);
     setBusy(true);
     setMessage('');
     try {
-      const formData = new FormData(event.currentTarget);
-      const body = Object.fromEntries(formData.entries());
-      const response = await fetch(ENDPOINTS[mode], {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(body),
-      });
-      const data: unknown = await response.json().catch(() => ({}));
-      if (response.ok) {
+      const state =
+        mode === 'login'
+          ? await loginAction(initialState, formData)
+          : mode === 'register'
+            ? await registerAction(initialState, formData)
+            : await forgotAction();
+      if (state.status === 'success') {
         if (mode === 'forgot') {
-          setMessage(t('checkEmail'));
+          setMessage(state.message ?? t('checkEmail'));
         } else {
           router.push('/');
           router.refresh();
         }
       } else {
-        const detail = typeof data === 'object' && data !== null && 'message' in data
-          ? String((data as { message: unknown }).message)
-          : 'Request failed';
-        setMessage(detail);
+        setMessage(state.message ?? 'Request failed');
       }
     } catch {
       setMessage('Request failed. Please try again.');
@@ -73,14 +70,14 @@ export function AuthForm({ mode, configured, socialProviders = [] }: { mode: Mod
               <a
                 key={provider.id}
                 href={`/api/auth/sign-in/${provider.id}`}
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800 transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
               >
                 {provider.id === 'google' ? t('continueGoogle') : provider.id === 'twitter' ? t('continueX') : provider.label}
               </a>
             ))}
           </div>
         )}
-        <form onSubmit={submit} className="grid gap-4">
+        <form ref={formRef} onSubmit={submit} noValidate className="grid gap-4">
           {mode === 'register' && (
             <div>
               <Label htmlFor="name">{t('name')}</Label>

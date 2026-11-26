@@ -48,7 +48,8 @@ export function createListingSchema(country: CountryConfig) {
     description: z.string().trim().min(20).max(country.featureFlags.maxListingDescriptionLength),
     countryCode: z.literal(country.code),
     regionId: z.string().min(1),
-    cityId: z.string().min(1),
+    // Region-level location is enough; exact city is optional.
+    cityId: z.string(),
     categoryId: z.string().min(1),
     subcategoryId: z.string().min(1),
     price: decimalAmount,

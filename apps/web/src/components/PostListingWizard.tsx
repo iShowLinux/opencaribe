@@ -6,6 +6,8 @@ import { useTranslations } from 'next-intl';
 import { CURRENCIES, formatMoney, parseMoneyToMinor, type CurrencyCode, type Locale } from '@opencaribe/configuration';
 import { Badge, Button, Card, Input, Label, Select, Textarea } from '@opencaribe/ui';
 import { submitListing, type SubmitState } from '@/app/actions';
+import { WalletConnectBar } from '@/components/WalletConnectBar';
+import type { WalletAccount } from '@/lib/wallet';
 
 interface CategoryOption {
   id: string;
@@ -17,6 +19,7 @@ interface CategoryOption {
 interface Props {
   countryCode: string;
   locale: Locale;
+  signedIn: boolean;
   categories: CategoryOption[];
   regions: Array<{ id: string; names: Record<Locale, string> }>;
   currencies: string[];
@@ -24,7 +27,7 @@ interface Props {
 
 const initialState: SubmitState = { status: 'idle' };
 
-export function PostListingWizard({ countryCode, locale, categories, regions, currencies }: Props) {
+export function PostListingWizard({ countryCode, locale, signedIn, categories, regions, currencies }: Props) {
   const t = useTranslations('post');
   const root = useTranslations();
   const [step, setStep] = useState(1);
@@ -32,6 +35,7 @@ export function PostListingWizard({ countryCode, locale, categories, regions, cu
   const [price, setPrice] = useState('0');
   const [currency, setCurrency] = useState(currencies[0] ?? 'TTD');
   const [title, setTitle] = useState('');
+  const [wallet, setWallet] = useState<WalletAccount | null>(null);
   const [state, formAction, pending] = useActionState(submitListing, initialState);
   const selectedCategory = categories.find((c) => c.id === categoryId);
   const safeCurrency = currency in CURRENCIES ? (currency as CurrencyCode) : 'TTD';
@@ -46,11 +50,16 @@ export function PostListingWizard({ countryCode, locale, categories, regions, cu
   return (
     <form action={formAction} className="grid gap-6 lg:grid-cols-[1fr_320px]">
       <input type="hidden" name="countryCode" value={countryCode} />
+      {wallet && <input type="hidden" name="walletAddress" value={wallet.address} />}
+      {/* Honeypot: hidden from people, attractive to bots. */}
+      <input type="text" name="website" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
 
-      <Card className="p-6">
-        <ol className="mb-6 flex gap-2 text-sm">
+      <WalletConnectBar account={wallet} onChange={setWallet} />
+
+      <Card className="p-5 sm:p-6">
+        <ol className="mb-6 flex flex-col gap-2 text-sm sm:flex-row">
           {[t('step1'), t('step2'), t('step3')].map((label, index) => (
-            <li key={label} className={`flex-1 rounded-lg px-3 py-2 text-center font-medium ${step === index + 1 ? 'bg-teal-700 text-white' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'}`}>
+            <li key={label} className={`flex-1 rounded-lg px-3 py-2 text-center font-medium ${step === index + 1 ? 'bg-teal-700 text-white dark:bg-teal-500 dark:text-slate-950' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'}`}>
               {index + 1}. {label}
             </li>
           ))}
@@ -77,7 +86,7 @@ export function PostListingWizard({ countryCode, locale, categories, regions, cu
           </div>
           <div>
             <Label htmlFor="cityId">{t('cityLabel')}</Label>
-            <Input id="cityId" name="cityId" defaultValue="" placeholder="city-id" />
+            <Input id="cityId" name="cityId" defaultValue="" placeholder="Optional" />
           </div>
         </section>
 
@@ -148,15 +157,19 @@ export function PostListingWizard({ countryCode, locale, categories, regions, cu
         <section hidden={step !== 3} className="grid gap-3">
           <p className="font-semibold text-navy-900 dark:text-navy-50">{title || '—'}</p>
           <p className="text-2xl font-bold text-teal-800 dark:text-teal-300">{previewPrice}</p>
-          <Badge tone="warning">{t('draftNote')}</Badge>
+          <Badge tone={wallet || signedIn ? 'success' : 'warning'}>{wallet || signedIn ? t('walletPublishes') : t('draftNote')}</Badge>
           {state.status === 'error' && <p role="alert" className="text-sm text-rose-700 dark:text-rose-300">{state.message}</p>}
-          {state.status === 'success' && <p role="status" className="text-sm text-emerald-700 dark:text-emerald-300">{t('success')} #{state.listingId}</p>}
+          {state.status === 'success' && <p role="status" className="text-sm text-emerald-700 dark:text-emerald-300">{state.message} #{state.listingId}</p>}
         </section>
 
-        <div className="mt-6 flex gap-3">
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
           {step > 1 && <Button variant="secondary" onClick={() => setStep(step - 1)}>{t('back')}</Button>}
-          {step < 3 && <Button onClick={() => setStep(step + 1)}>{t('next')}</Button>}
-          {step === 3 && <Button type="submit" disabled={pending}>{pending ? '…' : t('publish')}</Button>}
+          {step < 3 && <Button className="sm:flex-1" onClick={() => setStep(step + 1)}>{t('next')}</Button>}
+          {step === 3 && (
+            <Button type="submit" className="sm:flex-1" disabled={pending}>
+              {pending ? '…' : wallet ? t('walletPublish') : signedIn ? t('publish') : t('reviewSubmit')}
+            </Button>
+          )}
         </div>
       </Card>
 

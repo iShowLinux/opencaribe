@@ -47,3 +47,6 @@ Thumbs.db
 .project/tasks/*.tmp
 
 .vercel
+
+# Demo account/message storage when PostgreSQL is not configured
+.opencaribe/

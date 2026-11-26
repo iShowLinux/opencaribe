@@ -5,6 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { COUNTRIES, COUNTRY_CODES, isCountryCode } from '@opencaribe/configuration';
 import { Container } from '@opencaribe/ui';
+import { LinkButton } from './LinkButton';
 import { LocaleSwitcher } from './LocaleSwitcher';
 import { ThemeToggle } from './ThemeToggle';
 
@@ -41,12 +42,12 @@ export function SiteHeader() {
 
         <nav className="order-3 w-full sm:order-none sm:ml-auto sm:w-auto" aria-label="Primary">
           <ul className="flex flex-wrap items-center gap-1 text-sm font-medium">
-            <li><Link className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800" href="/news">{nav('news')}</Link></li>
-            <li><Link className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800" href={`${base}/search`}>{nav('browse')}</Link></li>
-            <li><Link className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800" href={`${base}/post`}>{nav('post')}</Link></li>
-            <li className="hidden md:block"><Link className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800" href={`${base}/favorites`}>{nav('favorites')}</Link></li>
-            <li className="hidden md:block"><Link className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800" href={`${base}/messages`}>{nav('messages')}</Link></li>
-            <li><Link className="rounded-lg bg-teal-700 px-3 py-2 text-white hover:bg-teal-800 dark:bg-teal-500 dark:text-navy-950" href="/login">{nav('signIn')}</Link></li>
+            <li><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href="/news">{nav('news')}</Link></li>
+            <li><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href={`${base}/search`}>{nav('browse')}</Link></li>
+            <li><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href={`${base}/post`}>{nav('post')}</Link></li>
+            <li className="hidden md:block"><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href={`${base}/favorites`}>{nav('favorites')}</Link></li>
+            <li className="hidden md:block"><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href={`${base}/messages`}>{nav('messages')}</Link></li>
+            <li><LinkButton href="/login" size="sm" className="px-3 py-2">{nav('signIn')}</LinkButton></li>
           </ul>
         </nav>
 

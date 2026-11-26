@@ -2,8 +2,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getLocale } from 'next-intl/server';
 import { CATEGORIES, COUNTRIES, COUNTRY_CODES, type Locale } from '@opencaribe/configuration';
-import { Button, Card, Container, SectionTitle } from '@opencaribe/ui';
+import { Card, Container, SectionTitle } from '@opencaribe/ui';
 import { CategoryCard } from '@/components/CategoryCard';
+import { LinkButton } from '@/components/LinkButton';
 import { heroImage } from '@/lib/images';
 import { getT } from '@/lib/t';
 
@@ -24,8 +25,8 @@ export default async function HomePage() {
             </h1>
             <p className="mt-6 max-w-xl text-lg text-slate-200">{t('home.heroSubtitle')}</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/tt/search"><Button size="lg" className="bg-coral-500 hover:bg-coral-600">{t('home.heroCta')}</Button></Link>
-              <Link href="/tt/post"><Button size="lg" variant="secondary" className="border-white/40 bg-white/10 text-white hover:bg-white/20">{t('home.heroSecondary')}</Button></Link>
+              <LinkButton href="/tt/search" size="lg" variant="coral">{t('home.heroCta')}</LinkButton>
+              <LinkButton href="/tt/post" size="lg" variant="outlineLight">{t('home.heroSecondary')}</LinkButton>
             </div>
           </div>
           <div className="relative hidden min-h-72 overflow-hidden rounded-2xl lg:block">
@@ -85,7 +86,7 @@ export default async function HomePage() {
             <p className="font-bold text-navy-900 dark:text-navy-50">{t('payment.cryptoTitle')}</p>
             <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{t('payment.siteBanner')}</p>
           </div>
-          <Link href="/payments"><Button variant="secondary">{t('payment.learnMore')}</Button></Link>
+          <LinkButton href="/payments" variant="secondary">{t('payment.learnMore')}</LinkButton>
         </Card>
       </Container>
 
