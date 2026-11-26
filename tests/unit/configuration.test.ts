@@ -42,13 +42,21 @@ describe('country configuration', () => {
 });
 
 describe('crypto payment configuration', () => {
-  it('marks Adena wallet payments as coming soon and not enabled', () => {
+  it('keeps settlement disabled while wallet connect is live on testnet', () => {
     for (const code of COUNTRY_CODES) {
-      expect(COUNTRIES[code].cryptoPayments.enabled).toBe(false);
-      expect(COUNTRIES[code].cryptoPayments.comingSoon).toBe(true);
-      expect(COUNTRIES[code].cryptoPayments.wallets).toContain('adena');
-      expect(COUNTRIES[code].cryptoPayments.note.en).toBeTruthy();
-      expect(COUNTRIES[code].cryptoPayments.note.es).toBeTruthy();
+      const crypto = COUNTRIES[code].cryptoPayments;
+      expect(crypto.enabled).toBe(false);
+      expect(crypto.comingSoon).toBe(true);
+      expect(crypto.wallets).toContain('adena');
+      expect(crypto.asset.symbol).toBe('GNOT');
+      expect(crypto.asset.denom).toBe('ugnot');
+      expect(crypto.asset.decimals).toBe(6);
+      expect(crypto.walletConnect.enabled).toBe(true);
+      expect(crypto.walletConnect.network).toBe('testnet');
+      expect(crypto.walletConnect.chainId).toBeTruthy();
+      expect(crypto.walletConnect.rpcUrl).toMatch(/^https:\/\//);
+      expect(crypto.note.en).toBeTruthy();
+      expect(crypto.note.es).toBeTruthy();
     }
   });
 });
@@ -76,5 +84,11 @@ describe('money handling', () => {
   it('formats and round-trips minor units', () => {
     expect(moneyToDecimalString(123456, 'TTD')).toBe('1234.56');
     expect(formatMoney(123456, 'TTD', 'en')).toContain('1,234.56');
+  });
+
+  it('handles the six-decimal GNOT asset without floating point', () => {
+    expect(parseMoneyToMinor('1.5', 'GNOT')).toBe(1_500_000);
+    expect(formatMoney(1_500_000, 'GNOT', 'en')).toContain('1.5');
+    expect(getCurrency('GNOT').digits).toBe(6);
   });
 });

@@ -40,6 +40,7 @@ pnpm db:seed
 - **31 translatable categories** with category-specific attribute definitions.
 - **Search** with filters, bounded pagination, and price sorting grouped by currency (never cross-currency comparison).
 - **Auth foundation**: Better Auth factory, database schema for sessions/accounts, and a server-side RBAC matrix with mandatory MFA for privileged roles.
+- **Gno wallet connect (P1)**: Adena connection on the current gno.land testnet, showing address, balance and network with chain-mismatch warnings. Settlement stays off (ADR 0007).
 - **Listing lifecycle** state machine with explicit allowed transitions and ownership checks.
 - **i18n** in English and Spanish with a cookie-based locale switcher and key-parity test.
 - **Mobile-first UI** in navy/teal/sand/coral with light and dark themes, reduced-motion support and semantic markup.

@@ -91,9 +91,17 @@ export const COUNTRIES: Record<CountryCode, CountryConfig> = {
       comingSoon: true,
       wallets: ['adena'],
       note: t(
-        'Crypto settlement with the Adena wallet is coming soon. No wallet connection or payment is available yet.',
-        'El pago con criptomonedas mediante la billetera Adena estará disponible pronto. Aún no hay conexión ni pagos activos.',
+        'Paying with GNOT is not enabled yet. Connect your Adena wallet to see your testnet balance and be ready when payments launch.',
+        'Pagar con GNOT aún no está habilitado. Conecta tu billetera Adena para ver tu saldo de prueba y estar listo cuando se lancen los pagos.',
       ),
+      asset: { symbol: 'GNOT', denom: 'ugnot', decimals: 6 },
+      walletConnect: {
+        enabled: true,
+        network: 'testnet',
+        chainId: 'onyx-1',
+        rpcUrl: 'https://rpc.onyx.testnets.gno.land:443',
+        faucetUrl: 'https://faucet.gno.land',
+      },
     },
     legalDocuments: {
       privacyPolicy: 'privacyPolicy',
@@ -211,9 +219,17 @@ export const COUNTRIES: Record<CountryCode, CountryConfig> = {
       comingSoon: true,
       wallets: ['adena'],
       note: t(
-        'Crypto settlement with the Adena wallet is coming soon. No wallet connection or payment is available yet.',
-        'El pago con criptomonedas mediante la billetera Adena estará disponible pronto. Aún no hay conexión ni pagos activos.',
+        'Paying with GNOT is not enabled yet. Connect your Adena wallet to see your testnet balance and be ready when payments launch.',
+        'Pagar con GNOT aún no está habilitado. Conecta tu billetera Adena para ver tu saldo de prueba y estar listo cuando se lancen los pagos.',
       ),
+      asset: { symbol: 'GNOT', denom: 'ugnot', decimals: 6 },
+      walletConnect: {
+        enabled: true,
+        network: 'testnet',
+        chainId: 'onyx-1',
+        rpcUrl: 'https://rpc.onyx.testnets.gno.land:443',
+        faucetUrl: 'https://faucet.gno.land',
+      },
     },
     legalDocuments: {
       privacyPolicy: 'privacyPolicy',

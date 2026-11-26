@@ -8,6 +8,7 @@ const packages = [
   '@opencaribe/geography',
   '@opencaribe/listings',
   '@opencaribe/localization',
+  '@opencaribe/payments',
   '@opencaribe/search',
   '@opencaribe/ui',
   '@opencaribe/validation',

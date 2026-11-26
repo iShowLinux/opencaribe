@@ -1,6 +1,6 @@
 export type Locale = 'en' | 'es';
 export type CountryCode = 'TT' | 'VE';
-export type CurrencyCode = 'TTD' | 'USD' | 'VES' | 'VED';
+export type CurrencyCode = 'TTD' | 'USD' | 'VES' | 'VED' | 'GNOT';
 export type LocalizedText = Record<Locale, string>;
 
 export interface CurrencyDefinition {
@@ -37,11 +37,28 @@ export interface CountryFeatureFlags {
   maxListingDescriptionLength: number;
 }
 
+export interface CryptoAssetConfig {
+  symbol: string;
+  denom: string;
+  decimals: number;
+}
+
+export interface WalletConnectConfig {
+  enabled: boolean;
+  network: 'testnet' | 'mainnet';
+  chainId: string;
+  rpcUrl: string;
+  faucetUrl: string;
+}
+
 export interface CryptoPaymentConfig {
+  /** True only when on-chain settlement is live. Phase 1 keeps this false. */
   enabled: boolean;
   comingSoon: boolean;
   wallets: string[];
   note: LocalizedText;
+  asset: CryptoAssetConfig;
+  walletConnect: WalletConnectConfig;
 }
 
 export interface ModerationPolicy {

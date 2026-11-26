@@ -25,10 +25,10 @@ test('new categories are browsable', async ({ page }) => {
   await expect(page.locator('a[href^="/tt/l/"]').first()).toBeVisible();
 });
 
-test('crypto payments are clearly marked as coming soon', async ({ page }) => {
+test('marks Adena wallet payments as coming soon while wallet connect is live', async ({ page }) => {
   await page.goto('/payments');
   await expect(page.getByRole('heading', { name: 'Crypto payments with Adena' })).toBeVisible();
   await expect(page.getByText('Coming soon').first()).toBeVisible();
-  const connect = page.getByRole('button', { name: 'Connect Adena wallet' });
-  await expect(connect).toBeDisabled();
+  const walletAction = page.getByRole('button').filter({ hasText: /Connect Adena wallet|Install Adena/ });
+  await expect(walletAction.first()).toBeVisible();
 });

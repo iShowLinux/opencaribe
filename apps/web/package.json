@@ -16,6 +16,7 @@
     "@opencaribe/geography": "workspace:*",
     "@opencaribe/listings": "workspace:*",
     "@opencaribe/localization": "workspace:*",
+    "@opencaribe/payments": "workspace:*",
     "@opencaribe/search": "workspace:*",
     "@opencaribe/ui": "workspace:*",
     "@opencaribe/validation": "workspace:*",

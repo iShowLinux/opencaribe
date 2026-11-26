@@ -33,6 +33,13 @@ export const CURRENCIES: Record<CurrencyCode, CurrencyDefinition> = {
     name: { en: 'Venezuelan Bolívar (Digital)', es: 'Bolívar digital (VED)' },
     note: 'VED was introduced in 2020 and preceded VES. Stored explicitly for historical records; no implicit conversion is performed.',
   },
+  GNOT: {
+    code: 'GNOT',
+    digits: 6,
+    symbol: 'GNOT',
+    name: { en: 'Gno.land Token', es: 'Token de Gno.land' },
+    note: 'On-chain amounts are denominated in ugnot (1 GNOT = 1,000,000 ugnot). Volatile asset; never converted implicitly.',
+  },
 };
 
 export function getCurrency(code: CurrencyCode): CurrencyDefinition {
@@ -58,14 +65,25 @@ export function parseMoneyToMinor(input: string, currency: CurrencyCode): MinorU
 
 /** Format integer minor units for display in the requested locale. */
 export function formatMoney(minor: MinorUnits, currency: CurrencyCode, locale: Locale): string {
-  const digits = CURRENCIES[currency].digits;
+  const definition = CURRENCIES[currency];
+  const digits = definition.digits;
   const major = minor / 10 ** digits;
-  return new Intl.NumberFormat(locale === 'es' ? 'es-VE' : 'en-TT', {
-    style: 'currency',
-    currency,
-    minimumFractionDigits: digits,
-    maximumFractionDigits: digits,
-  }).format(major);
+  const intlLocale = locale === 'es' ? 'es-VE' : 'en-TT';
+  try {
+    return new Intl.NumberFormat(intlLocale, {
+      style: 'currency',
+      currency,
+      minimumFractionDigits: digits,
+      maximumFractionDigits: digits,
+    }).format(major);
+  } catch {
+    // Non-ISO assets such as GNOT are not accepted by Intl's currency mode.
+    const formatted = new Intl.NumberFormat(intlLocale, {
+      minimumFractionDigits: digits,
+      maximumFractionDigits: digits,
+    }).format(major);
+    return `${definition.symbol} ${formatted}`;
+  }
 }
 
 /** UI helper: render a plain decimal string from minor units, no locale grouping. */

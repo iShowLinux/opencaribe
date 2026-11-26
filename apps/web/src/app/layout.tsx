@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
+import { COUNTRIES } from '@opencaribe/configuration';
 import { SiteHeader } from '@/components/SiteHeader';
 import { SiteFooter } from '@/components/SiteFooter';
 import './globals.css';
@@ -27,11 +28,19 @@ const themeScript = `try{var t=localStorage.getItem('opencaribe-theme');if(t==='
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const locale = await getLocale();
   const messages = await getMessages();
+  const walletConnect = COUNTRIES.TT.cryptoPayments.walletConnect;
 
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        {walletConnect.enabled && (
+          <>
+            <meta name="gnoconnect:rpc" content={walletConnect.rpcUrl} />
+            <meta name="gnoconnect:chainid" content={walletConnect.chainId} />
+            <meta name="gnoconnect:txdomains" content="auto,gno.land" />
+          </>
+        )}
       </head>
       <body className="min-h-screen">
         <NextIntlClientProvider locale={locale} messages={messages}>

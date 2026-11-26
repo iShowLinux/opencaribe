@@ -22,3 +22,12 @@
 - Verified 49 Unsplash photo IDs resolve, then wired 24 placeholder posts, category thumbnails and the homepage hero through `next/image` with a single remote pattern.
 - Added ADR 0006 and tests for category count and the coming-soon crypto flags.
 - Verification: 34 unit/security tests, 5 Playwright tests, strict typecheck, ESLint, production build (17 routes), HTTP checks on all new pages, and a successful `200 image/jpeg` from the image optimiser.
+
+## 2026-11-25 — GNOT payments Phase 1 (read-only wallet connect)
+
+- Researched gno.land networks and Adena integration; targeted the current testnet **Onyx (`onyx-1`)** with RPC `https://rpc.onyx.testnets.gno.land:443`.
+- Added `GNOT` (6 decimals, denom `ugnot`) to the currency model and extended `CryptoPaymentConfig` with `asset` and `walletConnect` blocks in both countries.
+- Created `modules/payments` with pure coin parsing/formatting helpers and unit tests; added an Adena provider typing file and a read-only `AdenaWalletCard` client island (AddEstablish → GetAccount → address/balance/network display, chain-mismatch warning, faucet link).
+- Added GnoConnect metadata to the layout and flipped the payment card/wizard copy to distinguish live wallet connect from disabled settlement.
+- Added ADR 0007 superseding ADR 0006 with the four-phase rollout.
+- Verification: 40 unit/security tests (8 files), 5 Playwright tests, strict typecheck, ESLint, production build (17 routes), and HTTP checks confirming GnoConnect metadata plus testnet wallet copy on `/payments`.

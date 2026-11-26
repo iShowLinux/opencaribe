@@ -23,8 +23,9 @@ Public GitHub repository: https://github.com/iShowLinux/opencaribe (branch `main
 | Listing state machine | Done | `modules/listings/src/state.ts`; tests cover transitions, ownership, expiry |
 | Geography | Done | `modules/geography/src/index.ts`; seed CLI and tests pass |
 | Search | Done (in-memory) | `modules/search/src/index.ts`; tests cover filters, pagination, currency-safe ordering |
+| Gno wallet connect (P1) | Done (read-only) | Adena client island; address/balance/network on `/payments`; chain-mismatch warning; settlement still disabled |
 | i18n | Done | en/es catalogues, cookie switcher; key-parity test passes |
-| Web UI | Done (Phase 0 scope) | 16 routes; production build and HTTP checks pass |
+| Web UI | Done (Phase 0 scope) | 17 routes; production build and HTTP checks pass |
 | Media pipeline | Not started | No upload processing yet |
 | Messaging | Schema + placeholder UI | No conversation logic |
 | Moderation | Policy config + placeholder admin | No queue implementation |
@@ -33,14 +34,15 @@ Public GitHub repository: https://github.com/iShowLinux/opencaribe (branch `main
 
 ## Verification actually executed (2026-11-25)
 
-- `pnpm test` — **7 files, 34 tests passed**.
+- `pnpm test` — **8 files, 40 tests passed** (includes the new payments module).
 - `pnpm typecheck` — passed across all workspaces.
 - `pnpm lint` — passed with zero warnings or errors.
 - `pnpm build` — production build succeeded; 17 routes emitted.
 - HTTP checks against `pnpm start` on port 3000: `/`, `/tt`, `/ve`, `/tt/search?q=phone`, `/ve/c/electronics`, `/tt/l/tt-1001`, `/tt/post`, `/tt/favorites`, `/tt/messages`, `/tt/account`, `/login`, `/register`, `/info/privacy`, `/admin` all returned **200**; `/xx` returned **404** as expected.
 - Content checks: search for `phone` returned only the phone listing; `NEXT_LOCALE=es` produced Spanish headings on `/ve`.
-- Playwright smoke suite: **5 tests passed** (Chromium, against the production server), including new-category browsing and the coming-soon crypto state.
-- HTTP re-check after the imagery/crypto change: `/`, `/tt`, `/ve`, `/tt/l/tt-1007`, `/tt/c/pets`, `/tt/c/sustainability`, `/payments`, `/tt/post` all returned **200**; `/payments` contains "Pay with crypto", "Coming soon" and a disabled "Connect Adena wallet" button; the Next image optimiser returned `200 image/jpeg` for an Unsplash URL.
+- Playwright smoke suite: **5 tests passed** (Chromium, against the production server), including new-category browsing and the live wallet-connect state.
+- Wallet-connect HTTP check: `/payments` exposes GnoConnect metadata (`rpc=https://rpc.onyx.testnets.gno.land:443`, `chainid=onyx-1`) and renders the testnet copy, "Install Adena"/faucet link; `/tt/post` still shows the disabled crypto payment option.
+- HTTP re-check after the imagery/crypto change: `/`, `/tt`, `/ve`, `/tt/l/tt-1007`, `/tt/c/pets`, `/tt/c/sustainability`, `/payments`, `/tt/post` all returned **200**; `/payments` contained "Pay with crypto" and the coming-soon payment copy; the Next image optimiser returned `200 image/jpeg` for an Unsplash URL.
 - Initial run had one locator issue (the country `<select>` option matched before the visible card); the locator was scoped to `main` and re-run green.
 
 ## Important implementation notes
@@ -50,7 +52,7 @@ Public GitHub repository: https://github.com/iShowLinux/opencaribe (branch `main
 - Listings are served from deterministic demo data unless `DATABASE_URL` is set; DB errors fall back to demo data.
 - Draft creation in the wizard is validated server-side and held in a process-local store; database persistence is Phase 1.
 - Demo listings (24) and category thumbnails use verified Unsplash photo IDs through `next/image`; `next.config.ts` allows only `images.unsplash.com`.
-- Adena crypto payments are a **placeholder only**: country config has `enabled: false` / `comingSoon: true`, the connect button is disabled, and no wallet API is called. See ADR 0006.
+- Adena crypto payments are a **placeholder only** for settlement: country config has `enabled: false` / `comingSoon: true`. Wallet connection (P1) is live on the Onyx testnet and is read-only — no wallet API beyond account reads, no signing, no transactions. See ADR 0007.
 
 ## Next milestone
 

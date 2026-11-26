@@ -1,14 +1,29 @@
-import Link from 'next/link';
+import { COUNTRIES } from '@opencaribe/configuration';
 import { Badge, Button, Card } from '@opencaribe/ui';
+import { AdenaWalletCard } from './AdenaWalletCard';
 import { getT } from '@/lib/t';
 
 /**
- * Placeholder for an upcoming Adena wallet payment method. It deliberately
- * performs no wallet detection and no network calls: the feature is coming
- * soon and must never imply that a payment can currently be made.
+ * Payment options card. Phase 1 renders a real, read-only Adena connection
+ * (testnet) so users can see their address, balance and network. When wallet
+ * connect is disabled it falls back to a clearly labelled placeholder.
  */
 export async function CryptoPaymentCard({ compact = false }: { compact?: boolean }) {
   const t = await getT();
+  const crypto = COUNTRIES.TT.cryptoPayments;
+
+  if (crypto.walletConnect.enabled) {
+    return (
+      <AdenaWalletCard
+        expectedChainId={crypto.walletConnect.chainId}
+        network={crypto.walletConnect.network}
+        assetSymbol={crypto.asset.symbol}
+        assetDenom={crypto.asset.denom}
+        assetDecimals={crypto.asset.decimals}
+        faucetUrl={crypto.walletConnect.faucetUrl}
+      />
+    );
+  }
 
   return (
     <Card className={compact ? 'p-4' : 'p-6'}>
@@ -30,11 +45,8 @@ export async function CryptoPaymentCard({ compact = false }: { compact?: boolean
       )}
 
       <Button variant="secondary" disabled className="mt-4 w-full">
-        {t('payment.connectWallet')}
+        {t('payment.wallet.connect')}
       </Button>
-      <Link href="/payments" className="mt-3 block text-center text-xs font-medium text-teal-700 hover:underline dark:text-teal-300">
-        {t('payment.learnMore')}
-      </Link>
     </Card>
   );
 }
