@@ -32,9 +32,27 @@ pnpm db:push
 pnpm db:seed
 ```
 
+## Deploy
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FiShowLinux%2Fopencaribe)
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https%3A%2F%2Fgithub.com%2FiShowLinux%2Fopencaribe)
+
+The repository deploys as-is: the build is `pnpm build` and the start command is `pnpm start`. The app runs in demo mode without a database and serves deterministic sample listings; set these environment variables in the provider dashboard for the full product:
+
+| Variable | Required | Purpose |
+| --- | --- | --- |
+| `DATABASE_URL` | Recommended | PostgreSQL connection string; enables real listings |
+| `BETTER_AUTH_SECRET` | For auth | Random secret used by Better Auth |
+| `BETTER_AUTH_URL` | For auth | Public URL of the deployment |
+| `NEXT_PUBLIC_APP_URL` | For auth | Same public URL, browser-side |
+| `GNO_CHAIN_ID` / `GNO_RPC_URL` | Optional | Override the gno.land testnet used by wallet connect |
+
+With a database, run migrations from a shell (`pnpm --filter @opencaribe/database db:push`) or use the provided Dockerfile on Render, Railway or Fly. See [docs/deployment/deployment.md](docs/deployment/deployment.md).
+
 ## What is implemented
 
-- **Modular monolith** in a pnpm workspace: `apps/web`, six `packages/*`, three `modules/*`.
+- **Modular monolith** in a pnpm workspace: `apps/web`, six `packages/*`, four `modules/*`.
 - **Country configuration** for TT and VE: locale, currency, telephone prefix, timezone, regions, cities, feature flags and moderation policies — all data-driven.
 - **Money** as integer minor units parsed from strings; VES and VED kept distinct; no floating-point arithmetic on amounts.
 - **31 translatable categories** with category-specific attribute definitions.

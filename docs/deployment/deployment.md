@@ -1,5 +1,24 @@
 # Deployment
 
+## One-click hosted deploy
+
+The repository is configured for both major Jamstack hosts:
+
+- **Vercel:** use the deploy button in the README, or `npx vercel` / `vercel link` after `vercel login`. `vercel.json` sets the pnpm build/install commands and the Miami region.
+- **Netlify:** use the deploy button in the README, or `npx netlify-cli` after `netlify login`. `netlify.toml` includes the Next.js plugin.
+
+Both providers build from GitHub on every push once the integration is connected. The first deploy runs without a database and serves demo listings.
+
+### Environment variables
+
+| Variable | Required | Purpose |
+| --- | --- | --- |
+| `DATABASE_URL` | Recommended | PostgreSQL connection string |
+| `BETTER_AUTH_SECRET` | For auth | Better Auth secret |
+| `BETTER_AUTH_URL` | For auth | Public deployment URL |
+| `NEXT_PUBLIC_APP_URL` | For auth | Same public URL, browser-side |
+| `GNO_CHAIN_ID`, `GNO_RPC_URL` | Optional | Override the gno.land testnet defaults |
+
 ## Local development
 
 ```bash
