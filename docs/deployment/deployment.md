@@ -18,6 +18,17 @@ Both providers build from GitHub on every push once the integration is connected
 | `BETTER_AUTH_URL` | For auth | Public deployment URL |
 | `NEXT_PUBLIC_APP_URL` | For auth | Same public URL, browser-side |
 | `GNO_CHAIN_ID`, `GNO_RPC_URL` | Optional | Override the gno.land testnet defaults |
+| `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | Optional | Enables "Continue with Google" |
+| `TWITTER_CLIENT_ID`, `TWITTER_CLIENT_SECRET` | Optional | Enables "Continue with X" |
+
+### Social SSO setup
+
+Both providers are optional and appear on `/login` and `/register` only when their client ID and secret are both set. Create the OAuth apps, then add the production callback URL to each provider's allowed redirect list:
+
+- Google: Google Cloud Console → APIs & Services → Credentials → OAuth client (Web). Redirect URI: `{BETTER_AUTH_URL}/api/auth/callback/google`.
+- X (Twitter): developer.x.com → Project/App → enable sign-in with X (OAuth 2.0). Callback URL: `{BETTER_AUTH_URL}/api/auth/callback/twitter`.
+
+Better Auth stores linked identities in the existing `accounts` table (`providerId`, `accountId`), so no schema change is required.
 
 ## Local development
 

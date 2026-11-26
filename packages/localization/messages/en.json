@@ -104,7 +104,11 @@
     "createAccount": "Create account",
     "sendReset": "Send reset link",
     "notConfigured": "Authentication is not configured in this environment. Copy .env.example to .env, set BETTER_AUTH_SECRET and connect a database, then restart.",
-    "checkEmail": "If that address is registered, a reset link has been sent."
+    "checkEmail": "If that address is registered, a reset link has been sent.",
+    "orContinueWith": "Or continue with",
+    "continueGoogle": "Continue with Google",
+    "continueX": "Continue with X",
+    "socialDisabled": "Social sign-in is not configured yet."
   },
   "favorites": {
     "title": "Saved listings",

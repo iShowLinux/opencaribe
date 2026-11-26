@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useState, type FormEvent } from 'react';
 import { useTranslations } from 'next-intl';
+import type { SocialProvider } from '@opencaribe/authentication';
 import { Button, Card, Container, Input, Label } from '@opencaribe/ui';
 
 const ENDPOINTS: Record<Mode, string> = {
@@ -13,7 +14,7 @@ const ENDPOINTS: Record<Mode, string> = {
 
 type Mode = 'login' | 'register' | 'forgot';
 
-export function AuthForm({ mode, configured }: { mode: Mode; configured: boolean }) {
+export function AuthForm({ mode, configured, socialProviders = [] }: { mode: Mode; configured: boolean; socialProviders?: SocialProvider[] }) {
   const t = useTranslations('auth');
   const router = useRouter();
   const [message, setMessage] = useState('');
@@ -63,6 +64,22 @@ export function AuthForm({ mode, configured }: { mode: Mode; configured: boolean
     <Container className="max-w-md py-16">
       <h1 className="text-3xl font-black tracking-tight text-navy-900 dark:text-navy-50">{title}</h1>
       <Card className="mt-6 p-6">
+        {socialProviders.length > 0 && (
+          <div className="mb-5 grid gap-2">
+            <p className="text-center text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
+              {t('orContinueWith')}
+            </p>
+            {socialProviders.map((provider) => (
+              <a
+                key={provider.id}
+                href={`/api/auth/sign-in/${provider.id}`}
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-800 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
+              >
+                {provider.id === 'google' ? t('continueGoogle') : provider.id === 'twitter' ? t('continueX') : provider.label}
+              </a>
+            ))}
+          </div>
+        )}
         <form onSubmit={submit} className="grid gap-4">
           {mode === 'register' && (
             <div>

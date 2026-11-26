@@ -1,6 +1,7 @@
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { getDb, schema } from '@opencaribe/database';
+import { resolveSocialProviders } from './social';
 
 /**
  * Auth is constructed on demand so that builds and tests never require a
@@ -22,6 +23,7 @@ export function createAuth() {
       requireEmailVerification: true,
       minPasswordLength: 10,
     },
+    socialProviders: resolveSocialProviders(),
     session: {
       expiresIn: 60 * 60 * 24 * 7,
       updateAge: 60 * 60 * 24,

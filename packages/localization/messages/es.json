@@ -104,7 +104,11 @@
     "createAccount": "Crear cuenta",
     "sendReset": "Enviar enlace",
     "notConfigured": "La autenticación no está configurada en este entorno. Copia .env.example a .env, define BETTER_AUTH_SECRET y conecta una base de datos, luego reinicia.",
-    "checkEmail": "Si esa dirección está registrada, se envió un enlace de restablecimiento."
+    "checkEmail": "Si esa dirección está registrada, se envió un enlace de restablecimiento.",
+    "orContinueWith": "O continúa con",
+    "continueGoogle": "Continuar con Google",
+    "continueX": "Continuar con X",
+    "socialDisabled": "El inicio de sesión social aún no está configurado."
   },
   "favorites": {
     "title": "Anuncios guardados",

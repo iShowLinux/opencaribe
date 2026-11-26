@@ -58,6 +58,7 @@ With a database, run migrations from a shell (`pnpm --filter @opencaribe/databas
 - **31 translatable categories** with category-specific attribute definitions.
 - **Search** with filters, bounded pagination, and price sorting grouped by currency (never cross-currency comparison).
 - **Auth foundation**: Better Auth factory, database schema for sessions/accounts, and a server-side RBAC matrix with mandatory MFA for privileged roles.
+- **Optional social SSO**: Google and X (Twitter) sign-in via Better Auth, rendered only when their client credentials are configured.
 - **Gno wallet connect (P1)**: Adena connection on the current gno.land testnet, showing address, balance and network with chain-mismatch warnings. Settlement stays off (ADR 0007).
 - **Listing lifecycle** state machine with explicit allowed transitions and ownership checks.
 - **i18n** in English and Spanish with a cookie-based locale switcher and key-parity test.
