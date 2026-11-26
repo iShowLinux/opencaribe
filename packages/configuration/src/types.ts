@@ -37,6 +37,13 @@ export interface CountryFeatureFlags {
   maxListingDescriptionLength: number;
 }
 
+export interface CryptoPaymentConfig {
+  enabled: boolean;
+  comingSoon: boolean;
+  wallets: string[];
+  note: LocalizedText;
+}
+
 export interface ModerationPolicy {
   requiresApprovalCategories: string[];
   prohibitedItemKeys: string[];
@@ -57,6 +64,7 @@ export interface CountryConfig {
   regions: RegionConfig[];
   enabledCategories: string[];
   featureFlags: CountryFeatureFlags;
+  cryptoPayments: CryptoPaymentConfig;
   legalDocuments: {
     privacyPolicy: string;
     termsOfService: string;

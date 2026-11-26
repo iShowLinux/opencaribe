@@ -19,6 +19,8 @@ Task IDs are stable. Lifecycle: `BACKLOG → READY → IN PROGRESS → TESTING �
 | OC-013 | PostgreSQL full-text search (en/es) | Backend | P2 | OC-008 | BACKLOG |
 | OC-014 | PostGIS proximity search with consent | Backend | P2 | OC-012, OC-013 | BACKLOG |
 | OC-015 | Backups, monitoring and load-time budgets | DevOps | P2 | OC-008 | BACKLOG |
+| OC-016 | Implement real Adena wallet payments behind an enabled flag | Security/Backend | P2 | OC-004, legal review | BACKLOG |
+| OC-017 | Replace Unsplash demo images with the licensed media pipeline | Backend | P1 | OC-012 | BACKLOG |
 
 ## Task template
 

@@ -131,6 +131,15 @@ export function PostListingWizard({ countryCode, locale, categories, regions, cu
               <option value="email">Email</option>
             </Select>
           </div>
+          <div>
+            <Label htmlFor="paymentMethod">{root('payment.preferredMethod')}</Label>
+            <Select id="paymentMethod" name="paymentMethod" defaultValue="cash">
+              <option value="cash">{root('payment.methods.cash')}</option>
+              <option value="transfer">{root('payment.methods.transfer')}</option>
+              <option value="crypto" disabled>{root('payment.methods.crypto')}</option>
+            </Select>
+            <p className="mt-1.5 text-xs text-slate-500 dark:text-slate-400">{root('payment.walletNote')}</p>
+          </div>
           <label className="flex items-center gap-2 text-sm">
             <input type="checkbox" name="negotiable" value="true" /> {root('listing.negotiable')}
           </label>

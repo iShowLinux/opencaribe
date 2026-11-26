@@ -18,3 +18,17 @@ test('search results respond to a keyword', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Search listings' })).toBeVisible();
   await expect(page.locator('a[href^="/ve/l/"]').first()).toBeVisible();
 });
+
+test('new categories are browsable', async ({ page }) => {
+  await page.goto('/tt/c/pets');
+  await expect(page.getByRole('heading', { name: 'Pets and pet supplies' })).toBeVisible();
+  await expect(page.locator('a[href^="/tt/l/"]').first()).toBeVisible();
+});
+
+test('crypto payments are clearly marked as coming soon', async ({ page }) => {
+  await page.goto('/payments');
+  await expect(page.getByRole('heading', { name: 'Crypto payments with Adena' })).toBeVisible();
+  await expect(page.getByText('Coming soon').first()).toBeVisible();
+  const connect = page.getByRole('button', { name: 'Connect Adena wallet' });
+  await expect(connect).toBeDisabled();
+});

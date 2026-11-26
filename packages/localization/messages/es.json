@@ -139,6 +139,32 @@
     "opensource": "Código abierto",
     "placeholder": "Este documento es una plantilla inicial. Debe ser revisado por asesoría legal local antes del lanzamiento en cada país."
   },
+  "payment": {
+    "title": "Opciones de pago",
+    "cryptoTitle": "Pagar con criptomonedas",
+    "cryptoDescription": "Conecta tu billetera Adena para liquidar un anuncio en cadena. Disponible pronto.",
+    "comingSoon": "Próximamente",
+    "connectWallet": "Conectar billetera Adena",
+    "walletName": "Billetera Adena",
+    "walletNote": "La conexión de billetera aún no está disponible. No se solicitará ningún pago.",
+    "sellerNote": "El pago con criptomonedas es opcional y nunca es necesario para contactar al vendedor.",
+    "learnMore": "Cómo funcionarán los pagos con criptomonedas",
+    "pageTitle": "Pagos con criptomonedas y Adena",
+    "pageIntro": "Estamos preparando una forma opcional de liquidar transacciones del mercado con la billetera Adena.",
+    "stepsTitle": "Cómo funcionará",
+    "step1": "Elige un anuncio y acuerda un precio con el vendedor.",
+    "step2": "Conecta tu billetera Adena cuando la función esté disponible.",
+    "step3": "Confirma el pago en tu billetera y conserva el comprobante.",
+    "safeTitle": "La seguridad primero",
+    "safeNote": "OpenCaribe nunca te pedirá tu frase semilla ni tu clave privada. Revisa el artículo antes de pagar.",
+    "preferredMethod": "Método de pago preferido",
+    "methods": {
+      "cash": "Efectivo / en persona",
+      "transfer": "Transferencia bancaria",
+      "crypto": "Criptomonedas con Adena (próximamente)"
+    },
+    "siteBanner": "Paga con criptomonedas usando tu billetera Adena — próximamente"
+  },
   "footer": {
     "tagline": "Infraestructura abierta de mercado para el Caribe y Latinoamérica.",
     "project": "Proyecto",

@@ -1,7 +1,10 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { getLocale } from 'next-intl/server';
 import { CATEGORIES, COUNTRIES, COUNTRY_CODES, type Locale } from '@opencaribe/configuration';
 import { Button, Card, Container, SectionTitle } from '@opencaribe/ui';
+import { CategoryCard } from '@/components/CategoryCard';
+import { heroImage } from '@/lib/images';
 import { getT } from '@/lib/t';
 
 export default async function HomePage() {
@@ -25,10 +28,17 @@ export default async function HomePage() {
               <Link href="/tt/post"><Button size="lg" variant="secondary" className="border-white/40 bg-white/10 text-white hover:bg-white/20">{t('home.heroSecondary')}</Button></Link>
             </div>
           </div>
-          <div className="hidden items-center justify-center lg:flex" aria-hidden="true">
-            <div className="grid grid-cols-3 gap-3 text-5xl opacity-90">
-              <span>🏠</span><span>🚗</span><span>💻</span><span>🛋️</span><span>👕</span><span>📦</span>
-            </div>
+          <div className="relative hidden min-h-72 overflow-hidden rounded-2xl lg:block">
+            <Image
+              src={heroImage(1200)}
+              alt=""
+              fill
+              priority
+              sizes="(min-width: 1024px) 45vw, 100vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-navy-950/70 via-transparent to-transparent" />
+            <p className="absolute bottom-5 left-6 text-sm font-semibold text-white">{'Trinidad & Tobago · Venezuela'}</p>
           </div>
         </Container>
       </section>
@@ -59,15 +69,24 @@ export default async function HomePage() {
       <Container className="pb-14">
         <SectionTitle>{t('home.categoriesTitle')}</SectionTitle>
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-          {CATEGORIES.slice(0, 15).map((category) => (
-            <Link key={category.id} href={`/tt/c/${category.slug}`}>
-              <Card className="flex h-full flex-col gap-2 p-4 transition-colors hover:border-teal-500">
-                <span aria-hidden="true" className="text-2xl">{category.icon}</span>
-                <span className="text-sm font-semibold text-navy-900 dark:text-navy-50">{category.names[locale]}</span>
-              </Card>
-            </Link>
+          {CATEGORIES.slice(0, 20).map((category) => (
+            <CategoryCard key={category.id} category={category} countryCode="tt" locale={locale} />
           ))}
         </div>
+        <p className="mt-4 text-sm text-slate-600 dark:text-slate-400">
+          <Link href="/tt/search" className="font-semibold text-teal-700 hover:underline dark:text-teal-300">{t('country.viewAll')} →</Link>
+        </p>
+      </Container>
+
+      <Container className="pb-14">
+        <Card className="flex flex-col items-start gap-4 border-coral-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 sm:flex-row sm:items-center">
+          <span aria-hidden="true" className="text-3xl">💳</span>
+          <div className="flex-1">
+            <p className="font-bold text-navy-900 dark:text-navy-50">{t('payment.cryptoTitle')}</p>
+            <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{t('payment.siteBanner')}</p>
+          </div>
+          <Link href="/payments"><Button variant="secondary">{t('payment.learnMore')}</Button></Link>
+        </Card>
       </Container>
 
       <Container className="pb-16">

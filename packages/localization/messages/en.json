@@ -139,6 +139,32 @@
     "opensource": "Open source",
     "placeholder": "This document is a starter template. It must be reviewed by qualified local counsel before production launch in each country."
   },
+  "payment": {
+    "title": "Payment options",
+    "cryptoTitle": "Pay with crypto",
+    "cryptoDescription": "Connect your Adena wallet to settle a listing on-chain. Available soon.",
+    "comingSoon": "Coming soon",
+    "connectWallet": "Connect Adena wallet",
+    "walletName": "Adena wallet",
+    "walletNote": "Wallet connection is not available yet. No payment will be requested.",
+    "sellerNote": "Crypto is optional and never required to contact a seller.",
+    "learnMore": "How crypto payments will work",
+    "pageTitle": "Crypto payments with Adena",
+    "pageIntro": "We are preparing an optional way to settle marketplace transactions with the Adena wallet.",
+    "stepsTitle": "How it will work",
+    "step1": "Choose a listing and agree on a price with the seller.",
+    "step2": "Connect your Adena wallet when the feature is released.",
+    "step3": "Confirm the payment in your wallet and keep the receipt.",
+    "safeTitle": "Safety first",
+    "safeNote": "OpenCaribe will never ask for your seed phrase or private key. Inspect the item before you pay.",
+    "preferredMethod": "Preferred payment method",
+    "methods": {
+      "cash": "Cash / in person",
+      "transfer": "Bank transfer",
+      "crypto": "Crypto via Adena (coming soon)"
+    },
+    "siteBanner": "Pay with crypto using your Adena wallet — coming soon"
+  },
   "footer": {
     "tagline": "Open marketplace infrastructure for the Caribbean and Latin America.",
     "project": "Project",

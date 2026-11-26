@@ -27,12 +27,28 @@ describe('country configuration', () => {
     }
   });
 
-  it('has 19 enabled, translatable categories', () => {
-    expect(CATEGORIES).toHaveLength(19);
+  it('has 31 enabled, translatable categories', () => {
+    expect(CATEGORIES).toHaveLength(31);
     for (const category of CATEGORIES) {
       expect(category.names.en).toBeTruthy();
       expect(category.names.es).toBeTruthy();
       expect(isCategoryEnabled(category, 'TT')).toBe(true);
+    }
+    const slugs = CATEGORIES.map((category) => category.slug);
+    expect(slugs).toContain('pets');
+    expect(slugs).toContain('marine-boating');
+    expect(slugs).toContain('sustainability');
+  });
+});
+
+describe('crypto payment configuration', () => {
+  it('marks Adena wallet payments as coming soon and not enabled', () => {
+    for (const code of COUNTRY_CODES) {
+      expect(COUNTRIES[code].cryptoPayments.enabled).toBe(false);
+      expect(COUNTRIES[code].cryptoPayments.comingSoon).toBe(true);
+      expect(COUNTRIES[code].cryptoPayments.wallets).toContain('adena');
+      expect(COUNTRIES[code].cryptoPayments.note.en).toBeTruthy();
+      expect(COUNTRIES[code].cryptoPayments.note.es).toBeTruthy();
     }
   });
 });

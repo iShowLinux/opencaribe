@@ -13,6 +13,7 @@
 | `/{country}/favorites`, `/{country}/messages`, `/{country}/account` | User areas |
 | `/login`, `/register`, `/forgot-password` | Authentication UI |
 | `/admin` | Moderator/administrator area |
+| `/payments` | Explainer for the coming-soon Adena crypto payment option |
 | `/info/{slug}` | Legal, safety and project documents |
 
 Country segments are case-insensitive and normalised to `TT` or `VE`; invalid values return 404.

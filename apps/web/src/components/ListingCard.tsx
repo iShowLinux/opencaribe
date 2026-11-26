@@ -1,8 +1,10 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { formatMoney, type Locale } from '@opencaribe/configuration';
 import { findLocationLabel } from '@opencaribe/geography';
 import { getCategoryBySlug } from '@opencaribe/configuration';
 import { Badge, Card } from '@opencaribe/ui';
+import { categoryImage } from '@/lib/images';
 import { getT } from '@/lib/t';
 import type { PublicListing } from '@/lib/types';
 
@@ -29,8 +31,16 @@ export async function ListingCard({
   return (
     <Card className="overflow-hidden transition-shadow hover:shadow-md">
       <Link href={`/${listing.countryCode.toLowerCase()}/l/${listing.id}`} className="block">
-        <div className={`grid place-items-center bg-gradient-to-br from-navy-800 to-teal-800 text-white ${compact ? 'h-28' : 'h-40'}`}>
-          <span aria-hidden="true" className="text-4xl">{category?.icon ?? '📦'}</span>
+        <div className={`relative overflow-hidden bg-gradient-to-br from-navy-800 to-teal-800 ${compact ? 'h-28' : 'h-40'}`}>
+          <Image
+            src={listing.imageUrl ?? categoryImage(listing.categoryId, compact ? 400 : 700)}
+            alt=""
+            fill
+            sizes={compact ? '(max-width: 640px) 100vw, 25vw' : '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw'}
+            className="object-cover"
+            loading="lazy"
+          />
+          <span aria-hidden="true" className="absolute left-2 top-2 rounded bg-navy-950/60 px-2 py-1 text-sm text-white">{category?.icon ?? '📦'}</span>
         </div>
         <div className="p-4">
           <div className="flex items-start justify-between gap-3">

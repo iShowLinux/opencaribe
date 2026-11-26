@@ -37,7 +37,7 @@ pnpm db:seed
 - **Modular monolith** in a pnpm workspace: `apps/web`, six `packages/*`, three `modules/*`.
 - **Country configuration** for TT and VE: locale, currency, telephone prefix, timezone, regions, cities, feature flags and moderation policies — all data-driven.
 - **Money** as integer minor units parsed from strings; VES and VED kept distinct; no floating-point arithmetic on amounts.
-- **19 translatable categories** with category-specific attribute definitions.
+- **31 translatable categories** with category-specific attribute definitions.
 - **Search** with filters, bounded pagination, and price sorting grouped by currency (never cross-currency comparison).
 - **Auth foundation**: Better Auth factory, database schema for sessions/accounts, and a server-side RBAC matrix with mandatory MFA for privileged roles.
 - **Listing lifecycle** state machine with explicit allowed transitions and ownership checks.

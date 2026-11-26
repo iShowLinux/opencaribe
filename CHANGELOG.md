@@ -7,7 +7,9 @@ All notable changes to this project are documented here. This project adheres to
 ### Added
 
 - pnpm monorepo scaffold with pinned versions and committed lockfile.
-- Country configuration for Trinidad and Tobago and Venezuela, with 19 translatable categories and region/city seed data.
+- Country configuration for Trinidad and Tobago and Venezuela, with 31 translatable categories and region/city seed data.
+- Verified Unsplash imagery on demo listings, category cards and the homepage; 24 placeholder posts across both markets.
+- Clearly labelled "coming soon" crypto payment option for Adena wallet users: disabled connect button, payment-method placeholder, and a `/payments` explainer. No wallet connection or payment is performed.
 - Integer-minor-unit money handling with explicit VES/VED support.
 - Drizzle PostgreSQL schema covering users, auth, listings, media, search metadata, messaging, reports and audit log.
 - Better Auth factory and server-side RBAC with mandatory MFA for privileged roles.

@@ -1,10 +1,13 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { getLocale } from 'next-intl/server';
 import { formatMoney, getCategoryBySlug, toCountryCode, type Locale } from '@opencaribe/configuration';
 import { findLocationLabel } from '@opencaribe/geography';
 import { notFound } from 'next/navigation';
 import { Badge, Button, Card, Container } from '@opencaribe/ui';
+import { CryptoPaymentCard } from '@/components/CryptoPaymentCard';
 import { ReportForm } from '@/components/ReportForm';
+import { categoryImage } from '@/lib/images';
 import { getListingById } from '@/lib/listings-store';
 import { getT } from '@/lib/t';
 
@@ -34,8 +37,16 @@ export default async function ListingPage({ params }: { params: Promise<{ countr
 
       <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_340px]">
         <div>
-          <div className="grid h-72 place-items-center rounded-xl bg-gradient-to-br from-navy-900 to-teal-800 text-white" aria-hidden="true">
-            <span className="text-7xl">{category?.icon ?? '📦'}</span>
+          <div className="relative h-72 overflow-hidden rounded-xl bg-gradient-to-br from-navy-900 to-teal-800">
+            <Image
+              src={listing.imageUrl ?? categoryImage(listing.categoryId, 1000)}
+              alt=""
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 66vw"
+              className="object-cover"
+            />
+            <span aria-hidden="true" className="absolute left-3 top-3 rounded-lg bg-navy-950/60 px-3 py-1.5 text-2xl text-white">{category?.icon ?? '📦'}</span>
           </div>
           <h1 className="mt-6 text-3xl font-black tracking-tight text-navy-900 dark:text-navy-50">{listing.title}</h1>
           <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-slate-600 dark:text-slate-400">
@@ -85,6 +96,7 @@ export default async function ListingPage({ params }: { params: Promise<{ countr
               <input readOnly value={`/ ${code.toLowerCase()}/l/${listing.id}`.replace(' ', '')} className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 text-xs dark:border-slate-700 dark:bg-slate-900" />
             </label>
           </Card>
+          <CryptoPaymentCard compact />
         </aside>
       </div>
     </Container>

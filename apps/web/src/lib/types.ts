@@ -17,6 +17,7 @@ export interface PublicListing {
   negotiable: boolean;
   condition: ItemCondition;
   attributes: Record<string, string>;
+  imageUrl?: string;
   createdAt: Date;
   viewsCount: number;
   status: string;

@@ -86,6 +86,15 @@ export const COUNTRIES: Record<CountryCode, CountryConfig> = {
       maxListingTitleLength: 100,
       maxListingDescriptionLength: 5000,
     },
+    cryptoPayments: {
+      enabled: false,
+      comingSoon: true,
+      wallets: ['adena'],
+      note: t(
+        'Crypto settlement with the Adena wallet is coming soon. No wallet connection or payment is available yet.',
+        'El pago con criptomonedas mediante la billetera Adena estará disponible pronto. Aún no hay conexión ni pagos activos.',
+      ),
+    },
     legalDocuments: {
       privacyPolicy: 'privacyPolicy',
       termsOfService: 'termsOfService',
@@ -196,6 +205,15 @@ export const COUNTRIES: Record<CountryCode, CountryConfig> = {
       listingExpirationDays: 30,
       maxListingTitleLength: 100,
       maxListingDescriptionLength: 5000,
+    },
+    cryptoPayments: {
+      enabled: false,
+      comingSoon: true,
+      wallets: ['adena'],
+      note: t(
+        'Crypto settlement with the Adena wallet is coming soon. No wallet connection or payment is available yet.',
+        'El pago con criptomonedas mediante la billetera Adena estará disponible pronto. Aún no hay conexión ni pagos activos.',
+      ),
     },
     legalDocuments: {
       privacyPolicy: 'privacyPolicy',
