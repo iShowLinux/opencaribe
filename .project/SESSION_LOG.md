@@ -37,3 +37,10 @@
 - Installed Vercel CLI 67.0.0; already authenticated as `ishowlinux`. Installed the standalone Vercel skills globally (`~/.agents/skills`, visible to Hermes). Registered the Vercel MCP server in Hermes config (`npx -y mcp-remote https://mcp.vercel.com`); it needs an agent restart plus OAuth consent.
 - Linked the repo to the existing project `ishowlinux/opencaribe`; fixed an invalid region selector (`mia1` → `iad1`).
 - Deployed production: **https://opencaribe.vercel.app** (READY). Verified `/`, `/tt`, `/ve`, `/payments`, Unsplash imagery, GnoConnect metadata and Spanish locale over HTTP. Git pushes to `main` now auto-deploy.
+
+## 2026-11-25 — Social SSO (Google + X)
+
+- Added Better Auth social providers `google` and `twitter` behind `GOOGLE_CLIENT_ID/SECRET` and `TWITTER_CLIENT_ID/SECRET`; a provider appears on `/login` and `/register` only when both values are present.
+- New `@opencaribe/authentication` helpers (`enabledSocialProviders`, `resolveSocialProviders`) with unit tests; bilingual strings for the buttons.
+- Auth catch-all now redirects unconfigured social sign-in attempts to `/login` instead of returning a 500.
+- Documented OAuth app setup and callback URLs in `docs/deployment/deployment.md`; pushed and redeployed production.

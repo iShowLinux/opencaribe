@@ -23,7 +23,7 @@ Public GitHub repository: https://github.com/iShowLinux/opencaribe (branch `main
 | Categories (31) | Done | `packages/configuration/src/categories.ts`; test asserts count, dual-language names and new slugs |
 | Money | Done | `packages/configuration/src/currency.ts`; tests cover parsing, formatting, VES/VED distinction |
 | Drizzle schema | Done | `packages/database/src/schema.ts`; typecheck passes |
-| Auth + RBAC | Config done, flows partial | Better Auth factory, RBAC matrix, API catch-all route; tests cover permission matrix |
+| Auth + RBAC | Config done, flows partial | Better Auth factory, RBAC matrix, API catch-all route; tests cover permission matrix; Google/X SSO config-driven and hidden until credentials set |
 | Listing state machine | Done | `modules/listings/src/state.ts`; tests cover transitions, ownership, expiry |
 | Geography | Done | `modules/geography/src/index.ts`; seed CLI and tests pass |
 | Search | Done (in-memory) | `modules/search/src/index.ts`; tests cover filters, pagination, currency-safe ordering |
