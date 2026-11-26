@@ -8,7 +8,7 @@ import { Badge, Card, Container } from '@opencaribe/ui';
 import { ContactSellerButton } from '@/components/ContactSellerButton';
 import { WalletPayButton } from '@/components/WalletPayButton';
 import { getCurrentUser } from '@/lib/session';
-import { getUserById } from '@/lib/local-store';
+import { getUserById } from '@/lib/store';
 import { CryptoPaymentCard } from '@/components/CryptoPaymentCard';
 import { ReportForm } from '@/components/ReportForm';
 import { categoryImage } from '@/lib/images';
@@ -40,7 +40,8 @@ export default async function ListingPage({ params }: { params: Promise<{ countr
   const currencyDigits = CURRENCIES[listing.currency]?.digits ?? 2;
   const ugnotAmount = Math.round((listing.amountMinor / 10 ** currencyDigits) * 1_000_000);
   const sellerAccount = listing.sellerId.startsWith('user:') ? await getUserById(sellerKey) : undefined;
-  const sellerWallet = listing.walletAddress ?? sellerAccount?.walletAddress;
+  const walletSellerAddress = listing.sellerId.startsWith('wallet:') ? listing.sellerId.slice(7) : undefined;
+  const sellerWallet = listing.walletAddress ?? walletSellerAddress ?? sellerAccount?.walletAddress;
   const canPayCrypto = Boolean(sellerWallet) && crypto.walletConnect.enabled && ugnotAmount > 0 && listing.priceType !== 'free';
 
   return (

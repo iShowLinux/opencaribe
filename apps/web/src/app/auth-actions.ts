@@ -2,7 +2,7 @@
 
 import { cookies } from 'next/headers';
 import { isValidLocale } from '@opencaribe/localization';
-import { createSession, createUser, destroySession, SESSION_COOKIE, verifyUser } from '@/lib/local-store';
+import { createSession, createUser, destroySession, SESSION_COOKIE, verifyUser } from '@/lib/store';
 
 export interface AuthState {
   status: 'idle' | 'error' | 'success';

@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { isGnoAddress } from '@/lib/wallet';
 import { getListingById } from '@/lib/listings-store';
-import { createOrder } from '@/lib/local-store';
+import { createOrder } from '@/lib/store';
 
 export type PaymentRecordResult =
   | { ok: true; orderId: string }
@@ -30,7 +30,11 @@ export async function recordPayment(input: {
 
   const listing = await getListingById(input.listingId);
   if (!listing) return { ok: false, error: 'listing-missing' };
-  if (listing.walletAddress !== input.sellerAddress) return { ok: false, error: 'seller-mismatch' };
+  const expectedSeller =
+    listing.walletAddress ?? (listing.sellerId.startsWith('wallet:') ? listing.sellerId.slice(7) : '');
+  if (!expectedSeller || input.sellerAddress !== expectedSeller) {
+    return { ok: false, error: 'seller-mismatch' };
+  }
 
   const order = await createOrder({
     listingId: listing.id,

@@ -14,7 +14,7 @@ cp .env.example .env       # optional: enables PostgreSQL and authentication
 pnpm dev                   # http://localhost:3000
 ```
 
-Without a database the app serves deterministic demo listings. With `DATABASE_URL` set it reads active listings from PostgreSQL and falls back to demo data if the query fails.
+Without a database the app serves deterministic demo listings and uses a local JSON store for accounts/messages. With `DATABASE_URL` set, accounts, sessions, listings, conversations and payment orders all run on PostgreSQL through the same code paths (see [the production checklist](docs/deployment/production-checklist.md)).
 
 ```bash
 pnpm test        # unit + security tests

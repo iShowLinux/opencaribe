@@ -10,7 +10,7 @@ import {
   markThreadRead,
   openThread,
   sendMessage,
-} from '@/lib/local-store';
+} from '@/lib/store';
 
 export interface MessageState {
   status: 'idle' | 'error';

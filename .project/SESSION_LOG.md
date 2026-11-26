@@ -71,3 +71,11 @@
 - Shared UI cleanup: polished `buttonVariants`, added `LinkButton` (removes `<a><button>` nesting across homepage, header, country and listing pages), responsive wizard controls, optional-city hint.
 - Playwright end-to-end walkthrough on a production build passed every step: register -> post (public listing appears in search) -> second account messages the seller -> seller inbox/thread reply -> payments page renders.
 - Fixed recurring test-harness trap: `button[type=submit]` matched the header locale switcher; all e2e selectors scoped to the auth form.
+
+## 2026-11-26 (later) — PostgreSQL store + real end-to-end verification
+
+- Added `payment_orders` table and `users.wallet_address`; generated migration `packages/database/drizzle/0000_*.sql`.
+- Added `apps/web/src/lib/db-store.ts` implementing the full demo-store API on Drizzle/Postgres, plus `lib/store.ts` facade that switches on `DATABASE_URL`; callers (auth actions, listing persistence, messaging, orders) now run unchanged against either backend.
+- `persistListing()` inserts into `listings` (UUID ids), creating synthetic user rows for wallet/anonymous sellers so `seller_id` FK holds; wallet sellers keep their address for checkout.
+- Ran PostGIS 16 container, applied schema via psql, built production bundle and ran the Playwright walkthrough with `DATABASE_URL`: register -> post (public listing found in search) -> second account opens thread -> seller reply persists. Verified rows in users/listings/message_threads/messages/sessions.
+- Deployment steps documented in `docs/deployment/production-checklist.md`; remaining action is creating Neon and adding `DATABASE_URL`/`BETTER_AUTH_SECRET` (+ optional OAuth secrets) to Vercel Production.

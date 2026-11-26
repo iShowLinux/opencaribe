@@ -6,10 +6,10 @@ import { getCountry, type CurrencyCode } from '@opencaribe/configuration';
 import type { ItemCondition, PriceType } from '@opencaribe/validation';
 import { isValidLocale, translate } from '@opencaribe/localization';
 import { createListingSchema, reportListingSchema } from '@opencaribe/validation';
-import { createDraft } from '@/lib/listings-store';
+import { persistListing } from '@/lib/listings-store';
 import { isGnoAddress } from '@/lib/wallet';
 import { getCurrentUser } from '@/lib/session';
-import { attachWallet } from '@/lib/local-store';
+import { attachWallet } from '@/lib/store';
 
 export type SubmitState = {
   status: 'idle' | 'error' | 'success';
@@ -102,7 +102,7 @@ export async function submitListing(_previous: SubmitState, formData: FormData):
     return { status: 'error', message: 'Please correct the highlighted fields.', errors };
   }
 
-  const draft = createDraft({
+  const draft = await persistListing({
     ...parsed.data,
     cityId: parsed.data.cityId ?? '',
     currency: parsed.data.currency as CurrencyCode,

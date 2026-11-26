@@ -1,7 +1,7 @@
 import { Badge, Card, Container, SectionTitle } from '@opencaribe/ui';
 import { formatMinorUnits } from '@opencaribe/payments';
 import { CryptoPaymentCard } from '@/components/CryptoPaymentCard';
-import { listOrders } from '@/lib/local-store';
+import { listOrders } from '@/lib/store';
 import { getListingById } from '@/lib/listings-store';
 import { getT } from '@/lib/t';
 

@@ -28,6 +28,7 @@ export const users = pgTable('users', {
   email: text('email').notNull().unique(),
   emailVerified: timestamp('email_verified', { withTimezone: true }),
   name: text('name'),
+  walletAddress: text('wallet_address'),
   role: userRoleEnum('role').notNull().default('user'),
   banned: boolean('banned').notNull().default(false),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
@@ -192,8 +193,21 @@ export const auditLog = pgTable('audit_log', {
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 }, (table) => [index('audit_log_created_idx').on(table.createdAt)]);
 
+export const paymentOrders = pgTable('payment_orders', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  listingId: uuid('listing_id').references(() => listings.id, { onDelete: 'set null' }),
+  buyerAddress: text('buyer_address').notNull(),
+  sellerAddress: text('seller_address').notNull(),
+  amountMinor: bigint('amount_minor', { mode: 'number' }).notNull(),
+  currency: text('currency').notNull(),
+  txHash: text('tx_hash').notNull(),
+  status: text('status').notNull().default('confirmed'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+}, (table) => [index('payment_orders_listing_idx').on(table.listingId)]);
+
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
 export type Listing = typeof listings.$inferSelect;
+export type PaymentOrder = typeof paymentOrders.$inferSelect;
 export type NewListing = typeof listings.$inferInsert;
 export type Category = typeof categories.$inferSelect;

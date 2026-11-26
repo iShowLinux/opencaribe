@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Container, Card, SectionTitle } from '@opencaribe/ui';
 import { LinkButton } from '@/components/LinkButton';
 import { getCurrentUser } from '@/lib/session';
-import { describeSeller, listThreadsForUser } from '@/lib/local-store';
+import { describeSeller, listThreadsForUser } from '@/lib/store';
 import { getListingById } from '@/lib/listings-store';
 import { getT } from '@/lib/t';
 

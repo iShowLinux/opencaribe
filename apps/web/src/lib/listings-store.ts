@@ -1,6 +1,7 @@
 import { eq } from 'drizzle-orm';
 import { getDb, isDatabaseConfigured, schema } from '@opencaribe/database';
-import type { CurrencyCode } from '@opencaribe/configuration';
+import { parseMoneyToMinor, type CurrencyCode } from '@opencaribe/configuration';
+import { ensureSellerUser } from './db-store';
 import type { ItemCondition, PriceType } from '@opencaribe/validation';
 import { demoListings } from './demo-data';
 import type { PublicListing } from './types';
@@ -110,4 +111,40 @@ export function createDraft(input: DraftInput): PublicListing {
   };
   store.set(id, draft);
   return draft;
+}
+
+/**
+ * Persists a listing when PostgreSQL is configured, otherwise keeps the
+ * in-memory demo behaviour. Wallet/anonymous sellers get synthetic user rows
+ * so the listings.seller_id foreign key stays valid.
+ */
+export async function persistListing(input: DraftInput): Promise<PublicListing> {
+  if (!isDatabaseConfigured()) return createDraft(input);
+
+  const sellerId = input.sellerId ?? (input.walletAddress ? `wallet:${input.walletAddress}` : 'anonymous-draft');
+  await ensureSellerUser(sellerId);
+
+  const [row] = await getDb()
+    .insert(schema.listings)
+    .values({
+      sellerId,
+      countryCode: input.countryCode,
+      regionId: input.regionId,
+      cityId: input.cityId || '',
+      categoryId: input.categoryId,
+      subcategoryId: input.subcategoryId || null,
+      title: input.title,
+      description: input.description,
+      amountMinor: parseMoneyToMinor(input.price, input.currency),
+      currency: input.currency,
+      priceType: input.priceType,
+      negotiable: input.negotiable,
+      condition: input.condition,
+      attributes: input.attributes,
+      contactPreference: input.contactPreference,
+      status: input.status ?? 'draft',
+    })
+    .returning();
+  if (!row) throw new Error('LISTING_NOT_CREATED');
+  return mapDbRow(row);
 }
