@@ -41,6 +41,7 @@ export function SiteHeader() {
 
         <nav className="order-3 w-full sm:order-none sm:ml-auto sm:w-auto" aria-label="Primary">
           <ul className="flex flex-wrap items-center gap-1 text-sm font-medium">
+            <li><Link className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800" href="/news">{nav('news')}</Link></li>
             <li><Link className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800" href={`${base}/search`}>{nav('browse')}</Link></li>
             <li><Link className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800" href={`${base}/post`}>{nav('post')}</Link></li>
             <li className="hidden md:block"><Link className="rounded-lg px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800" href={`${base}/favorites`}>{nav('favorites')}</Link></li>

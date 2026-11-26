@@ -25,6 +25,7 @@ export async function SiteFooter() {
             <li><Link href="/tt" className="hover:text-teal-700">Trinidad and Tobago</Link></li>
             <li><Link href="/ve" className="hover:text-teal-700">Venezuela</Link></li>
             <li><Link href="/info/opensource" className="hover:text-teal-700">GitHub</Link></li>
+            <li><Link href="/news" className="hover:text-teal-700">News</Link></li>
             <li><Link href="/payments" className="hover:text-teal-700">Payments (coming soon)</Link></li>
           </ul>
         </div>

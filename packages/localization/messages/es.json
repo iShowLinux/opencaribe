@@ -10,7 +10,8 @@
     "messages": "Mensajes",
     "signIn": "Iniciar sesión",
     "account": "Mi cuenta",
-    "admin": "Administración"
+    "admin": "Administración",
+    "news": "Noticias"
   },
   "home": {
     "heroTitle": "Encuentra lo que buscas cerca de ti",
@@ -184,6 +185,32 @@
       "crypto": "Criptomonedas con Adena (próximamente)"
     },
     "siteBanner": "Paga con criptomonedas usando tu billetera Adena — próximamente"
+  },
+  "news": {
+    "title": "Noticias del Caribe en vivo",
+    "subtitle": "Mira transmisiones de noticias locales de todo el Caribe. Son señales públicas y gratuitas publicadas por sus propietarios.",
+    "live": "En vivo",
+    "channels": "Canales",
+    "allCountries": "Todos los países",
+    "play": "Reproducir",
+    "pause": "Pausar",
+    "mute": "Silenciar",
+    "unmute": "Activar sonido",
+    "fullscreen": "Pantalla completa",
+    "exitFullscreen": "Salir de pantalla completa",
+    "quality": "Calidad",
+    "autoQuality": "Automática",
+    "retry": "Reintentar",
+    "errorTitle": "Señal no disponible",
+    "errorBody": "No se pudo cargar esta transmisión. Puede estar fuera de línea o restringida por región.",
+    "offlineBadge": "Sin señal pública",
+    "officialSite": "Sitio oficial",
+    "sourceNote": "Las transmisiones son publicadas por sus propietarios y pueden caerse sin aviso.",
+    "backToNews": "Todos los canales",
+    "nowPlaying": "Reproduciendo",
+    "country": "País",
+    "language": "Idioma",
+    "owner": "Operador"
   },
   "footer": {
     "tagline": "Infraestructura abierta de mercado para el Caribe y Latinoamérica.",

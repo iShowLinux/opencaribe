@@ -44,3 +44,10 @@
 - New `@opencaribe/authentication` helpers (`enabledSocialProviders`, `resolveSocialProviders`) with unit tests; bilingual strings for the buttons.
 - Auth catch-all now redirects unconfigured social sign-in attempts to `/login` instead of returning a 500.
 - Documented OAuth app setup and callback URLs in `docs/deployment/deployment.md`; pushed and redeployed production.
+
+## 2026-11-26 — News feature
+
+- Verified working HTTPS HLS manifests by direct request (TVJ, CBC TV8, ZNS, teleSUR HD, Haiti News Channel, Prensa Latina, TeleOnce). WAPA/Antena21/Antena7 failed or were geo/token blocked; ttt.live unreachable from this network.
+- Added `hls.js@1.7.4`, `/news` directory + `/news/[channel]` player page, header/footer navigation, en/es copy, and `tests/unit/news-catalog.test.ts` (catalog integrity: unique ids, HTTPS, locale parity, disabled honesty).
+- Player supports play/pause, mute, quality levels, fullscreen, buffering and retryable error states; only catalog URLs can reach `<video>`.
+- TTT and CNC3 are listed as `enabled: false` with their official watch-live links because no stable public manifest was found.

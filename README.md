@@ -2,7 +2,7 @@
 
 An open-source, country-aware classifieds marketplace for Trinidad and Tobago and Venezuela, built to run well on modest devices and slow connections.
 
-> Status: Phase 0 foundation. Browsing, search, country pages, Spanish/English UI, a validated listing wizard and the core domain model are implemented and verified. Authentication persistence, media processing, messaging and moderation are scaffolded but not yet complete. See [`.project/PROJECT_STATE.md`](.project/PROJECT_STATE.md) for the exact state.
+> Status: Phase 0 foundation. Browsing, search, country pages, Spanish/English UI, a validated listing wizard, a read-only gno.land wallet panel and a live Caribbean news player (hls.js) are implemented and verified. Authentication persistence, media processing, messaging and moderation are scaffolded but not yet complete. See [`.project/PROJECT_STATE.md`](.project/PROJECT_STATE.md) for the exact state.
 
 ## Quick start
 

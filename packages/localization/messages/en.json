@@ -10,7 +10,8 @@
     "messages": "Messages",
     "signIn": "Sign in",
     "account": "My account",
-    "admin": "Administration"
+    "admin": "Administration",
+    "news": "News"
   },
   "home": {
     "heroTitle": "Find it close to home",
@@ -184,6 +185,32 @@
       "crypto": "Crypto via Adena (coming soon)"
     },
     "siteBanner": "Pay with crypto using your Adena wallet — coming soon"
+  },
+  "news": {
+    "title": "Caribbean News Live",
+    "subtitle": "Watch local news streams from across the Caribbean. These are free-to-air public feeds published by their owners.",
+    "live": "Live",
+    "channels": "Channels",
+    "allCountries": "All countries",
+    "play": "Play",
+    "pause": "Pause",
+    "mute": "Mute",
+    "unmute": "Unmute",
+    "fullscreen": "Fullscreen",
+    "exitFullscreen": "Exit fullscreen",
+    "quality": "Quality",
+    "autoQuality": "Auto",
+    "retry": "Retry",
+    "errorTitle": "Stream unavailable",
+    "errorBody": "This feed could not be loaded. It may be offline or geo-restricted.",
+    "offlineBadge": "No public stream",
+    "officialSite": "Official site",
+    "sourceNote": "Streams are published by their owners and can go offline without notice.",
+    "backToNews": "All channels",
+    "nowPlaying": "Now playing",
+    "country": "Country",
+    "language": "Language",
+    "owner": "Operator"
   },
   "footer": {
     "tagline": "Open marketplace infrastructure for the Caribbean and Latin America.",

@@ -21,6 +21,7 @@
     "@opencaribe/ui": "workspace:*",
     "@opencaribe/validation": "workspace:*",
     "drizzle-orm": "0.45.4",
+    "hls.js": "1.7.4",
     "next": "16.4.6",
     "next-intl": "4.16.2",
     "react": "19.3.1",

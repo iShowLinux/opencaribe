@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 2026-11-25 (Phase 0 foundation)
+Last updated: 2026-11-26 (news player added)
 
 ## Repository
 
@@ -28,8 +28,9 @@ Public GitHub repository: https://github.com/iShowLinux/opencaribe (branch `main
 | Geography | Done | `modules/geography/src/index.ts`; seed CLI and tests pass |
 | Search | Done (in-memory) | `modules/search/src/index.ts`; tests cover filters, pagination, currency-safe ordering |
 | Gno wallet connect (P1) | Done (read-only) | Adena client island; address/balance/network on `/payments`; chain-mismatch warning; settlement still disabled |
+| News / IPTV player | Done (curated) | hls.js player + channel catalog (`apps/web/src/lib/channels.ts`); 7 enabled HTTPS streams, 2 TT entries marked no-public-stream |
 | i18n | Done | en/es catalogues, cookie switcher; key-parity test passes |
-| Web UI | Done (Phase 0 scope) | 17 routes; production build and HTTP checks pass |
+| Web UI | Done (Phase 0 scope + news) | 19 routes incl. `/news`, `/news/[channel]`; production build and HTTP checks pass |
 | Media pipeline | Not started | No upload processing yet |
 | Messaging | Schema + placeholder UI | No conversation logic |
 | Moderation | Policy config + placeholder admin | No queue implementation |
@@ -38,10 +39,10 @@ Public GitHub repository: https://github.com/iShowLinux/opencaribe (branch `main
 
 ## Verification actually executed (2026-11-25)
 
-- `pnpm test` — **8 files, 40 tests passed** (includes the new payments module).
+- `pnpm test` — **10 files, 50 tests passed** (includes payments and news-catalog suites).
 - `pnpm typecheck` — passed across all workspaces.
 - `pnpm lint` — passed with zero warnings or errors.
-- `pnpm build` — production build succeeded; 17 routes emitted.
+- `pnpm build` — production build succeeded; 19 routes emitted (adds `/news`, `/news/[channel]`).
 - HTTP checks against `pnpm start` on port 3000: `/`, `/tt`, `/ve`, `/tt/search?q=phone`, `/ve/c/electronics`, `/tt/l/tt-1001`, `/tt/post`, `/tt/favorites`, `/tt/messages`, `/tt/account`, `/login`, `/register`, `/info/privacy`, `/admin` all returned **200**; `/xx` returned **404** as expected.
 - Content checks: search for `phone` returned only the phone listing; `NEXT_LOCALE=es` produced Spanish headings on `/ve`.
 - Playwright smoke suite: **5 tests passed** (Chromium, against the production server), including new-category browsing and the live wallet-connect state.
@@ -56,6 +57,7 @@ Public GitHub repository: https://github.com/iShowLinux/opencaribe (branch `main
 - Listings are served from deterministic demo data unless `DATABASE_URL` is set; DB errors fall back to demo data.
 - Draft creation in the wizard is validated server-side and held in a process-local store; database persistence is Phase 1.
 - Demo listings (24) and category thumbnails use verified Unsplash photo IDs through `next/image`; `next.config.ts` allows only `images.unsplash.com`.
+- News streams are curated and HTTPS-only; the player has no arbitrary-URL input, so it cannot be used as an open relay. See `docs/features/news.md` for the curation policy and how to add channels.
 - Adena crypto payments are a **placeholder only** for settlement: country config has `enabled: false` / `comingSoon: true`. Wallet connection (P1) is live on the Onyx testnet and is read-only — no wallet API beyond account reads, no signing, no transactions. See ADR 0007.
 
 ## Next milestone
