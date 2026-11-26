@@ -51,6 +51,21 @@ describe('news channel catalog', () => {
     expect(listNewsChannels().some((channel) => channel.id === 'ttt-trinidad')).toBe(false);
   });
 
+  it('covers both initial markets where a public feed exists', () => {
+    const venezuela = listNewsChannels({ country: 'VE' });
+    expect(venezuela.length).toBeGreaterThanOrEqual(2);
+    expect(venezuela.map((channel) => channel.id)).toContain('globovision-venezuela');
+    expect(getNewsChannel('telesur-venezuela')?.enabled).toBe(false);
+  });
+
+  it('documents Trinidad gaps instead of faking a stream', () => {
+    for (const id of ['ttt-trinidad', 'cnc3-trinidad']) {
+      const channel = getNewsChannel(id);
+      expect(channel?.enabled).toBe(false);
+      expect(channel?.website).toMatch(/^https:\/\//);
+    }
+  });
+
   it('exposes one country row per distinct country code', () => {
     const rows = listNewsCountries();
     const codes = rows.map((row) => row.code);

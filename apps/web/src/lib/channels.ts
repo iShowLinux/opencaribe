@@ -3,10 +3,16 @@ import type { Locale } from '@opencaribe/configuration';
 /**
  * Curated directory of Caribbean news streams for the in-app HLS player.
  *
- * Only publicly published, free-to-air HTTPS HLS endpoints belong here. Feeds
- * are third-party broadcasts: availability changes without notice and the
- * player must degrade gracefully when a stream goes offline. Disabled entries
- * keep an official link so users know what is missing and why.
+ * Rules for inclusion:
+ * - Public, free-to-air HTTPS HLS manifests only.
+ * - Verified end-to-end in a real Chromium (manifest -> media playlist ->
+ *   MPEG-TS segments buffered and playback advancing).
+ * - CORS (`Access-Control-Allow-Origin`) present on manifest AND segments, so
+ *   hls.js can read them in a normal browser.
+ * - Codecs the browser stack supports through MediaSource Extensions.
+ *
+ * Entries that fail one of these checks are kept with `enabled: false` and a
+ * note explaining why, rather than being presented as a working player.
  */
 export interface NewsChannel {
   id: string;
@@ -34,20 +40,7 @@ export const NEWS_CHANNELS: NewsChannel[] = [
     hlsUrl: 'https://vod2live.univtec.com/manifest/a99a1804-dc83-411f-8c1c-b62f08cdfa59.m3u8',
     website: 'https://www.televisionjamaica.com/',
     owner: 'RJRGleaner Communications Group',
-    note: 'Public HLS feed; availability varies by schedule and region.',
-    enabled: true,
-  },
-  {
-    id: 'cbc-tv8-barbados',
-    name: 'CBC TV8',
-    countryCode: 'BB',
-    countryName: { en: 'Barbados', es: 'Barbados' },
-    language: 'English',
-    category: 'news',
-    hlsUrl: 'https://1740288887.rsc.cdn77.org/1740288887/index.m3u8',
-    website: 'https://www.cbc.bb/',
-    owner: 'Caribbean Broadcasting Corporation',
-    note: 'National broadcaster. Not 24/7 on this public CDN.',
+    note: 'General service with regular news bulletins; not 24/7.',
     enabled: true,
   },
   {
@@ -63,29 +56,53 @@ export const NEWS_CHANNELS: NewsChannel[] = [
     enabled: true,
   },
   {
-    id: 'telesur-venezuela',
-    name: 'teleSUR',
+    id: 'globovision-venezuela',
+    name: 'Globovisión',
     countryCode: 'VE',
     countryName: { en: 'Venezuela', es: 'Venezuela' },
     language: 'Spanish',
     category: 'news',
-    hlsUrl: 'https://mblenmain01.telesur.ultrabase.net/mblivev3/hd/playlist.m3u8',
-    website: 'https://www.telesurtv.net/',
-    owner: 'Sistema Bolivariano de Comunicación e Información',
-    note: 'Latin American news network headquartered in Caracas; state-sponsored.',
+    hlsUrl: 'https://59d39900ebfb8.streamlock.net/globo-720p/globo-720p/playlist.m3u8',
+    website: 'https://www.globovision.com/',
+    owner: 'Globovisión',
+    note: 'Venezuelan news network. Schedule may switch to archived programmes between bulletins.',
     enabled: true,
   },
   {
-    id: 'haiti-news-channel',
-    name: 'Haiti News Channel',
-    countryCode: 'HT',
-    countryName: { en: 'Haiti', es: 'Haití' },
-    language: 'Haitian Creole / French',
+    id: 'venevision-venezuela',
+    name: 'Venevisión Internacional',
+    countryCode: 'VE',
+    countryName: { en: 'Venezuela', es: 'Venezuela' },
+    language: 'Spanish',
+    category: 'general',
+    hlsUrl: 'https://vod2live.univtec.com/manifest/4c41c0d8-e2e4-43cc-bd43-79afe715e1b3.m3u8',
+    website: 'https://www.venevision.com/',
+    owner: 'Cisneros Media',
+    note: 'International feed with news and entertainment.',
+    enabled: true,
+  },
+  {
+    id: 'telemundo-puerto-rico',
+    name: 'Telemundo Puerto Rico (WKAQ)',
+    countryCode: 'PR',
+    countryName: { en: 'Puerto Rico', es: 'Puerto Rico' },
+    language: 'Spanish',
     category: 'news',
-    hlsUrl: 'https://cdn.haititivi.com/website/haitinews/index.m3u8',
-    website: 'https://haititivi.com/',
-    owner: 'HaitiTVI',
-    note: 'Not 24/7; the feed can be offline between bulletins.',
+    hlsUrl: 'https://nbculocallive.akamaized.net/hls/live/2037499/puertorico/stream2/master.m3u8',
+    website: 'https://www.telemundopr.com/',
+    owner: 'NBCUniversal Telemundo Station Group',
+    enabled: true,
+  },
+  {
+    id: 'teleonce-puerto-rico',
+    name: 'TeleOnce',
+    countryCode: 'PR',
+    countryName: { en: 'Puerto Rico', es: 'Puerto Rico' },
+    language: 'Spanish',
+    category: 'general',
+    hlsUrl: 'https://live.11-cdn.com/TeleOnce/3fc63fe00050c646635f16b071cd33e2.sdp/playlist.m3u8',
+    website: 'https://www.teleonce.com/',
+    owner: 'Liberman Media Group',
     enabled: true,
   },
   {
@@ -101,18 +118,58 @@ export const NEWS_CHANNELS: NewsChannel[] = [
     enabled: true,
   },
   {
-    id: 'teleonce-puerto-rico',
-    name: 'TeleOnce',
-    countryCode: 'PR',
-    countryName: { en: 'Puerto Rico', es: 'Puerto Rico' },
-    language: 'Spanish',
-    category: 'general',
-    hlsUrl: 'https://live.11-cdn.com/TeleOnce/3fc63fe00050c646635f16b071cd33e2.sdp/playlist.m3u8',
-    website: 'https://www.teleonce.com/',
-    owner: 'Liberman Media Group',
-    note: 'General channel with regular news bulletins.',
+    id: 'haiti-news-channel',
+    name: 'Haiti News Channel',
+    countryCode: 'HT',
+    countryName: { en: 'Haiti', es: 'Haití' },
+    language: 'Haitian Creole / French',
+    category: 'news',
+    hlsUrl: 'https://cdn.haititivi.com/website/haitinews/index.m3u8',
+    website: 'https://haitinewstv.com/',
+    owner: 'HNEWS',
+    note: 'Continuous Haitian news in French and Haitian Creole; not 24/7.',
     enabled: true,
   },
+  {
+    id: 'antena-21',
+    name: 'Antena 21',
+    countryCode: 'DO',
+    countryName: { en: 'Dominican Republic', es: 'República Dominicana' },
+    language: 'Spanish',
+    category: 'news',
+    hlsUrl: 'https://hls.tvabierta.net/hls/021.m3u8',
+    website: 'https://www.antena7.com.do/',
+    owner: 'Albavisión',
+    note: 'Santo Domingo station carrying news and information programming.',
+    enabled: true,
+  },
+  {
+    id: 'telesistema-11',
+    name: 'Telesistema 11',
+    countryCode: 'DO',
+    countryName: { en: 'Dominican Republic', es: 'República Dominicana' },
+    language: 'Spanish',
+    category: 'general',
+    hlsUrl: 'https://cdn4.wind.do/streams/telesistema/telesistema_master.m3u8',
+    website: 'https://telesistema11.com.do/',
+    owner: 'Telesistema 11',
+    enabled: true,
+  },
+  {
+    id: 'telenews-canal-40',
+    name: 'Telenews Canal 40',
+    countryCode: 'DO',
+    countryName: { en: 'Dominican Republic', es: 'República Dominicana' },
+    language: 'Spanish',
+    category: 'news',
+    hlsUrl: 'https://stream1.28tv.online/TeleNewsCanal40/index.m3u8',
+    website: 'https://telenewscanal40.com/',
+    owner: 'Telenews Canal 40',
+    note: 'Santo Domingo news channel focused on continuous coverage.',
+    enabled: true,
+  },
+
+  // Disabled: documented gaps, not dead weight.
   {
     id: 'ttt-trinidad',
     name: 'TTT',
@@ -123,7 +180,7 @@ export const NEWS_CHANNELS: NewsChannel[] = [
     hlsUrl: '',
     website: 'https://ttt.live/stream',
     owner: 'TTT Limited',
-    note: 'No stable public HLS endpoint published yet. Official live page linked instead.',
+    note: 'National broadcaster. No stable public HLS endpoint published yet; official live page linked instead.',
     enabled: false,
   },
   {
@@ -137,6 +194,19 @@ export const NEWS_CHANNELS: NewsChannel[] = [
     website: 'https://www.cnc3.co.tt/live-stream',
     owner: 'Guardian Media Limited',
     note: 'News channel. Public HLS URL not currently available; use the official live page.',
+    enabled: false,
+  },
+  {
+    id: 'telesur-venezuela',
+    name: 'teleSUR',
+    countryCode: 'VE',
+    countryName: { en: 'Venezuela', es: 'Venezuela' },
+    language: 'Spanish',
+    category: 'news',
+    hlsUrl: '',
+    website: 'https://www.telesurtv.net/',
+    owner: 'Sistema Bolivariano de Comunicación e Información',
+    note: 'Feed advertises H.264 Main profile (avc1.66.x), which most MSE browsers refuse; no compatible rendition offered.',
     enabled: false,
   },
 ];

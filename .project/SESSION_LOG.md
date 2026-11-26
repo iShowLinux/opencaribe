@@ -51,3 +51,12 @@
 - Added `hls.js@1.7.4`, `/news` directory + `/news/[channel]` player page, header/footer navigation, en/es copy, and `tests/unit/news-catalog.test.ts` (catalog integrity: unique ids, HTTPS, locale parity, disabled honesty).
 - Player supports play/pause, mute, quality levels, fullscreen, buffering and retryable error states; only catalog URLs can reach `<video>`.
 - TTT and CNC3 are listed as `enabled: false` with their official watch-live links because no stable public manifest was found.
+
+## 2026-11-26 (later) — News catalog re-verified against real Chromium
+
+- Discovered the managed Hermes QA browser never opens MediaSource (readyState stays `closed`), so hls.js stalls there regardless of stream. Mux's reference stream behaved identically, proving it was environmental, not our code.
+- Fixed a real bug found while diagnosing: `useTranslations()` returned a new function identity per render, which re-ran the player effect and destroyed/recreated HLS in a loop. Stabilised via `tRef`.
+- Added a 20-second watchdog that surfaces a retryable error instead of spinning forever when MSE stalls.
+- Re-scanned iptv-org country lists plus broadcaster CDNs; required manifest + media playlist + segment all to send `access-control-allow-origin`, supported codecs, and end-to-end playback in Playwright Chromium.
+- Final enabled set (all played: readyState 4, advancing currentTime): TVJ, ZNS-TV, Globovisión, Venevisión Internacional, Telemundo PR/WKAQ, TeleOnce, Prensa Latina, Haiti News Channel, Antena 21, Telesistema 11, Telenews Canal 40.
+- Dropped CBC TV8 (manifest load error from browsers), Canal I (segment fetch/CORS failed), and teleSUR (avc1.66.x unsupported by MSE). TTT and CNC3 remain listed disabled with official links.

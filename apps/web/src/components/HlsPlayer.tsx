@@ -32,9 +32,14 @@ function describeLevel(level: LevelLike): string {
  */
 export function HlsPlayer({ src, channelName }: Props) {
   const t = useTranslations('news');
+  const tRef = useRef(t);
+  useEffect(() => {
+    tRef.current = t;
+  }, [t]);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const frameRef = useRef<HTMLDivElement | null>(null);
   const hlsRef = useRef<HlsInstance | null>(null);
+  const watchdogRef = useRef<number | null>(null);
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -53,6 +58,13 @@ export function HlsPlayer({ src, channelName }: Props) {
     async function start() {
       setError(null);
       setBuffering(true);
+      if (watchdogRef.current) window.clearTimeout(watchdogRef.current);
+      watchdogRef.current = window.setTimeout(() => {
+        const media = videoRef.current;
+        if (!cancelled && media && media.readyState < 2) {
+          setError(tRef.current('errorBody'));
+        }
+      }, 20000);
       try {
         const { default: Hls } = await import('hls.js');
         if (cancelled) return;
@@ -70,12 +82,12 @@ export function HlsPlayer({ src, channelName }: Props) {
           hls.on(Hls.Events.ERROR, (_event, data) => {
             if (cancelled || !data.fatal) return;
             if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
-              setError(t('errorTitle'));
+              setError(tRef.current('errorTitle'));
               hls?.startLoad();
             } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
               hls?.recoverMediaError();
             } else {
-              setError(t('errorBody'));
+              setError(tRef.current('errorBody'));
             }
           });
           hls.on(Hls.Events.FRAG_BUFFERED, () => {
@@ -90,12 +102,12 @@ export function HlsPlayer({ src, channelName }: Props) {
           });
           setBuffering(false);
         } else {
-          setError(t('errorBody'));
+          setError(tRef.current('errorBody'));
           setBuffering(false);
         }
       } catch {
         if (!cancelled) {
-          setError(t('errorBody'));
+          setError(tRef.current('errorBody'));
           setBuffering(false);
         }
       }
@@ -114,6 +126,10 @@ export function HlsPlayer({ src, channelName }: Props) {
 
     return () => {
       cancelled = true;
+      if (watchdogRef.current) {
+        window.clearTimeout(watchdogRef.current);
+        watchdogRef.current = null;
+      }
       video.removeEventListener('play', onPlay);
       video.removeEventListener('pause', onPause);
       video.removeEventListener('waiting', onWaiting);
@@ -121,7 +137,7 @@ export function HlsPlayer({ src, channelName }: Props) {
       hlsRef.current = null;
       hls?.destroy();
     };
-  }, [src, retryKey, t]);
+  }, [src, retryKey]);
 
   function togglePlay() {
     const video = videoRef.current;

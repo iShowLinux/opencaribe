@@ -28,7 +28,7 @@ Public GitHub repository: https://github.com/iShowLinux/opencaribe (branch `main
 | Geography | Done | `modules/geography/src/index.ts`; seed CLI and tests pass |
 | Search | Done (in-memory) | `modules/search/src/index.ts`; tests cover filters, pagination, currency-safe ordering |
 | Gno wallet connect (P1) | Done (read-only) | Adena client island; address/balance/network on `/payments`; chain-mismatch warning; settlement still disabled |
-| News / IPTV player | Done (curated) | hls.js player + channel catalog (`apps/web/src/lib/channels.ts`); 7 enabled HTTPS streams, 2 TT entries marked no-public-stream |
+| News / IPTV player | Done (curated) | hls.js player + catalog (`apps/web/src/lib/channels.ts`); 11 channels verified playing in Chromium; TTT/CNC3/teleSUR kept as disabled with recorded reasons |
 | i18n | Done | en/es catalogues, cookie switcher; key-parity test passes |
 | Web UI | Done (Phase 0 scope + news) | 19 routes incl. `/news`, `/news/[channel]`; production build and HTTP checks pass |
 | Media pipeline | Not started | No upload processing yet |
@@ -39,7 +39,7 @@ Public GitHub repository: https://github.com/iShowLinux/opencaribe (branch `main
 
 ## Verification actually executed (2026-11-25)
 
-- `pnpm test` — **10 files, 50 tests passed** (includes payments and news-catalog suites).
+- `pnpm test` — **10 files, 50+ tests passed** (includes payments and news-catalog suites).
 - `pnpm typecheck` — passed across all workspaces.
 - `pnpm lint` — passed with zero warnings or errors.
 - `pnpm build` — production build succeeded; 19 routes emitted (adds `/news`, `/news/[channel]`).
@@ -57,7 +57,7 @@ Public GitHub repository: https://github.com/iShowLinux/opencaribe (branch `main
 - Listings are served from deterministic demo data unless `DATABASE_URL` is set; DB errors fall back to demo data.
 - Draft creation in the wizard is validated server-side and held in a process-local store; database persistence is Phase 1.
 - Demo listings (24) and category thumbnails use verified Unsplash photo IDs through `next/image`; `next.config.ts` allows only `images.unsplash.com`.
-- News streams are curated and HTTPS-only; the player has no arbitrary-URL input, so it cannot be used as an open relay. See `docs/features/news.md` for the curation policy and how to add channels.
+- News streams are curated and HTTPS-only; the player has no arbitrary-URL input, so it cannot be used as an open relay. 11 channels were verified end-to-end in Playwright Chromium (buffered fragments, advancing playback); the managed Hermes QA browser has MediaSource permanently closed, so playback is not verifiable there. See `docs/features/news.md`.
 - Adena crypto payments are a **placeholder only** for settlement: country config has `enabled: false` / `comingSoon: true`. Wallet connection (P1) is live on the Onyx testnet and is read-only — no wallet API beyond account reads, no signing, no transactions. See ADR 0007.
 
 ## Next milestone
