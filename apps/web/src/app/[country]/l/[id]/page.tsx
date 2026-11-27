@@ -12,6 +12,7 @@ import { getCurrentUser } from '@/lib/session';
 import { getSellerStats, getUserById } from '@/lib/store';
 import { RateSellerForm } from '@/components/RateSellerForm';
 import { OfferForm } from '@/components/OfferForm';
+import { ItemMap } from '@/components/ItemMap';
 import { CryptoPaymentCard } from '@/components/CryptoPaymentCard';
 import { ReportForm } from '@/components/ReportForm';
 import { categoryImage } from '@/lib/images';
@@ -105,6 +106,7 @@ export default async function ListingPage({ params }: { params: Promise<{ countr
             <div className="mt-5 border-t border-slate-200 pt-5 dark:border-slate-800">
               <p className="text-sm font-semibold text-navy-900 dark:text-navy-50">{t('listing.location')}</p>
               <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{location || '—'}</p>
+              <ItemMap countryCode={code} regionId={listing.regionId} cityId={listing.cityId} label={location} />
             </div>
             <div className="mt-5 border-t border-slate-200 pt-5 dark:border-slate-800">
               <p className="text-sm text-slate-600 dark:text-slate-400">{t('listing.seller')}</p>
@@ -135,6 +137,15 @@ export default async function ListingPage({ params }: { params: Promise<{ countr
               />
             )}
             <RateSellerForm sellerKey={listing.sellerId} listingId={listing.id} loggedIn={Boolean(viewer)} isOwner={viewer?.id === sellerKey} />
+            {listing.status === 'active' && (
+              <LinkButton
+                href={`/shipping?country=${code.toLowerCase()}&city=${encodeURIComponent(location)}`}
+                variant="secondary"
+                className="mt-4 w-full"
+              >
+                Ship this item
+              </LinkButton>
+            )}
             {canPayCrypto && sellerWallet && (
               <WalletPayButton
                 listingId={listing.id}

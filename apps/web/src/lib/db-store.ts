@@ -1,7 +1,7 @@
 import { randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
 import { and, asc, desc, eq, inArray, isNull, ne } from 'drizzle-orm';
 import { getDb, schema } from '@opencaribe/database';
-import type { LocalMessage, LocalOrder, LocalRating, LocalThread, LocalUser, SellerStats , LocalOffer } from './local-store';
+import type { LocalMessage, LocalOrder, LocalRating, LocalThread, LocalUser, SellerStats , LocalOffer , LocalForumThread, LocalForumReply } from './local-store';
 import { isAdminEmail } from './admin';
 
 /**
@@ -477,4 +477,63 @@ export async function listOffersForSeller(sellerKey: string): Promise<LocalOffer
     .where(eq(schema.listings.sellerId, sellerKey))
     .orderBy(desc(schema.offers.createdAt));
   return rows.map((row) => mapOfferRow(row.offer));
+}
+
+function mapForumThread(row: typeof schema.communityThreads.$inferSelect): LocalForumThread {
+  return {
+    id: row.id,
+    authorId: row.authorId,
+    category: row.category === 'feedback' || row.category === 'support' ? row.category : 'events',
+    title: row.title,
+    body: row.body,
+    createdAt: row.createdAt.toISOString(),
+  };
+}
+
+function mapForumReply(row: typeof schema.communityReplies.$inferSelect): LocalForumReply {
+  return { id: row.id, threadId: row.threadId ?? '', authorId: row.authorId, body: row.body, createdAt: row.createdAt.toISOString() };
+}
+
+export async function createForumThread(input: {
+  authorId: string;
+  category: 'events' | 'feedback' | 'support';
+  title: string;
+  body: string;
+}): Promise<LocalForumThread> {
+  const [row] = await getDb()
+    .insert(schema.communityThreads)
+    .values({ authorId: input.authorId, category: input.category, title: input.title.trim().slice(0, 200), body: input.body.trim().slice(0, 4000) })
+    .returning();
+  if (!row) throw new Error('THREAD_NOT_CREATED');
+  return mapForumThread(row);
+}
+
+export async function listForumThreads(category?: string): Promise<LocalForumThread[]> {
+  const baseQuery = getDb().select().from(schema.communityThreads);
+  const rows = category
+    ? await baseQuery.where(eq(schema.communityThreads.category, category)).orderBy(desc(schema.communityThreads.createdAt))
+    : await baseQuery.orderBy(desc(schema.communityThreads.createdAt));
+  return rows.map(mapForumThread);
+}
+
+export async function getForumThread(threadId: string): Promise<LocalForumThread | undefined> {
+  const [row] = await getDb().select().from(schema.communityThreads).where(eq(schema.communityThreads.id, threadId));
+  return row ? mapForumThread(row) : undefined;
+}
+
+export async function listForumReplies(threadId: string): Promise<LocalForumReply[]> {
+  const rows = await getDb()
+    .select()
+    .from(schema.communityReplies)
+    .where(eq(schema.communityReplies.threadId, threadId))
+    .orderBy(schema.communityReplies.createdAt);
+  return rows.map(mapForumReply);
+}
+
+export async function createForumReply(input: { threadId: string; authorId: string; body: string }): Promise<LocalForumReply | undefined> {
+  const [row] = await getDb()
+    .insert(schema.communityReplies)
+    .values({ threadId: input.threadId, authorId: input.authorId, body: input.body.trim().slice(0, 4000) })
+    .returning();
+  return row ? mapForumReply(row) : undefined;
 }

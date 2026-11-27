@@ -255,3 +255,24 @@ export const offers = pgTable('offers', {
 ]);
 
 export type Offer = typeof offers.$inferSelect;
+
+export const communityThreads = pgTable('community_threads', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  authorId: text('author_id').notNull().references(() => users.id),
+  category: text('category').notNull().default('events'),
+  title: text('title').notNull(),
+  body: text('body').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+}, (table) => [
+  index('community_threads_created_idx').on(table.createdAt),
+]);
+
+export const communityReplies = pgTable('community_replies', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  threadId: uuid('thread_id').notNull().references(() => communityThreads.id, { onDelete: 'cascade' }),
+  authorId: text('author_id').notNull().references(() => users.id),
+  body: text('body').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+}, (table) => [
+  index('community_replies_thread_idx').on(table.threadId),
+]);

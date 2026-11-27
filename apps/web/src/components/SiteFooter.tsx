@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { COUNTRIES, COUNTRY_CODES } from '@opencaribe/configuration';
 import { getT } from '@/lib/t';
 
 const INFO_LINKS = [
@@ -22,11 +23,14 @@ export async function SiteFooter() {
         <div>
           <p className="text-sm font-semibold text-navy-900 dark:text-navy-50">{t('footer.project')}</p>
           <ul className="mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
-            <li><Link href="/tt" className="hover:text-teal-700">Trinidad and Tobago</Link></li>
-            <li><Link href="/ve" className="hover:text-teal-700">Venezuela</Link></li>
+            {COUNTRY_CODES.map((code) => (
+              <li key={code}><Link href={`/${code.toLowerCase()}`} className="hover:text-teal-700">{COUNTRIES[code].displayName}</Link></li>
+            ))}
             <li><Link href="/info/opensource" className="hover:text-teal-700">GitHub</Link></li>
             <li><Link href="/news" className="hover:text-teal-700">News</Link></li>
             <li><Link href="/payments" className="hover:text-teal-700">Payments (coming soon)</Link></li>
+            <li><Link href="/shipping" className="hover:text-teal-700">Shipping matrix</Link></li>
+            <li><Link href="/community" className="hover:text-teal-700">Community</Link></li>
           </ul>
         </div>
         <div>

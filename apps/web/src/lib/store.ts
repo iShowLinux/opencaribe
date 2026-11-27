@@ -10,7 +10,7 @@ import { getAllListings } from './listings-store';
 const impl = (isDatabaseConfigured() ? pg : local) as typeof local;
 
 export const SESSION_COOKIE = local.SESSION_COOKIE;
-export type { LocalUser, LocalSession, LocalThread, LocalMessage, LocalOrder, LocalRating, LocalOffer, SellerStats } from './local-store';
+export type { LocalUser, LocalSession, LocalThread, LocalMessage, LocalOrder, LocalRating, LocalOffer, LocalForumThread, LocalForumReply, SellerStats } from './local-store';
 
 export async function findUserByEmail(email: string): Promise<local.LocalUser | undefined> {
   return impl.findUserByEmail(email);
@@ -149,4 +149,29 @@ export async function listOffersForSeller(sellerKey: string): Promise<local.Loca
     return (await local.listOffers()).filter((offer) => ids.has(offer.listingId));
   }
   return pg.listOffersForSeller(sellerKey);
+}
+
+export async function createForumThread(input: {
+  authorId: string;
+  category: 'events' | 'feedback' | 'support';
+  title: string;
+  body: string;
+}): Promise<local.LocalForumThread> {
+  return impl.createForumThread(input);
+}
+
+export async function listForumThreads(category?: string): Promise<local.LocalForumThread[]> {
+  return impl.listForumThreads(category);
+}
+
+export async function getForumThread(threadId: string): Promise<local.LocalForumThread | undefined> {
+  return impl.getForumThread(threadId);
+}
+
+export async function listForumReplies(threadId: string): Promise<local.LocalForumReply[]> {
+  return impl.listForumReplies(threadId);
+}
+
+export async function createForumReply(input: { threadId: string; authorId: string; body: string }): Promise<local.LocalForumReply | undefined> {
+  return impl.createForumReply(input);
 }

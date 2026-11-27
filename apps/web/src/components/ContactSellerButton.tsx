@@ -54,14 +54,17 @@ export function ContactSellerButton({ countryCode, listingId, loggedIn, isOwner 
     return (
       <div className="mt-6">
         <p role="alert" className="rounded-lg bg-amber-50 p-3 text-sm text-amber-800 dark:bg-amber-950/40 dark:text-amber-200">{t('walletRequired')}</p>
-        <LinkButton href="/account" variant="secondary" className="mt-3 w-full">{t('connectWallet')}</LinkButton>
+        <LinkButton href="/account#wallet" variant="secondary" className="mt-3 w-full">{t('connectWallet')}</LinkButton>
       </div>
     );
   }
 
   if (blocked === 'balance') {
     return (
-      <p role="alert" className="mt-6 rounded-lg bg-rose-50 p-3 text-sm text-rose-800 dark:bg-rose-950/40 dark:text-rose-200">{t('insufficientBalance')}</p>
+      <div className="mt-6">
+        <p role="alert" className="rounded-lg bg-rose-50 p-3 text-sm text-rose-800 dark:bg-rose-950/40 dark:text-rose-200">{t('insufficientBalance')}</p>
+        <LinkButton href="/account#wallet" variant="secondary" className="mt-3 w-full">{t('switchWallet')}</LinkButton>
+      </div>
     );
   }
 }

@@ -82,6 +82,23 @@ export interface LocalOffer {
   createdAt: string;
 }
 
+export interface LocalForumThread {
+  id: string;
+  authorId: string;
+  category: 'events' | 'feedback' | 'support';
+  title: string;
+  body: string;
+  createdAt: string;
+}
+
+export interface LocalForumReply {
+  id: string;
+  threadId: string;
+  authorId: string;
+  body: string;
+  createdAt: string;
+}
+
 export interface SellerStats {
   count: number;
   average: number;
@@ -95,9 +112,11 @@ interface StoreShape {
   orders: LocalOrder[];
   ratings: LocalRating[];
   offers: LocalOffer[];
+  forumThreads: LocalForumThread[];
+  forumReplies: LocalForumReply[];
 }
 
-const empty: StoreShape = { users: [], sessions: [], threads: [], messages: [], orders: [], ratings: [], offers: [] };
+const empty: StoreShape = { users: [], sessions: [], threads: [], messages: [], orders: [], ratings: [], offers: [], forumThreads: [], forumReplies: [] };
 const store: StoreShape = structuredClone(empty);
 
 const dataDir = process.env.LOCAL_DATA_DIR ?? path.join(process.cwd(), '.opencaribe');
@@ -406,6 +425,8 @@ export function resetStoreForTests(): void {
   store.orders = [];
   store.ratings = [];
   store.offers = [];
+  store.forumThreads = [];
+  store.forumReplies = [];
   loaded = true;
 }
 
@@ -458,6 +479,59 @@ export async function cancelOffer(offerId: string, buyerId: string): Promise<Loc
   offer.status = 'cancelled';
   await persist();
   return offer;
+}
+
+export async function createForumThread(input: {
+  authorId: string;
+  category: 'events' | 'feedback' | 'support';
+  title: string;
+  body: string;
+}): Promise<LocalForumThread> {
+  await ensureLoaded();
+  const thread: LocalForumThread = {
+    id: id('fthread'),
+    authorId: input.authorId,
+    category: input.category,
+    title: input.title.trim().slice(0, 200),
+    body: input.body.trim().slice(0, 4000),
+    createdAt: new Date().toISOString(),
+  };
+  store.forumThreads.push(thread);
+  await persist();
+  return thread;
+}
+
+export async function listForumThreads(category?: string): Promise<LocalForumThread[]> {
+  await ensureLoaded();
+  return store.forumThreads
+    .filter((thread) => !category || thread.category === category)
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+}
+
+export async function getForumThread(threadId: string): Promise<LocalForumThread | undefined> {
+  await ensureLoaded();
+  return store.forumThreads.find((thread) => thread.id === threadId);
+}
+
+export async function listForumReplies(threadId: string): Promise<LocalForumReply[]> {
+  await ensureLoaded();
+  return store.forumReplies.filter((reply) => reply.threadId === threadId).sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+}
+
+export async function createForumReply(input: { threadId: string; authorId: string; body: string }): Promise<LocalForumReply | undefined> {
+  await ensureLoaded();
+  const thread = store.forumThreads.find((entry) => entry.id === input.threadId);
+  if (!thread) return undefined;
+  const reply: LocalForumReply = {
+    id: id('freply'),
+    threadId: input.threadId,
+    authorId: input.authorId,
+    body: input.body.trim().slice(0, 4000),
+    createdAt: new Date().toISOString(),
+  };
+  store.forumReplies.push(reply);
+  await persist();
+  return reply;
 }
 
 export async function listOffers(): Promise<LocalOffer[]> {

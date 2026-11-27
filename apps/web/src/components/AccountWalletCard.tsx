@@ -39,11 +39,9 @@ export function AccountWalletCard({ linkedAddress }: { linkedAddress?: string })
             <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{t("walletConnectHint")}</p>
           )}
         </div>
-        {!linkedAddress && (
-          <Button type="button" onClick={connect} disabled={busy}>
-            {busy ? "…" : t("walletConnect")}
-          </Button>
-        )}
+        <Button type="button" onClick={connect} disabled={busy} variant={linkedAddress ? "secondary" : "primary"}>
+          {busy ? "…" : linkedAddress ? t("walletSwitch") : t("walletConnect")}
+        </Button>
       </div>
       {error && <p role="alert" className="mt-3 text-sm text-rose-700 dark:text-rose-300">{error}</p>}
     </Card>

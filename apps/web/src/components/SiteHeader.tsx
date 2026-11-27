@@ -50,13 +50,19 @@ export function SiteHeader({ userName, userRole }: Props) {
         <nav className="order-3 w-full sm:order-none sm:ml-auto sm:w-auto" aria-label="Primary">
           <ul className="flex flex-wrap items-center gap-1 text-sm font-medium">
             <li><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href="/news">{nav('news')}</Link></li>
-            <li><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href={`${base}/search`}>{nav('browse')}</Link></li>
+            <li><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href={scoped("/search")}>{nav('browse')}</Link></li>
             <li><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href={scoped("/post")}>{nav('post')}</Link></li>
             {(userRole === 'admin' || userRole === 'moderator') && (
               <li><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href="/admin">{nav('admin')}</Link></li>
             )}
             <li className="hidden md:block"><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href={scoped("/favorites")}>{nav('favorites')}</Link></li>
             <li className="hidden md:block"><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href={scoped("/messages")}>{nav('messages')}</Link></li>
+            {userName && (
+              <li><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href="/community">{nav('community')}</Link></li>
+            )}
+            {!userName && (
+              <li><a href="https://adena.app/" target="_blank" rel="noreferrer" className="rounded-lg px-3 py-2 text-teal-700 transition-colors hover:bg-teal-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:text-teal-300 dark:hover:bg-teal-950/40">{nav('freeWallet')} ↗</a></li>
+            )}
             {userName ? (
               <li><LinkButton href="/account" size="sm" className="px-3 py-2">{nav('account')}</LinkButton></li>
             ) : (
