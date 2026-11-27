@@ -35,6 +35,11 @@ export function PostListingWizard({ countryCode, locale, signedIn, categories, r
   const [price, setPrice] = useState('0');
   const [currency, setCurrency] = useState(currencies[0] ?? 'TTD');
   const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [subcategoryId, setSubcategoryId] = useState(categories[0]?.subcategories[0]?.id ?? '');
+  const [regionId, setRegionId] = useState(regions[0]?.id ?? '');
+  const [cityId, setCityId] = useState('');
+  const [priceType, setPriceType] = useState('fixed');
   const [wallet, setWallet] = useState<WalletAccount | null>(null);
   const [state, formAction, pending] = useActionState(submitListing, initialState);
   const selectedCategory = categories.find((c) => c.id === categoryId);
@@ -91,7 +96,16 @@ export function PostListingWizard({ countryCode, locale, signedIn, categories, r
         <section hidden={step !== 1} className="grid gap-4">
           <div>
             <Label htmlFor="categoryId">{t('categoryLabel')}</Label>
-            <Select id="categoryId" name="categoryId" value={categoryId} onChange={(e) => setCategoryId(e.target.value)}
+            <Select
+              id="categoryId"
+              name="categoryId"
+              value={categoryId}
+              onChange={(e) => {
+                const next = e.target.value;
+                setCategoryId(next);
+                const nextCategory = categories.find((category) => category.id === next);
+                setSubcategoryId(nextCategory?.subcategories[0]?.id ?? '');
+              }}
               aria-invalid={Boolean(fieldError('categoryId'))} className={fieldError('categoryId') ? invalidBorder : undefined}>
               {categories.map((category) => <option key={category.id} value={category.id}>{category.names[locale]}</option>)}
             </Select>
@@ -99,7 +113,7 @@ export function PostListingWizard({ countryCode, locale, signedIn, categories, r
           </div>
           <div>
             <Label htmlFor="subcategoryId">{t('step1')}</Label>
-            <Select id="subcategoryId" name="subcategoryId" defaultValue={selectedCategory?.subcategories[0]?.id ?? ''}
+            <Select id="subcategoryId" name="subcategoryId" value={subcategoryId} onChange={(e) => setSubcategoryId(e.target.value)}
               aria-invalid={Boolean(fieldError('subcategoryId'))} className={fieldError('subcategoryId') ? invalidBorder : undefined}>
               {(selectedCategory?.subcategories ?? []).map((subcategory) => <option key={subcategory.id} value={subcategory.id}>{subcategory.names[locale]}</option>)}
             </Select>
@@ -107,7 +121,7 @@ export function PostListingWizard({ countryCode, locale, signedIn, categories, r
           </div>
           <div>
             <Label htmlFor="regionId">{t('regionLabel')}</Label>
-            <Select id="regionId" name="regionId" defaultValue={regions[0]?.id ?? ''}
+            <Select id="regionId" name="regionId" value={regionId} onChange={(e) => setRegionId(e.target.value)}
               aria-invalid={Boolean(fieldError('regionId'))} className={fieldError('regionId') ? invalidBorder : undefined}>
               {regions.map((region) => <option key={region.id} value={region.id}>{region.names[locale]}</option>)}
             </Select>
@@ -115,7 +129,7 @@ export function PostListingWizard({ countryCode, locale, signedIn, categories, r
           </div>
           <div>
             <Label htmlFor="cityId">{t('cityLabel')}</Label>
-            <Input id="cityId" name="cityId" defaultValue="" placeholder="Optional" />
+            <Input id="cityId" name="cityId" value={cityId} onChange={(e) => setCityId(e.target.value)} placeholder="Optional" />
           </div>
         </section>
 
@@ -128,7 +142,8 @@ export function PostListingWizard({ countryCode, locale, signedIn, categories, r
           </div>
           <div>
             <Label htmlFor="description">{t('descriptionLabel')}</Label>
-            <Textarea id="description" name="description" minLength={20} maxLength={5000} required
+            <Textarea id="description" name="description" value={description} onChange={(e) => setDescription(e.target.value)}
+              minLength={20} maxLength={5000} required
               aria-invalid={Boolean(fieldError('description'))} className={fieldError('description') ? invalidBorder : undefined} />
             {fieldError('description') && <p role="alert" className="mt-1.5 text-xs text-rose-600 dark:text-rose-400">{fieldError('description')}</p>}
           </div>
@@ -153,7 +168,7 @@ export function PostListingWizard({ countryCode, locale, signedIn, categories, r
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <Label htmlFor="priceType">{t('priceTypeLabel')}</Label>
-              <Select id="priceType" name="priceType" defaultValue="fixed">
+              <Select id="priceType" name="priceType" value={priceType} onChange={(e) => setPriceType(e.target.value)}>
                 <option value="fixed">Fixed</option>
                 <option value="negotiable">Negotiable</option>
                 <option value="free">Free</option>
