@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import { COUNTRIES } from '@opencaribe/configuration';
 import { SiteHeader } from '@/components/SiteHeader';
+import { getCurrentUser } from '@/lib/session';
 import { SiteFooter } from '@/components/SiteFooter';
 import './globals.css';
 
@@ -28,6 +29,7 @@ const themeScript = `try{var t=localStorage.getItem('opencaribe-theme');if(t==='
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const locale = await getLocale();
   const messages = await getMessages();
+  const viewer = await getCurrentUser();
   const walletConnect = COUNTRIES.TT.cryptoPayments.walletConnect;
 
   return (
@@ -45,7 +47,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       <body className="min-h-screen">
         <NextIntlClientProvider locale={locale} messages={messages}>
           <div className="flex min-h-screen flex-col">
-            <SiteHeader />
+            <SiteHeader userName={viewer?.name ?? null} />
             <main className="flex-1">{children}</main>
             <SiteFooter />
           </div>

@@ -6,6 +6,7 @@ import { findLocationLabel } from '@opencaribe/geography';
 import { notFound } from 'next/navigation';
 import { Badge, Card, Container } from '@opencaribe/ui';
 import { ContactSellerButton } from '@/components/ContactSellerButton';
+import { LinkButton } from '@/components/LinkButton';
 import { WalletPayButton } from '@/components/WalletPayButton';
 import { getCurrentUser } from '@/lib/session';
 import { getSellerStats, getUserById } from '@/lib/store';
@@ -117,6 +118,11 @@ export default async function ListingPage({ params }: { params: Promise<{ countr
                 )}
               </p>
             </div>
+            {viewer?.id === sellerKey && (
+              <LinkButton href={`/${code.toLowerCase()}/account`} variant="secondary" className="mt-4 w-full">
+                {t('dashboard.title')}
+              </LinkButton>
+            )}
             <ContactSellerButton countryCode={code} listingId={listing.id} loggedIn={Boolean(viewer)} isOwner={viewer?.id === sellerKey} />
             <RateSellerForm sellerKey={listing.sellerId} listingId={listing.id} loggedIn={Boolean(viewer)} isOwner={viewer?.id === sellerKey} />
             {canPayCrypto && sellerWallet && (
