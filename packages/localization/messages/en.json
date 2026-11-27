@@ -206,6 +206,8 @@
     "approve": "Approve",
     "reject": "Reject",
     "noPending": "The moderation queue is empty.",
+    "analytics": "Site analytics",
+    "analyticsTotal": "Total views: {count}",
     "queue": "Moderation queue",
     "reports": "Open reports",
     "roles": "Roles and permissions",

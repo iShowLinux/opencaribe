@@ -10,6 +10,7 @@ import {
   primaryKey,
   text,
   timestamp,
+  varchar,
   uniqueIndex,
   uuid,
 } from 'drizzle-orm/pg-core';
@@ -226,3 +227,15 @@ export type NewListing = typeof listings.$inferInsert;
 export type Category = typeof categories.$inferSelect;
 
 export type SellerRating = typeof sellerRatings.$inferSelect;
+
+export const pageViews = pgTable('page_views', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  path: text('path').notNull(),
+  country: varchar('country', { length: 2 }),
+  referrer: text('referrer'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+}, (table) => [
+  index('page_views_created_idx').on(table.createdAt),
+]);
+
+export type PageView = typeof pageViews.$inferSelect;

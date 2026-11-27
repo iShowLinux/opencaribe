@@ -1,6 +1,7 @@
 import { Badge, Card, Container, SectionTitle } from '@opencaribe/ui';
 import { getCurrentUser } from '@/lib/session';
 import { listListingsByStatus } from '@/lib/listings-store';
+import { getPageViewStats } from '@/lib/stats';
 import { moderateListing } from '@/app/moderation-actions';
 import { LinkButton } from '@/components/LinkButton';
 import { getT } from '@/lib/t';
@@ -10,6 +11,7 @@ export default async function AdminPage() {
   const user = await getCurrentUser();
   const allowed = Boolean(user && (user.role === 'admin' || user.role === 'moderator'));
   const pending = allowed ? await listListingsByStatus('pending_review') : [];
+  const stats = allowed ? await getPageViewStats() : null;
 
   return (
     <Container className="max-w-4xl py-12">
@@ -38,6 +40,23 @@ export default async function AdminPage() {
             <Card className="p-6">
               <SectionTitle className="text-lg">{t('admin.roles')}</SectionTitle>
               <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">{user?.email}</p>
+            </Card>
+            <Card className="p-6 sm:col-span-2">
+              <SectionTitle className="text-lg">{t('admin.analytics')}</SectionTitle>
+              <p className="mt-2 text-3xl font-black text-teal-700 dark:text-teal-300">
+                {stats?.last7Days ?? 0} <span className="text-base font-medium text-slate-500">/ 7 days</span>
+              </p>
+              <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{t('admin.analyticsTotal', { count: stats?.total ?? 0 })}</p>
+              {stats && stats.topPaths.length > 0 && (
+                <ul className="mt-3 space-y-1 text-xs text-slate-600 dark:text-slate-400">
+                  {stats.topPaths.map((row) => (
+                    <li key={row.path} className="flex justify-between gap-4">
+                      <span className="truncate">{row.path}</span>
+                      <span className="font-semibold">{row.count}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </Card>
           </div>
 

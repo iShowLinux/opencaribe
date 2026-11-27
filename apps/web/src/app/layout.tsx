@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { NextIntlClientProvider } from 'next-intl';
 import { Analytics } from '@vercel/analytics/next';
+import { StatsBeacon } from '@/components/StatsBeacon';
+import { CountryMemory } from '@/components/CountryMemory';
 import { getLocale, getMessages } from 'next-intl/server';
 import { COUNTRIES } from '@opencaribe/configuration';
 import { SiteHeader } from '@/components/SiteHeader';
@@ -54,6 +56,8 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           </div>
         </NextIntlClientProvider>
             <Analytics />
+      <StatsBeacon />
+      <CountryMemory />
     </body>
     </html>
   );

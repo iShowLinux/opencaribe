@@ -206,6 +206,8 @@
     "approve": "Aprobar",
     "reject": "Rechazar",
     "noPending": "La cola de moderación está vacía.",
+    "analytics": "Analítica del sitio",
+    "analyticsTotal": "Vistas totales: {count}",
     "queue": "Cola de moderación",
     "reports": "Reportes abiertos",
     "roles": "Roles y permisos",

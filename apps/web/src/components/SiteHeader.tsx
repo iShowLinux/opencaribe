@@ -22,6 +22,7 @@ export function SiteHeader({ userName, userRole }: Props) {
 
   const segments = pathname.split('/').filter(Boolean);
   const country = segments[0] && isCountryCode(segments[0]) ? segments[0] : '';
+  const scoped = (path: string) => (base ? `${base}${path}` : path);
   const base = country ? `/${country}` : '';
 
   return (
@@ -49,14 +50,14 @@ export function SiteHeader({ userName, userRole }: Props) {
           <ul className="flex flex-wrap items-center gap-1 text-sm font-medium">
             <li><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href="/news">{nav('news')}</Link></li>
             <li><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href={`${base}/search`}>{nav('browse')}</Link></li>
-            <li><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href={`${base}/post`}>{nav('post')}</Link></li>
+            <li><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href={scoped("/post")}>{nav('post')}</Link></li>
             {(userRole === 'admin' || userRole === 'moderator') && (
               <li><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href="/admin">{nav('admin')}</Link></li>
             )}
-            <li className="hidden md:block"><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href={`${base}/favorites`}>{nav('favorites')}</Link></li>
-            <li className="hidden md:block"><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href={`${base}/messages`}>{nav('messages')}</Link></li>
+            <li className="hidden md:block"><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href={scoped("/favorites")}>{nav('favorites')}</Link></li>
+            <li className="hidden md:block"><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href={scoped("/messages")}>{nav('messages')}</Link></li>
             {userName ? (
-              <li><LinkButton href={`${base}/account`} size="sm" className="px-3 py-2">{nav('account')}</LinkButton></li>
+              <li><LinkButton href="/account" size="sm" className="px-3 py-2">{nav('account')}</LinkButton></li>
             ) : (
               <>
                 <li><LinkButton href="/login" variant="secondary" size="sm" className="px-3 py-2">{nav('signIn')}</LinkButton></li>
