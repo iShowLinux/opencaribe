@@ -68,6 +68,7 @@ export const CURRENCIES: Record<CurrencyCode, CurrencyDefinition> = {
   AWG: { code: 'AWG', digits: 2, symbol: 'ƒ', name: { en: 'Aruban Florin', es: 'Florín arubeño' } },
   ANG: { code: 'ANG', digits: 2, symbol: 'ƒ', name: { en: 'Netherlands Antillean Guilder', es: 'Guilden antillano neerlandés' } },
   EUR: { code: 'EUR', digits: 2, symbol: '€', name: { en: 'Euro', es: 'Euro' } },
+  KYD: { code: 'KYD', digits: 2, symbol: 'CI$', name: { en: 'Cayman Islands Dollar', es: 'Dólar de las Islas Caimán' } },
 };
 
 export function getCurrency(code: CurrencyCode): CurrencyDefinition {

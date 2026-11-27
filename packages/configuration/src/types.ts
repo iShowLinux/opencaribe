@@ -21,7 +21,16 @@ export type CountryCode =
   | 'AW'
   | 'CW'
   | 'VI'
-  | 'VG';
+  | 'VG'
+  | 'KY'
+  | 'TC'
+  | 'MS'
+  | 'AI'
+  | 'SX'
+  | 'MQ'
+  | 'GP'
+  | 'GF'
+  | 'BQ';
 export type CurrencyCode =
   | 'TTD'
   | 'USD'
@@ -40,7 +49,8 @@ export type CurrencyCode =
   | 'SRD'
   | 'AWG'
   | 'ANG'
-  | 'EUR';
+  | 'EUR'
+  | 'KYD';
 export type LocalizedText = Record<Locale, string>;
 
 export interface CurrencyDefinition {

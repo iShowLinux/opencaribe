@@ -726,6 +726,133 @@ export const COUNTRIES: Record<CountryCode, CountryConfig> = {
   }),
 
 
+
+  KY: caribbeanMarket({
+    code: 'KY',
+    displayName: 'Cayman Islands',
+    supportedLanguages: ['en'],
+    defaultLocale: 'en',
+    defaultCurrency: 'KYD',
+    telephonePrefix: '+1-345',
+    timeZone: 'America/Cayman',
+    regions: [
+      { id: 'ky-grand-cayman', names: t('Grand Cayman', 'Grand Cayman'), cities: [
+        { id: 'ky-george-town', names: t('George Town', 'George Town'), approxLatitude: 19.2869, approxLongitude: -81.3674 },
+      ] },
+    ],
+  }),
+  TC: caribbeanMarket({
+    code: 'TC',
+    displayName: 'Turks and Caicos Islands',
+    supportedLanguages: ['en'],
+    defaultLocale: 'en',
+    defaultCurrency: 'USD',
+    telephonePrefix: '+1-649',
+    timeZone: 'America/Grand_Turk',
+    regions: [
+      { id: 'tc-providenciales', names: t('Providenciales', 'Providenciales'), cities: [
+        { id: 'tc-leeward', names: t('Leeward Settlement', 'Leeward Settlement'), approxLatitude: 21.7736, approxLongitude: -72.2684 },
+      ] },
+    ],
+  }),
+  MS: caribbeanMarket({
+    code: 'MS',
+    displayName: 'Montserrat',
+    supportedLanguages: ['en'],
+    defaultLocale: 'en',
+    defaultCurrency: 'XCD',
+    telephonePrefix: '+1-664',
+    timeZone: 'America/Montserrat',
+    regions: [
+      { id: 'ms-saint-peters', names: t('Saint Peters', 'Saint Peters'), cities: [
+        { id: 'ms-brades', names: t('Brades', 'Brades'), approxLatitude: 16.7425, approxLongitude: -62.1874 },
+      ] },
+    ],
+  }),
+  AI: caribbeanMarket({
+    code: 'AI',
+    displayName: 'Anguilla',
+    supportedLanguages: ['en'],
+    defaultLocale: 'en',
+    defaultCurrency: 'XCD',
+    telephonePrefix: '+1-264',
+    timeZone: 'America/Anguilla',
+    regions: [
+      { id: 'ai-the-valley', names: t('The Valley', 'The Valley'), cities: [
+        { id: 'ai-valley-town', names: t('The Valley', 'The Valley'), approxLatitude: 18.2148, approxLongitude: -63.0572 },
+      ] },
+    ],
+  }),
+  SX: caribbeanMarket({
+    code: 'SX',
+    displayName: 'Sint Maarten',
+    supportedLanguages: ['en'],
+    defaultLocale: 'en',
+    defaultCurrency: 'ANG',
+    telephonePrefix: '+1-721',
+    timeZone: 'America/Lower_Princes',
+    regions: [
+      { id: 'sx-philipsburg', names: t('Philipsburg', 'Philipsburg'), cities: [
+        { id: 'sx-philipsburg-city', names: t('Philipsburg', 'Philipsburg'), approxLatitude: 18.0296, approxLongitude: -63.0504 },
+      ] },
+    ],
+  }),
+  MQ: caribbeanMarket({
+    code: 'MQ',
+    displayName: 'Martinique',
+    supportedLanguages: ['en'],
+    defaultLocale: 'en',
+    defaultCurrency: 'EUR',
+    telephonePrefix: '+596',
+    timeZone: 'America/Martinique',
+    regions: [
+      { id: 'mq-fort-de-france', names: t('Fort-de-France', 'Fort-de-France'), cities: [
+        { id: 'mq-fort-de-france-city', names: t('Fort-de-France', 'Fort-de-France'), approxLatitude: 14.6161, approxLongitude: -61.0588 },
+      ] },
+    ],
+  }),
+  GP: caribbeanMarket({
+    code: 'GP',
+    displayName: 'Guadeloupe',
+    supportedLanguages: ['en'],
+    defaultLocale: 'en',
+    defaultCurrency: 'EUR',
+    telephonePrefix: '+590',
+    timeZone: 'America/Guadeloupe',
+    regions: [
+      { id: 'gp-basse-terre', names: t('Basse-Terre', 'Basse-Terre'), cities: [
+        { id: 'gp-pointe-a-pitre', names: t('Pointe-à-Pitre', 'Pointe-à-Pitre'), approxLatitude: 16.265, approxLongitude: -61.551 },
+      ] },
+    ],
+  }),
+  GF: caribbeanMarket({
+    code: 'GF',
+    displayName: 'French Guiana',
+    supportedLanguages: ['en'],
+    defaultLocale: 'en',
+    defaultCurrency: 'EUR',
+    telephonePrefix: '+594',
+    timeZone: 'America/Cayenne',
+    regions: [
+      { id: 'gf-cayenne', names: t('Cayenne', 'Cayenne'), cities: [
+        { id: 'gf-cayenne-city', names: t('Cayenne', 'Cayenne'), approxLatitude: 4.9372, approxLongitude: -52.326 },
+      ] },
+    ],
+  }),
+  BQ: caribbeanMarket({
+    code: 'BQ',
+    displayName: 'Bonaire',
+    supportedLanguages: ['en'],
+    defaultLocale: 'en',
+    defaultCurrency: 'USD',
+    telephonePrefix: '+599',
+    timeZone: 'America/Kralendijk',
+    regions: [
+      { id: 'bq-kralendijk', names: t('Kralendijk', 'Kralendijk'), cities: [
+        { id: 'bq-kralendijk-city', names: t('Kralendijk', 'Kralendijk'), approxLatitude: 12.1443, approxLongitude: -68.2657 },
+      ] },
+    ],
+  }),
 };
 
 /** Compact builder for Caribbean markets sharing the platform policy blocks. */
