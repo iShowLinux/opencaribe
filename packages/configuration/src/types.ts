@@ -1,6 +1,46 @@
 export type Locale = 'en' | 'es';
-export type CountryCode = 'TT' | 'VE' | 'JM' | 'BB' | 'GY';
-export type CurrencyCode = 'TTD' | 'USD' | 'VES' | 'VED' | 'GNOT' | 'JMD' | 'BBD' | 'GYD';
+export type CountryCode =
+  | 'TT'
+  | 'VE'
+  | 'JM'
+  | 'BB'
+  | 'GY'
+  | 'BS'
+  | 'DO'
+  | 'HT'
+  | 'PR'
+  | 'CU'
+  | 'BZ'
+  | 'AG'
+  | 'LC'
+  | 'GD'
+  | 'DM'
+  | 'VC'
+  | 'KN'
+  | 'SR'
+  | 'AW'
+  | 'CW'
+  | 'VI'
+  | 'VG';
+export type CurrencyCode =
+  | 'TTD'
+  | 'USD'
+  | 'VED'
+  | 'VES'
+  | 'GNOT'
+  | 'JMD'
+  | 'BBD'
+  | 'GYD'
+  | 'BSD'
+  | 'DOP'
+  | 'HTG'
+  | 'CUP'
+  | 'BZD'
+  | 'XCD'
+  | 'SRD'
+  | 'AWG'
+  | 'ANG'
+  | 'EUR';
 export type LocalizedText = Record<Locale, string>;
 
 export interface CurrencyDefinition {

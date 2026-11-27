@@ -58,6 +58,16 @@ export const CURRENCIES: Record<CurrencyCode, CurrencyDefinition> = {
     symbol: 'G$',
     name: { en: 'Guyanese Dollar', es: 'Dólar guyanés' },
   },
+  BSD: { code: 'BSD', digits: 2, symbol: 'B$', name: { en: 'Bahamian Dollar', es: 'Dólar bahameño' } },
+  DOP: { code: 'DOP', digits: 2, symbol: 'RD$', name: { en: 'Dominican Peso', es: 'Peso dominicano' } },
+  HTG: { code: 'HTG', digits: 2, symbol: 'G', name: { en: 'Haitian Gourde', es: 'Gourde haitiano' } },
+  CUP: { code: 'CUP', digits: 2, symbol: '$MN', name: { en: 'Cuban Peso', es: 'Peso cubano' } },
+  BZD: { code: 'BZD', digits: 2, symbol: 'BZ$', name: { en: 'Belize Dollar', es: 'Dólar beliceño' } },
+  XCD: { code: 'XCD', digits: 2, symbol: 'EC$', name: { en: 'East Caribbean Dollar', es: 'Dólar del Caribe Oriental' } },
+  SRD: { code: 'SRD', digits: 2, symbol: 'Sr$', name: { en: 'Surinamese Dollar', es: 'Dólar surinamés' } },
+  AWG: { code: 'AWG', digits: 2, symbol: 'ƒ', name: { en: 'Aruban Florin', es: 'Florín arubeño' } },
+  ANG: { code: 'ANG', digits: 2, symbol: 'ƒ', name: { en: 'Netherlands Antillean Guilder', es: 'Guilden antillano neerlandés' } },
+  EUR: { code: 'EUR', digits: 2, symbol: '€', name: { en: 'Euro', es: 'Euro' } },
 };
 
 export function getCurrency(code: CurrencyCode): CurrencyDefinition {

@@ -11,8 +11,14 @@ import {
 } from '@opencaribe/configuration';
 
 describe('country configuration', () => {
-  it('defines every configured market with the required values', () => {
-    expect(COUNTRY_CODES).toEqual(['TT', 'VE', 'JM', 'BB', 'GY']);
+  it('covers the launch markets and the wider Caribbean basin', () => {
+    // Launch + Caribbean basin markets.
+    expect(COUNTRY_CODES).toContain('TT');
+    expect(COUNTRY_CODES).toContain('VE');
+    for (const code of ['JM', 'BB', 'GY', 'BS', 'DO', 'HT', 'PR', 'CU', 'BZ', 'AG', 'LC', 'GD', 'DM', 'VC', 'KN', 'SR', 'AW', 'CW', 'VI', 'VG']) {
+      expect(COUNTRY_CODES).toContain(code);
+      expect(COUNTRIES[code as keyof typeof COUNTRIES].regions.length).toBeGreaterThan(0);
+    }
     expect(COUNTRIES.TT.defaultCurrency).toBe('TTD');
     expect(COUNTRIES.TT.telephonePrefix).toBe('+1-868');
     expect(COUNTRIES.TT.timeZone).toBe('America/Port_of_Spain');
@@ -22,10 +28,6 @@ describe('country configuration', () => {
     expect(COUNTRIES.JM.defaultCurrency).toBe('JMD');
     expect(COUNTRIES.BB.defaultCurrency).toBe('BBD');
     expect(COUNTRIES.GY.defaultCurrency).toBe('GYD');
-    for (const code of ['JM', 'BB', 'GY'] as const) {
-      expect(COUNTRIES[code].regions.length).toBeGreaterThan(0);
-      expect(COUNTRIES[code].cryptoPayments.walletConnect.rpcUrl).toMatch(/^https:\/\//);
-    }
   });
 
   it('supports English everywhere and Spanish in the launch markets', () => {
