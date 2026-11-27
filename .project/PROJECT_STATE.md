@@ -30,7 +30,7 @@ Public GitHub repository: https://github.com/iShowLinux/opencaribe (branch `main
 | Gno wallet connect (P1) | Done (read-only) | Adena client island; address/balance/network on `/payments`; chain-mismatch warning; settlement still disabled |
 | Wallet posting | Done (demo) | Register-free posting when Adena is connected: server validates gno address, 5/day limit, honeypot; account/wallet posts publish instantly, anonymous go to review | 
 | Messaging | Done (Postgres + demo) | Per-listing threads, inbox, replies, unread marking via `message_threads`/`thread_participants`/`messages` | 
-| Profiles / dashboard / ratings | Done | Public seller profiles (`/[country]/u/[userId]`), account dashboard (`/[country]/account`), 1–5 star reviews persisted in `seller_ratings` with one review per reviewer per seller | 
+| Profiles / dashboard / ratings | Done (live) | Public seller profiles (`/[country]/u/[userId]`), account dashboard (`/[country]/account`, linked as **My account** in the header when signed in), 1–5 star reviews persisted in `seller_ratings` with one review per reviewer per seller; owners see a dashboard shortcut on their listings and never see the rate form on their own ads | 
 | Testnet crypto checkout | Done (send-only) | Listing page pays a seller wallet via Adena `/bank.MsgSend`; tx hash stored in `payment_orders` and shown on `/payments` | 
 | News / IPTV player | Done (curated) | hls.js player + catalog (`apps/web/src/lib/channels.ts`); 11 channels verified playing in Chromium; TTT/CNC3/teleSUR kept as disabled with recorded reasons |
 | i18n | Done | en/es catalogues, cookie switcher; key-parity test passes |
