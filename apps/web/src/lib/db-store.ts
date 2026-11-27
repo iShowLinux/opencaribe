@@ -1,7 +1,7 @@
 import { randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
 import { and, asc, desc, eq, inArray, isNull, ne } from 'drizzle-orm';
 import { getDb, schema } from '@opencaribe/database';
-import type { LocalMessage, LocalOrder, LocalThread, LocalUser } from './local-store';
+import type { LocalMessage, LocalOrder, LocalRating, LocalThread, LocalUser, SellerStats } from './local-store';
 
 /**
  * PostgreSQL implementation of the demo store API. Used when DATABASE_URL is
@@ -340,4 +340,63 @@ export async function listOrders(): Promise<LocalOrder[]> {
     status: row.status === 'pending' ? 'pending' : 'confirmed',
     createdAt: row.createdAt.toISOString(),
   }));
+}
+
+function toLocalRating(row: typeof schema.sellerRatings.$inferSelect): LocalRating {
+  return {
+    id: row.id,
+    sellerId: row.sellerId,
+    reviewerId: row.reviewerId,
+    listingId: row.listingId ?? undefined,
+    score: row.score,
+    comment: row.comment ?? undefined,
+    createdAt: row.createdAt.toISOString(),
+  };
+}
+
+export async function rateSeller(input: {
+  sellerId: string;
+  reviewerId: string;
+  listingId?: string;
+  score: number;
+  comment?: string;
+}): Promise<LocalRating | undefined> {
+  const sellerIdentity = input.sellerId.startsWith('user:') ? input.sellerId.slice(5) : input.sellerId;
+  if (sellerIdentity === input.reviewerId) return undefined;
+  await ensureSellerUser(input.sellerId);
+  const score = Math.round(input.score);
+  if (!Number.isFinite(score) || score < 1 || score > 5) return undefined;
+  const comment = input.comment?.trim().slice(0, 1000) || undefined;
+
+  const [row] = await getDb()
+    .insert(schema.sellerRatings)
+    .values({
+      sellerId: input.sellerId,
+      reviewerId: input.reviewerId,
+      listingId: input.listingId ?? null,
+      score,
+      comment,
+    })
+    .onConflictDoUpdate({
+      target: [schema.sellerRatings.sellerId, schema.sellerRatings.reviewerId],
+      set: { score, comment, listingId: input.listingId ?? null },
+    })
+    .returning();
+  return row ? toLocalRating(row) : undefined;
+}
+
+export async function listRatingsForSeller(sellerId: string): Promise<LocalRating[]> {
+  const rows = await getDb()
+    .select()
+    .from(schema.sellerRatings)
+    .where(eq(schema.sellerRatings.sellerId, sellerId))
+    .orderBy(desc(schema.sellerRatings.createdAt));
+  return rows.map(toLocalRating);
+}
+
+export async function getSellerStats(sellerId: string): Promise<SellerStats> {
+  const ratings = await listRatingsForSeller(sellerId);
+  if (ratings.length === 0) return { count: 0, average: 0 };
+  const total = ratings.reduce((sum, rating) => sum + rating.score, 0);
+  return { count: ratings.length, average: Math.round((total / ratings.length) * 100) / 100 };
 }

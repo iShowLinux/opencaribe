@@ -9,7 +9,7 @@ import * as pg from './db-store';
 const impl = (isDatabaseConfigured() ? pg : local) as typeof local;
 
 export const SESSION_COOKIE = local.SESSION_COOKIE;
-export type { LocalUser, LocalSession, LocalThread, LocalMessage, LocalOrder } from './local-store';
+export type { LocalUser, LocalSession, LocalThread, LocalMessage, LocalOrder, LocalRating, SellerStats } from './local-store';
 
 export async function findUserByEmail(email: string): Promise<local.LocalUser | undefined> {
   return impl.findUserByEmail(email);
@@ -91,4 +91,22 @@ export async function createOrder(input: {
 
 export async function listOrders(): Promise<local.LocalOrder[]> {
   return impl.listOrders();
+}
+
+export async function rateSeller(input: {
+  sellerId: string;
+  reviewerId: string;
+  listingId?: string;
+  score: number;
+  comment?: string;
+}): Promise<local.LocalRating | undefined> {
+  return impl.rateSeller(input);
+}
+
+export async function listRatingsForSeller(sellerId: string): Promise<local.LocalRating[]> {
+  return impl.listRatingsForSeller(sellerId);
+}
+
+export async function getSellerStats(sellerId: string): Promise<local.SellerStats> {
+  return impl.getSellerStats(sellerId);
 }

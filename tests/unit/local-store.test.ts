@@ -8,6 +8,9 @@ import {
   getUserBySession,
   listMessages,
   listOrders,
+  rateSeller,
+  getSellerStats,
+  listRatingsForSeller,
   listThreadsForUser,
   openThread,
   resetStoreForTests,
@@ -61,6 +64,21 @@ describe('local account store (demo mode)', () => {
     const messages = await listMessages(first.id);
     expect(messages.map((message) => message.body)).toEqual(['Is this still available?', 'Yes, it is.']);
     expect(messages[0].read).toBe(false);
+  });
+
+  it('rates sellers once per reviewer and averages scores', async () => {
+    const seller = await createUser({ name: 'Rated', email: 'rated@example.com', password: 'seller-password' });
+    const buyer = await createUser({ name: 'Reviewer', email: 'reviewer@example.com', password: 'buyer-password' });
+
+    await expect(rateSeller({ sellerId: `user:${buyer.id}`, reviewerId: buyer.id, score: 5 })).resolves.toBeUndefined();
+    await expect(rateSeller({ sellerId: `user:${seller.id}`, reviewerId: buyer.id, score: 4, comment: 'Good' })).resolves.toBeDefined();
+    await rateSeller({ sellerId: `user:${seller.id}`, reviewerId: buyer.id, score: 2 });
+    await rateSeller({ sellerId: `user:${seller.id}`, reviewerId: (await createUser({ name: 'Two', email: 'two@example.com', password: 'buyer-password' })).id, score: 5 });
+
+    const stats = await getSellerStats(`user:${seller.id}`);
+    expect(stats.count).toBe(2);
+    expect(stats.average).toBe(3.5);
+    expect(await listRatingsForSeller(`user:${seller.id}`)).toHaveLength(2);
   });
 
   it('records orders newest-first', async () => {

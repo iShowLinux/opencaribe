@@ -137,6 +137,42 @@
     "title": "Saved listings",
     "empty": "You have not saved any listings yet."
   },
+  "dashboard": {
+    "title": "My account",
+    "memberSince": "Member since {date}",
+    "wallet": "Wallet",
+    "noWallet": "No wallet connected yet",
+    "myListings": "My listings",
+    "noListings": "You have not posted anything yet.",
+    "status": "Status",
+    "viewListing": "View",
+    "reviewsTitle": "Reviews about you",
+    "noReviews": "No reviews yet.",
+    "average": "Average rating",
+    "signOut": "Sign out"
+  },
+  "profile": {
+    "title": "Seller profile",
+    "memberSince": "On OpenCaribe since {date}",
+    "wallet": "Wallet",
+    "listings": "Active listings",
+    "noListings": "This seller has no active listings right now.",
+    "reviews": "Reviews",
+    "noReviews": "No reviews yet.",
+    "average": "Average rating",
+    "ratingCount": "{count} review(s)"
+  },
+  "rating": {
+    "title": "Rate this seller",
+    "score": "Your rating",
+    "comment": "Comment (optional)",
+    "submit": "Submit review",
+    "thanks": "Thanks — your review was recorded.",
+    "error": "Could not save the review. Sign in and try again.",
+    "selfError": "You cannot rate your own listing.",
+    "loginRequired": "Sign in to rate this seller",
+    "outOfRange": "Choose a score between 1 and 5."
+  },
   "messages": {
     "title": "Messages",
     "empty": "Your conversations will appear here.",

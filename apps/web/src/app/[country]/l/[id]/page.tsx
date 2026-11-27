@@ -8,7 +8,8 @@ import { Badge, Card, Container } from '@opencaribe/ui';
 import { ContactSellerButton } from '@/components/ContactSellerButton';
 import { WalletPayButton } from '@/components/WalletPayButton';
 import { getCurrentUser } from '@/lib/session';
-import { getUserById } from '@/lib/store';
+import { getSellerStats, getUserById } from '@/lib/store';
+import { RateSellerForm } from '@/components/RateSellerForm';
 import { CryptoPaymentCard } from '@/components/CryptoPaymentCard';
 import { ReportForm } from '@/components/ReportForm';
 import { categoryImage } from '@/lib/images';
@@ -43,6 +44,11 @@ export default async function ListingPage({ params }: { params: Promise<{ countr
   const walletSellerAddress = listing.sellerId.startsWith('wallet:') ? listing.sellerId.slice(7) : undefined;
   const sellerWallet = listing.walletAddress ?? walletSellerAddress ?? sellerAccount?.walletAddress;
   const canPayCrypto = Boolean(sellerWallet) && crypto.walletConnect.enabled && ugnotAmount > 0 && listing.priceType !== 'free';
+  const sellerName = listing.sellerId.startsWith('user:')
+    ? (sellerAccount?.name ?? 'Marketplace seller')
+    : `${listing.sellerId.slice(7, 13)}…${listing.sellerId.slice(-4)}`;
+  const ratingStats = await getSellerStats(listing.sellerId);
+  const sellerProfileHref = listing.sellerId.startsWith('user:') ? `/${code.toLowerCase()}/u/${listing.sellerId.slice(5)}` : null;
 
   return (
     <Container className="py-10">
@@ -98,7 +104,21 @@ export default async function ListingPage({ params }: { params: Promise<{ countr
               <p className="text-sm font-semibold text-navy-900 dark:text-navy-50">{t('listing.location')}</p>
               <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{location || '—'}</p>
             </div>
+            <div className="mt-5 border-t border-slate-200 pt-5 dark:border-slate-800">
+              <p className="text-sm text-slate-600 dark:text-slate-400">{t('listing.seller')}</p>
+              <p className="mt-1 flex flex-wrap items-center gap-2 text-sm font-semibold text-navy-900 dark:text-navy-50">
+                {sellerProfileHref ? (
+                  <a href={sellerProfileHref} className="hover:text-teal-700 hover:underline dark:hover:text-teal-300">{sellerName}</a>
+                ) : sellerName}
+                {ratingStats.count > 0 && (
+                  <span className="text-xs font-medium text-amber-700 dark:text-amber-300">
+                    ★ {ratingStats.average.toFixed(1)} ({ratingStats.count})
+                  </span>
+                )}
+              </p>
+            </div>
             <ContactSellerButton countryCode={code} listingId={listing.id} loggedIn={Boolean(viewer)} isOwner={viewer?.id === sellerKey} />
+            <RateSellerForm sellerKey={listing.sellerId} listingId={listing.id} loggedIn={Boolean(viewer)} isOwner={viewer?.id === sellerKey} />
             {canPayCrypto && sellerWallet && (
               <WalletPayButton
                 listingId={listing.id}

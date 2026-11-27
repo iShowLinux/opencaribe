@@ -208,6 +208,21 @@ export const paymentOrders = pgTable('payment_orders', {
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
 export type Listing = typeof listings.$inferSelect;
+export const sellerRatings = pgTable('seller_ratings', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  sellerId: text('seller_id').notNull().references(() => users.id),
+  reviewerId: text('reviewer_id').notNull().references(() => users.id),
+  listingId: uuid('listing_id').references(() => listings.id, { onDelete: 'set null' }),
+  score: integer('score').notNull(),
+  comment: text('comment'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+}, (table) => [
+  uniqueIndex('seller_ratings_seller_reviewer_idx').on(table.sellerId, table.reviewerId),
+  index('seller_ratings_seller_idx').on(table.sellerId),
+]);
+
 export type PaymentOrder = typeof paymentOrders.$inferSelect;
 export type NewListing = typeof listings.$inferInsert;
 export type Category = typeof categories.$inferSelect;
+
+export type SellerRating = typeof sellerRatings.$inferSelect;

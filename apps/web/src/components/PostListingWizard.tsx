@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useActionState } from 'react';
 import { useTranslations } from 'next-intl';
 import { CURRENCIES, formatMoney, parseMoneyToMinor, type CurrencyCode, type Locale } from '@opencaribe/configuration';
@@ -47,26 +47,24 @@ export function PostListingWizard({ countryCode, locale, signedIn, categories, r
   const fieldError = (key: string): string | undefined => state.errors?.[key]?.[0];
   const invalidBorder = 'border-rose-500 focus-visible:ring-rose-500';
 
-  // Send the user back to the step that owns the first rejected field so the
-  // messages are visible instead of only showing a summary on the review step.
-  // Fires once per distinct error signature: re-running on the retry render
-  // would unmount the submit button mid-click and silently swallow the submit.
-  const lastErrorSignature = useRef('');
-  useEffect(() => {
-    // A new submission starts: allow its errors to navigate exactly once.
-    if (pending) lastErrorSignature.current = '';
-  }, [pending]);
-  useEffect(() => {
-    if (state.status !== 'error' || !state.errors) return;
-    const signature = Object.keys(state.errors).sort().join('|');
-    if (signature === lastErrorSignature.current) return;
-    lastErrorSignature.current = signature;
-    if (Object.keys(state.errors).some((key) => ['title', 'description', 'price', 'currency', 'priceType', 'condition'].includes(key))) {
-      setStep(2);
-    } else {
-      setStep(1);
-    }
-  }, [state.status, state.errors]);
+  // When a submission fails, surface the failing step immediately by deriving
+  // the visible step during render (no effect-based navigation).
+  const errorSignature =
+    state.status === 'error' && state.errors ? Object.keys(state.errors).sort().join('|') : '';
+  const [acknowledgedSignature, setAcknowledgedSignature] = useState('');
+  const effectiveStep =
+    errorSignature && errorSignature !== acknowledgedSignature
+      ? Object.keys(state.errors ?? {}).some((key) =>
+          ['title', 'description', 'price', 'currency', 'priceType', 'condition'].includes(key),
+        )
+        ? 2
+        : 1
+      : step;
+
+  function goTo(nextStep: number) {
+    setAcknowledgedSignature(errorSignature);
+    setStep(nextStep);
+  }
   const previewPrice = (() => {
     try {
       return formatMoney(parseMoneyToMinor(price || '0', safeCurrency), safeCurrency, locale);
@@ -87,13 +85,13 @@ export function PostListingWizard({ countryCode, locale, signedIn, categories, r
       <Card className="p-5 sm:p-6">
         <ol className="mb-6 flex flex-col gap-2 text-sm sm:flex-row">
           {[t('step1'), t('step2'), t('step3')].map((label, index) => (
-            <li key={label} className={`flex-1 rounded-lg px-3 py-2 text-center font-medium ${step === index + 1 ? 'bg-teal-700 text-white dark:bg-teal-500 dark:text-slate-950' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'}`}>
+            <li key={label} className={`flex-1 rounded-lg px-3 py-2 text-center font-medium ${effectiveStep === index + 1 ? 'bg-teal-700 text-white dark:bg-teal-500 dark:text-slate-950' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'}`}>
               {index + 1}. {label}
             </li>
           ))}
         </ol>
 
-        <section hidden={step !== 1} className="grid gap-4">
+        <section hidden={effectiveStep !== 1} className="grid gap-4">
           <div>
             <Label htmlFor="categoryId">{t('categoryLabel')}</Label>
             <Select
@@ -133,7 +131,7 @@ export function PostListingWizard({ countryCode, locale, signedIn, categories, r
           </div>
         </section>
 
-        <section hidden={step !== 2} className="grid gap-4">
+        <section hidden={effectiveStep !== 2} className="grid gap-4">
           <div>
             <Label htmlFor="title">{t('titleLabel')}</Label>
             <Input id="title" name="title" value={title} onChange={(e) => setTitle(e.target.value)} maxLength={100} required
@@ -208,7 +206,7 @@ export function PostListingWizard({ countryCode, locale, signedIn, categories, r
           </label>
         </section>
 
-        <section hidden={step !== 3} className="grid gap-3">
+        <section hidden={effectiveStep !== 3} className="grid gap-3">
           <p className="font-semibold text-navy-900 dark:text-navy-50">{title || '—'}</p>
           <p className="text-2xl font-bold text-teal-800 dark:text-teal-300">{previewPrice}</p>
           <Badge tone={wallet || signedIn ? 'success' : 'warning'}>{wallet || signedIn ? t('walletPublishes') : t('draftNote')}</Badge>
@@ -217,9 +215,9 @@ export function PostListingWizard({ countryCode, locale, signedIn, categories, r
         </section>
 
         <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-          {step > 1 && <Button variant="secondary" onClick={() => setStep(step - 1)}>{t('back')}</Button>}
-          {step < 3 && <Button className="sm:flex-1" onClick={() => setStep(step + 1)}>{t('next')}</Button>}
-          {step === 3 && (
+          {effectiveStep > 1 && <Button variant="secondary" onClick={() => goTo(effectiveStep - 1)}>{t('back')}</Button>}
+          {effectiveStep < 3 && <Button className="sm:flex-1" onClick={() => goTo(effectiveStep + 1)}>{t('next')}</Button>}
+          {effectiveStep === 3 && (
             <Button type="submit" className="sm:flex-1" disabled={pending}>
               {pending ? '…' : wallet ? t('walletPublish') : signedIn ? t('publish') : t('reviewSubmit')}
             </Button>

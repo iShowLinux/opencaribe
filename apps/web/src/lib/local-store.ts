@@ -59,15 +59,31 @@ export interface LocalOrder {
   createdAt: string;
 }
 
+export interface LocalRating {
+  id: string;
+  sellerId: string;
+  reviewerId: string;
+  listingId?: string;
+  score: number;
+  comment?: string;
+  createdAt: string;
+}
+
+export interface SellerStats {
+  count: number;
+  average: number;
+}
+
 interface StoreShape {
   users: LocalUser[];
   sessions: LocalSession[];
   threads: LocalThread[];
   messages: LocalMessage[];
   orders: LocalOrder[];
+  ratings: LocalRating[];
 }
 
-const empty: StoreShape = { users: [], sessions: [], threads: [], messages: [], orders: [] };
+const empty: StoreShape = { users: [], sessions: [], threads: [], messages: [], orders: [], ratings: [] };
 const store: StoreShape = structuredClone(empty);
 
 const dataDir = process.env.LOCAL_DATA_DIR ?? path.join(process.cwd(), '.opencaribe');
@@ -86,6 +102,7 @@ async function ensureLoaded(): Promise<void> {
     store.threads = Array.isArray(parsed.threads) ? parsed.threads : [];
     store.messages = Array.isArray(parsed.messages) ? parsed.messages : [];
     store.orders = Array.isArray(parsed.orders) ? parsed.orders : [];
+    store.ratings = Array.isArray(parsed.ratings) ? parsed.ratings : [];
   } catch {
     // Missing or unreadable file: start fresh.
   }
@@ -303,11 +320,65 @@ export async function listOrders(): Promise<LocalOrder[]> {
   return [...store.orders].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 }
 
+export async function rateSeller(input: {
+  sellerId: string;
+  reviewerId: string;
+  listingId?: string;
+  score: number;
+  comment?: string;
+}): Promise<LocalRating | undefined> {
+  await ensureLoaded();
+  const sellerIdentity = input.sellerId.startsWith('user:') ? input.sellerId.slice(5) : input.sellerId;
+  if (sellerIdentity === input.reviewerId) return undefined;
+  const score = Math.round(input.score);
+  if (!Number.isFinite(score) || score < 1 || score > 5) return undefined;
+  const comment = input.comment?.trim().slice(0, 1000) || undefined;
+
+  const existing = store.ratings.find(
+    (rating) => rating.sellerId === input.sellerId && rating.reviewerId === input.reviewerId,
+  );
+  if (existing) {
+    existing.score = score;
+    existing.comment = comment;
+    existing.listingId = input.listingId;
+    await persist();
+    return existing;
+  }
+
+  const rating: LocalRating = {
+    id: id('rating'),
+    sellerId: input.sellerId,
+    reviewerId: input.reviewerId,
+    listingId: input.listingId,
+    score,
+    comment,
+    createdAt: new Date().toISOString(),
+  };
+  store.ratings.push(rating);
+  await persist();
+  return rating;
+}
+
+export async function listRatingsForSeller(sellerId: string): Promise<LocalRating[]> {
+  await ensureLoaded();
+  return store.ratings
+    .filter((rating) => rating.sellerId === sellerId)
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+}
+
+export async function getSellerStats(sellerId: string): Promise<SellerStats> {
+  const ratings = await listRatingsForSeller(sellerId);
+  if (ratings.length === 0) return { count: 0, average: 0 };
+  const total = ratings.reduce((sum, rating) => sum + rating.score, 0);
+  return { count: ratings.length, average: Math.round((total / ratings.length) * 100) / 100 };
+}
+
 export function resetStoreForTests(): void {
   store.users = [];
   store.sessions = [];
   store.threads = [];
   store.messages = [];
   store.orders = [];
+  store.ratings = [];
   loaded = true;
 }

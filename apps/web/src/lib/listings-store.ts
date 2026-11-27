@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 import { getDb, isDatabaseConfigured, schema } from '@opencaribe/database';
 import { parseMoneyToMinor, type CurrencyCode } from '@opencaribe/configuration';
 import { ensureSellerUser } from './db-store';
@@ -147,4 +147,19 @@ export async function persistListing(input: DraftInput): Promise<PublicListing> 
     .returning();
   if (!row) throw new Error('LISTING_NOT_CREATED');
   return mapDbRow(row);
+}
+
+/** All listings owned by a seller key (used by the account dashboard). */
+export async function listListingsBySeller(sellerId: string): Promise<PublicListing[]> {
+  if (!isDatabaseConfigured()) {
+    return [...store.values()]
+      .filter((listing) => listing.sellerId === sellerId)
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  }
+  const rows = await getDb()
+    .select()
+    .from(schema.listings)
+    .where(eq(schema.listings.sellerId, sellerId))
+    .orderBy(desc(schema.listings.createdAt));
+  return rows.map(mapDbRow);
 }

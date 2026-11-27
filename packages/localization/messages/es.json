@@ -137,6 +137,42 @@
     "title": "Anuncios guardados",
     "empty": "Aún no has guardado anuncios."
   },
+  "dashboard": {
+    "title": "Mi cuenta",
+    "memberSince": "Miembro desde {date}",
+    "wallet": "Billetera",
+    "noWallet": "Aún no hay billetera conectada",
+    "myListings": "Mis anuncios",
+    "noListings": "Aún no has publicado nada.",
+    "status": "Estado",
+    "viewListing": "Ver",
+    "reviewsTitle": "Reseñas sobre ti",
+    "noReviews": "Aún no hay reseñas.",
+    "average": "Calificación promedio",
+    "signOut": "Cerrar sesión"
+  },
+  "profile": {
+    "title": "Perfil del vendedor",
+    "memberSince": "En OpenCaribe desde {date}",
+    "wallet": "Billetera",
+    "listings": "Anuncios activos",
+    "noListings": "Este vendedor no tiene anuncios activos ahora mismo.",
+    "reviews": "Reseñas",
+    "noReviews": "Aún no hay reseñas.",
+    "average": "Calificación promedio",
+    "ratingCount": "{count} reseña(s)"
+  },
+  "rating": {
+    "title": "Califica a este vendedor",
+    "score": "Tu calificación",
+    "comment": "Comentario (opcional)",
+    "submit": "Enviar reseña",
+    "thanks": "Gracias — tu reseña fue registrada.",
+    "error": "No se pudo guardar la reseña. Inicia sesión e inténtalo de nuevo.",
+    "selfError": "No puedes calificar tu propio anuncio.",
+    "loginRequired": "Inicia sesión para calificar a este vendedor",
+    "outOfRange": "Elige una puntuación entre 1 y 5."
+  },
   "messages": {
     "title": "Mensajes",
     "empty": "Tus conversaciones aparecerán aquí.",
