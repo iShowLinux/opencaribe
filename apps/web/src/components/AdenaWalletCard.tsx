@@ -1,6 +1,7 @@
 'use client';
 
 import { useSyncExternalStore, useState } from 'react';
+import { connectAdenaWallet } from '@/lib/wallet';
 import { useTranslations } from 'next-intl';
 import { formatMinorUnits, isExpectedNetwork, parseCoinString, shortAddress } from '@opencaribe/payments';
 import { Badge, Button, Card } from '@opencaribe/ui';
@@ -51,16 +52,11 @@ export function AdenaWalletCard(props: Props) {
     setBusy(true);
     setError('');
     try {
-      const established = await window.adena.AddEstablish('OpenCaribe');
-      if (established.status !== 'success') throw new Error(established.message || t('wallet.error'));
-      const response = await window.adena.GetAccount();
-      if (response.status !== 'success' || !response.data?.address) {
-        throw new Error(response.message || t('wallet.error'));
-      }
+      const connected = await connectAdenaWallet();
       setAccount({
-        address: response.data.address,
-        coins: response.data.coins ?? '',
-        chainId: response.data.chainId ?? '',
+        address: connected.address,
+        coins: connected.coins ?? '',
+        chainId: connected.chainId,
       });
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : t('wallet.error'));

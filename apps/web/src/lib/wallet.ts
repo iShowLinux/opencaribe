@@ -7,6 +7,7 @@ export interface WalletAccount {
   address: string;
   chainId: string;
   publicKey?: string;
+  coins?: string;
 }
 
 /** gno.land bech32 account addresses start with g1 followed by 38 lowercase characters. */
@@ -31,7 +32,8 @@ async function readAdenaAccount(): Promise<WalletAccount | null> {
     if (!adena) return null;
     const response = await adena.GetAccount();
     if (response.status === 'success' && response.data?.address) {
-      return { address: response.data.address, chainId: response.data.chainId ?? '' };
+      const coins = (response.data as { coins?: string }).coins;
+      return { address: response.data.address, chainId: response.data.chainId ?? '', coins };
     }
   } catch {
     /* extension not ready */

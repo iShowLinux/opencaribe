@@ -191,3 +191,31 @@ export async function listAllThreads(limit = 50): Promise<local.LocalThread[]> {
 export async function listAllOffers(limit = 50): Promise<local.LocalOffer[]> {
   return impl.listAllOffers(limit);
 }
+
+export async function updateUserWhatsapp(userId: string, whatsapp: string): Promise<void> {
+  return impl.updateUserWhatsapp(userId, whatsapp);
+}
+
+export async function createChatMessage(userId: string, body: string): Promise<local.LocalChatMessage | undefined> {
+  return impl.createChatMessage(userId, body);
+}
+
+export async function listChatMessages(limit = 100): Promise<local.LocalChatMessage[]> {
+  return impl.listChatMessages(limit);
+}
+
+export async function upsertNewsArticles(rows: Array<{ outlet: string; title: string; url: string; summary: string; publishedAt: string }>): Promise<number> {
+  return impl.upsertNewsArticles(rows);
+}
+
+export async function listNewsArticles(limit = 60): Promise<local.LocalNewsArticle[]> {
+  return impl.listNewsArticles(limit);
+}
+
+export async function getNewsMeta(key: string): Promise<string | undefined> {
+  return impl.getNewsMeta(key);
+}
+
+export async function setNewsMeta(key: string, value: string): Promise<void> {
+  return impl.setNewsMeta(key, value);
+}

@@ -4,6 +4,7 @@ import { LogoutButton } from '@/components/LogoutButton';
 import { AccountWalletCard } from '@/components/AccountWalletCard';
 import { OfferHistory } from '@/components/OfferHistory';
 import { OversightPanel } from '@/components/OversightPanel';
+import { ContactCard } from '@/components/ContactCard';
 import { getCurrentUser } from '@/lib/session';
 import { getSellerStats, listRatingsForSeller } from '@/lib/store';
 import { listListingsBySeller } from '@/lib/listings-store';
@@ -63,6 +64,7 @@ export async function AccountDashboard({ countryCode }: { countryCode?: string }
       </div>
 
       <AccountWalletCard linkedAddress={user.walletAddress} />
+      <ContactCard whatsapp={user.whatsapp} />
 
       <Card className="mt-8 p-6">
         <div className="flex items-center justify-between gap-3">

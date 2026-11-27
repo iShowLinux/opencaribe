@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { getListingById } from '@/lib/listings-store';
 import { getCurrentUser } from '@/lib/session';
 import { getGnotBalanceMinor } from '@/lib/wallet-balance';
+import { COUNTRIES, toCountryCode } from '@opencaribe/configuration';
 import {
   describeSeller,
   getThreadForUser,
@@ -35,13 +36,14 @@ export interface StartThreadResult {
 /** Wallet gate: crypto-priced ads and wallet sellers require a connected wallet. */
 export async function checkContactGate(
   user: { id: string; walletAddress?: string },
-  listing: { currency: string; amountMinor: number; sellerId: string; walletAddress?: string },
+  listing: { currency: string; amountMinor: number; sellerId: string; walletAddress?: string; countryCode: string },
 ): Promise<{ blocked: false } | { blocked: true; reason: 'wallet' | 'balance'; haveMinor?: number }> {
   const cryptoPriced = listing.currency === 'GNOT';
   const walletSeller = listing.sellerId.startsWith('wallet:') || Boolean(listing.walletAddress);
   if ((cryptoPriced || walletSeller) && !user.walletAddress) return { blocked: true, reason: 'wallet' };
   if (!cryptoPriced) return { blocked: false };
-  const haveMinor = await getGnotBalanceMinor(user.walletAddress as string);
+  const market = COUNTRIES[toCountryCode(listing.countryCode) ?? 'TT'];
+  const haveMinor = await getGnotBalanceMinor(user.walletAddress as string, market.cryptoPayments.walletConnect.rpcUrl);
   if (haveMinor === null) {
     // Balance oracle unavailable: never lock the marketplace on an RPC outage.
     return { blocked: false };

@@ -9,7 +9,7 @@ import { createListingSchema, reportListingSchema } from '@opencaribe/validation
 import { persistListing } from '@/lib/listings-store';
 import { isGnoAddress } from '@/lib/wallet';
 import { getCurrentUser } from '@/lib/session';
-import { attachWallet } from '@/lib/store';
+import { attachWallet, updateUserWhatsapp } from '@/lib/store';
 
 export type SubmitState = {
   status: 'idle' | 'error' | 'success';
@@ -144,4 +144,18 @@ export async function connectWalletAction(address: string): Promise<{ ok: boolea
   revalidatePath('/account', 'page');
   revalidatePath('/', 'layout');
   return { ok: true, message: 'Wallet connected.' };
+}
+
+/** Saves the member's WhatsApp number (digits only, optional leading +). */
+export async function updateWhatsappAction(formData: FormData): Promise<{ ok: boolean; message: string }> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, message: 'Sign in first.' };
+  const raw = String(formData.get('whatsapp') ?? '').replace(/[^0-9+]/g, '');
+  const digits = raw.replace('+', '');
+  if (raw && (digits.length < 7 || digits.length > 15)) {
+    return { ok: false, message: 'That number looks too short or too long.' };
+  }
+  await updateUserWhatsapp(user.id, raw);
+  revalidatePath('/account', 'page');
+  return { ok: true, message: raw ? 'WhatsApp saved.' : 'WhatsApp removed.' };
 }

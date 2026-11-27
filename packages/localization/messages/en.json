@@ -15,7 +15,8 @@
     "community": "Community",
     "admin": "Administration",
     "news": "News",
-    "searchPlaceholder": "Search the marketplace"
+    "searchPlaceholder": "Search the marketplace",
+    "liveChat": "Live chat"
   },
   "home": {
     "heroTitle": "Find it close to home",
@@ -223,7 +224,10 @@
     "offersReceived": "Offers received",
     "accept": "Accept",
     "decline": "Decline",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "whatsappTitle": "WhatsApp",
+    "whatsappHint": "Add your number so buyers can reach you on WhatsApp. Shown on your public profile.",
+    "whatsappSave": "Save"
   },
   "profile": {
     "title": "Seller profile",
@@ -310,7 +314,7 @@
   "payment": {
     "title": "Payment options",
     "cryptoTitle": "Pay with crypto",
-    "cryptoDescription": "Connect your Adena wallet to settle a listing on-chain. Available soon.",
+    "cryptoDescription": "Connect your Adena wallet to settle a listing on-chain with GNOT.",
     "comingSoon": "Coming soon",
     "liveTestnet": "Live on testnet",
     "payTitle": "Crypto checkout (testnet)",
@@ -342,18 +346,18 @@
       "wrongNetwork": "This wallet is on {actual}; OpenCaribe expects {expected}.",
       "notInstalled": "Adena is not installed. Install the extension to connect your wallet.",
       "connected": "Wallet connected",
-      "paymentsPending": "Paying with GNOT is not enabled yet — connecting now prepares your account for launch.",
+      "paymentsPending": "Wallet connected — you can pay any GNOT-priced listing on the testnet today.",
       "error": "Could not connect to Adena. Please try again."
     },
     "walletName": "Adena wallet",
-    "walletNote": "Wallet connection is available on testnet. Paying with GNOT is not enabled yet.",
+    "walletNote": "Wallet connection is live on testnet. Price items in GNOT to accept crypto checkout.",
     "sellerNote": "Crypto is optional and never required to contact a seller.",
     "learnMore": "How crypto payments will work",
     "pageTitle": "Crypto payments with Adena",
-    "pageIntro": "We are preparing an optional way to settle marketplace transactions with the Adena wallet.",
+    "pageIntro": "Optional on-chain settlement with the Adena wallet: price in GNOT, connect, sign one bank transfer.",
     "stepsTitle": "How it will work",
     "step1": "Choose a listing and agree on a price with the seller.",
-    "step2": "Connect your Adena wallet when the feature is released.",
+    "step2": "Connect your Adena wallet when you check out.",
     "step3": "Confirm the payment in your wallet and keep the receipt.",
     "safeTitle": "Safety first",
     "safeNote": "OpenCaribe will never ask for your seed phrase or private key. Inspect the item before you pay.",
@@ -407,5 +411,14 @@
     "dark": "Dark",
     "theme": "Theme",
     "language": "Language"
+  },
+  "chat": {
+    "title": "Live visitor chat",
+    "subtitle": "A room for everyone signed in right now. Be excellent to each other."
+  },
+  "headlines": {
+    "title": "Caribbean current events",
+    "subtitle": "Coverage from United States outlets, refreshed hourly — filtered to the Caribbean basin and Venezuela.",
+    "empty": "No matching stories right now — check back soon."
   }
 }

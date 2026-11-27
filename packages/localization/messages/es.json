@@ -15,7 +15,8 @@
     "community": "Comunidad",
     "admin": "Administración",
     "news": "Noticias",
-    "searchPlaceholder": "Buscar en el mercado"
+    "searchPlaceholder": "Buscar en el mercado",
+    "liveChat": "Chat en vivo"
   },
   "home": {
     "heroTitle": "Encuentra lo que buscas cerca de ti",
@@ -223,7 +224,10 @@
     "offersReceived": "Ofertas recibidas",
     "accept": "Aceptar",
     "decline": "Rechazar",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "whatsappTitle": "WhatsApp",
+    "whatsappHint": "Añade tu número para que los compradores te escriban por WhatsApp. Se muestra en tu perfil público.",
+    "whatsappSave": "Guardar"
   },
   "profile": {
     "title": "Perfil del vendedor",
@@ -310,7 +314,7 @@
   "payment": {
     "title": "Opciones de pago",
     "cryptoTitle": "Pagar con criptomonedas",
-    "cryptoDescription": "Conecta tu billetera Adena para liquidar un anuncio en cadena. Disponible pronto.",
+    "cryptoDescription": "Conecta tu billetera Adena para pagar anuncios con GNOT en la red onyx.",
     "comingSoon": "Próximamente",
     "liveTestnet": "Activo en red de prueba",
     "payTitle": "Pago con criptomonedas (testnet)",
@@ -342,18 +346,18 @@
       "wrongNetwork": "Esta billetera está en {actual}; OpenCaribe espera {expected}.",
       "notInstalled": "Adena no está instalado. Instala la extensión para conectar tu billetera.",
       "connected": "Billetera conectada",
-      "paymentsPending": "Pagar con GNOT aún no está habilitado; conectar ahora prepara tu cuenta para el lanzamiento.",
+      "paymentsPending": "Billetera conectada: ya puedes pagar anuncios con precio en GNOT en la red de prueba.",
       "error": "No se pudo conectar con Adena. Inténtalo de nuevo."
     },
     "walletName": "Billetera Adena",
-    "walletNote": "La conexión de billetera está disponible en la red de prueba. Pagar con GNOT aún no está habilitado.",
+    "walletNote": "La billetera está activa en la red de prueba. Pon precios en GNOT para aceptar pagos con cripto.",
     "sellerNote": "El pago con criptomonedas es opcional y nunca es necesario para contactar al vendedor.",
     "learnMore": "Cómo funcionarán los pagos con criptomonedas",
     "pageTitle": "Pagos con criptomonedas y Adena",
-    "pageIntro": "Estamos preparando una forma opcional de liquidar transacciones del mercado con la billetera Adena.",
+    "pageIntro": "Pago opcional en cadena con Adena: pon el precio en GNOT, conecta y firma una transferencia.",
     "stepsTitle": "Cómo funcionará",
     "step1": "Elige un anuncio y acuerda un precio con el vendedor.",
-    "step2": "Conecta tu billetera Adena cuando la función esté disponible.",
+    "step2": "Conecta tu billetera Adena al pagar.",
     "step3": "Confirma el pago en tu billetera y conserva el comprobante.",
     "safeTitle": "La seguridad primero",
     "safeNote": "OpenCaribe nunca te pedirá tu frase semilla ni tu clave privada. Revisa el artículo antes de pagar.",
@@ -407,5 +411,14 @@
     "dark": "Oscuro",
     "theme": "Tema",
     "language": "Idioma"
+  },
+  "chat": {
+    "title": "Chat en vivo de visitantes",
+    "subtitle": "Una sala para todos los que están conectados ahora. Sean excelentes entre sí."
+  },
+  "headlines": {
+    "title": "Actualidad del Caribe",
+    "subtitle": "Cobertura de medios de Estados Unidos, actualizada cada hora y filtrada al Caribe y Venezuela.",
+    "empty": "Aún no hay noticias coincidentes; vuelve pronto."
   }
 }

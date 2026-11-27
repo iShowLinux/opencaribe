@@ -38,6 +38,11 @@ export async function SellerProfile({ userId, countryCode }: { userId: string; c
           <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
             {t('profile.memberSince', { date: new Date(seller.createdAt).toLocaleDateString() })}
           </p>
+          {seller.whatsapp && (
+            <a href={`https://wa.me/${seller.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noreferrer" className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-emerald-700 hover:underline dark:text-emerald-300">
+              WhatsApp: {seller.whatsapp} ↗
+            </a>
+          )}
           {seller.walletAddress && (
             <p className="mt-1 font-mono text-xs text-slate-500 dark:text-slate-400">
               {t('profile.wallet')}: {seller.walletAddress.slice(0, 6)}…{seller.walletAddress.slice(-4)}

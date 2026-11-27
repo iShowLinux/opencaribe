@@ -5,6 +5,9 @@ import { MessageComposer } from '@/components/MessageComposer';
 import { loadThread } from '@/app/message-actions';
 import { getListingById } from '@/lib/listings-store';
 import { getT } from '@/lib/t';
+import { TranslateButton } from '@/components/TranslateButton';
+import { getLocale } from 'next-intl/server';
+import type { Locale } from '@opencaribe/configuration';
 
 export default async function ThreadPage({
   params,
@@ -12,6 +15,8 @@ export default async function ThreadPage({
   params: Promise<{ country: string; threadId: string }>;
 }) {
   const { country, threadId } = await params;
+  const locale = (await getLocale()) as Locale;
+  const translateTarget: 'en' | 'es' = locale === 'en' ? 'es' : 'en';
   const base = country.toLowerCase();
   const t = await getT();
   const { user, thread, messages, otherLabel } = await loadThread(threadId);
@@ -48,6 +53,7 @@ export default async function ThreadPage({
                   <p className={`mt-1 text-[10px] ${own ? 'text-white/70 dark:text-slate-900/70' : 'text-slate-500 dark:text-slate-400'}`}>
                     {new Date(message.createdAt).toLocaleString()}
                   </p>
+                  <TranslateButton text={message.body} target={translateTarget} />
                 </div>
               </li>
             );

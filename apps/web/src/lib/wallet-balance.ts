@@ -5,9 +5,9 @@ import { isGnoAddress } from './wallet';
  * endpoint. Returns null when the network/realm cannot answer so callers can
  * fail open instead of blocking a marketplace conversation.
  */
-export async function getGnotBalanceMinor(address: string): Promise<number | null> {
+export async function getGnotBalanceMinor(address: string, rpcOverride?: string): Promise<number | null> {
   if (!isGnoAddress(address)) return null;
-  const rpc = process.env.GNO_RPC_URL ?? 'https://rpc.gno.land';
+  const rpc = rpcOverride ?? process.env.GNO_RPC_URL ?? 'https://rpc.gno.land';
   const expression = `gno.land/r/gnoland/wugnot.BalanceOf("${address}")`;
   try {
     const response = await fetch(rpc, {

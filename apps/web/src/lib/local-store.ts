@@ -24,6 +24,7 @@ export interface LocalUser {
   walletAddress?: string;
   role: 'user' | 'moderator' | 'admin';
   banned: boolean;
+  whatsapp?: string;
   createdAt: string;
 }
 
@@ -100,6 +101,23 @@ export interface LocalForumReply {
   createdAt: string;
 }
 
+export interface LocalChatMessage {
+  id: string;
+  userId: string;
+  body: string;
+  createdAt: string;
+}
+
+export interface LocalNewsArticle {
+  id: string;
+  outlet: string;
+  title: string;
+  url: string;
+  summary: string;
+  publishedAt: string;
+  fetchedAt: string;
+}
+
 export interface SellerStats {
   count: number;
   average: number;
@@ -115,9 +133,12 @@ interface StoreShape {
   offers: LocalOffer[];
   forumThreads: LocalForumThread[];
   forumReplies: LocalForumReply[];
+  chatMessages: LocalChatMessage[];
+  newsArticles: LocalNewsArticle[];
+  newsMeta: Record<string, string>;
 }
 
-const empty: StoreShape = { users: [], sessions: [], threads: [], messages: [], orders: [], ratings: [], offers: [], forumThreads: [], forumReplies: [] };
+const empty: StoreShape = { users: [], sessions: [], threads: [], messages: [], orders: [], ratings: [], offers: [], forumThreads: [], forumReplies: [], chatMessages: [], newsArticles: [], newsMeta: {} };
 const store: StoreShape = structuredClone(empty);
 
 const dataDir = process.env.LOCAL_DATA_DIR ?? path.join(process.cwd(), '.opencaribe');
@@ -429,6 +450,9 @@ export function resetStoreForTests(): void {
   store.offers = [];
   store.forumThreads = [];
   store.forumReplies = [];
+  store.chatMessages = [];
+  store.newsArticles = [];
+  store.newsMeta = {};
   loaded = true;
 }
 
@@ -567,4 +591,66 @@ export async function listAllThreads(limit = 50): Promise<LocalThread[]> {
 export async function listAllOffers(limit = 50): Promise<LocalOffer[]> {
   await ensureLoaded();
   return [...store.offers].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, limit);
+}
+
+export async function updateUserWhatsapp(userId: string, whatsapp: string): Promise<void> {
+  await ensureLoaded();
+  const user = store.users.find((entry) => entry.id === userId);
+  if (!user) return;
+  const cleaned = whatsapp.replace(/[^0-9+]/g, '').slice(0, 24);
+  user.whatsapp = cleaned || undefined;
+  await persist();
+}
+
+export async function createChatMessage(userId: string, body: string): Promise<LocalChatMessage | undefined> {
+  await ensureLoaded();
+  const clean = body.trim().slice(0, 300);
+  if (!clean) return undefined;
+  const message: LocalChatMessage = { id: id('chat'), userId, body: clean, createdAt: new Date().toISOString() };
+  store.chatMessages.push(message);
+  if (store.chatMessages.length > 200) store.chatMessages = store.chatMessages.slice(-200);
+  await persist();
+  return message;
+}
+
+export async function listChatMessages(limit = 100): Promise<LocalChatMessage[]> {
+  await ensureLoaded();
+  return [...store.chatMessages].sort((a, b) => a.createdAt.localeCompare(b.createdAt)).slice(-limit);
+}
+
+export async function upsertNewsArticles(rows: Array<Omit<LocalNewsArticle, 'id' | 'fetchedAt'>>): Promise<number> {
+  await ensureLoaded();
+  let added = 0;
+  for (const row of rows) {
+    const existing = store.newsArticles.find((article) => article.url === row.url);
+    if (existing) {
+      Object.assign(existing, row);
+    } else {
+      store.newsArticles.push({
+        ...row,
+        id: id('news'),
+        publishedAt: row.publishedAt,
+        fetchedAt: new Date().toISOString(),
+      });
+      added += 1;
+    }
+  }
+  await persist();
+  return added;
+}
+
+export async function listNewsArticles(limit = 60): Promise<LocalNewsArticle[]> {
+  await ensureLoaded();
+  return [...store.newsArticles].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt)).slice(0, limit);
+}
+
+export async function getNewsMeta(key: string): Promise<string | undefined> {
+  await ensureLoaded();
+  return store.newsMeta[key];
+}
+
+export async function setNewsMeta(key: string, value: string): Promise<void> {
+  await ensureLoaded();
+  store.newsMeta[key] = value;
+  await persist();
 }

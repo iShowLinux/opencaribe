@@ -28,7 +28,9 @@ export async function SiteFooter() {
             ))}
             <li><Link href="/info/opensource" className="hover:text-teal-700">GitHub</Link></li>
             <li><Link href="/news" className="hover:text-teal-700">News</Link></li>
-            <li><Link href="/payments" className="hover:text-teal-700">Payments (coming soon)</Link></li>
+            <li><Link href="/headlines" className="hover:text-teal-700">Caribbean headlines</Link></li>
+            <li><Link href="/chat" className="hover:text-teal-700">Live chat</Link></li>
+            <li><Link href="/payments" className="hover:text-teal-700">Payments</Link></li>
             <li><Link href="/shipping" className="hover:text-teal-700">Shipping matrix</Link></li>
             <li><Link href="/community" className="hover:text-teal-700">Community</Link></li>
           </ul>

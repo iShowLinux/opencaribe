@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { formatMinorUnits, isExpectedNetwork } from '@opencaribe/payments';
 import { Button, Card } from '@opencaribe/ui';
 import { recordPayment } from '@/app/payment-actions';
-import { displayAddress } from '@/lib/wallet';
+import { connectAdenaWallet, displayAddress } from '@/lib/wallet';
 
 interface Props {
   listingId: string;
@@ -23,12 +23,6 @@ function useMounted(): boolean {
     () => true,
     () => false,
   );
-}
-
-interface AdenaAccountResponse {
-  status: 'success' | 'failure';
-  message: string;
-  data?: { address?: string; chainId?: string };
 }
 
 /**
@@ -50,11 +44,8 @@ export function WalletPayButton({ listingId, sellerAddress, ugnotAmount, expecte
     setBusy(true);
     setError('');
     try {
-      const established = await window.adena.AddEstablish('OpenCaribe');
-      if (established.status !== 'success') throw new Error(established.message);
-      const response = (await window.adena.GetAccount()) as AdenaAccountResponse;
-      if (response.status !== 'success' || !response.data?.address) throw new Error(response.message);
-      setAccount({ address: response.data.address, chainId: response.data.chainId ?? '' });
+      const connected = await connectAdenaWallet();
+      setAccount({ address: connected.address, chainId: connected.chainId });
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : t('payError'));
     } finally {

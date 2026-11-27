@@ -32,6 +32,7 @@ export const users = pgTable('users', {
   walletAddress: text('wallet_address'),
   role: userRoleEnum('role').notNull().default('user'),
   banned: boolean('banned').notNull().default(false),
+  whatsapp: varchar('whatsapp', { length: 32 }),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
   deletedAt: timestamp('deleted_at', { withTimezone: true }),
@@ -276,4 +277,30 @@ export const communityReplies = pgTable('community_replies', {
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 }, (table) => [
   index('community_replies_thread_idx').on(table.threadId),
+]);
+
+export const newsArticles = pgTable('news_articles', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  outlet: text('outlet').notNull(),
+  title: text('title').notNull(),
+  url: text('url').notNull(),
+  summary: text('summary'),
+  publishedAt: timestamp('published_at', { withTimezone: true }).notNull(),
+  fetchedAt: timestamp('fetched_at', { withTimezone: true }).notNull().defaultNow(),
+}, (table) => [
+  uniqueIndex('news_articles_url_idx').on(table.url),
+]);
+
+export const newsMeta = pgTable('news_meta', {
+  key: text('key').primaryKey(),
+  value: text('value').notNull(),
+});
+
+export const chatMessages = pgTable('chat_messages', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  userId: text('user_id').notNull().references(() => users.id),
+  body: text('body').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+}, (table) => [
+  index('chat_messages_created_idx').on(table.createdAt),
 ]);

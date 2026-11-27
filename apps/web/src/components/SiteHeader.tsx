@@ -69,7 +69,10 @@ export function SiteHeader({ userName, userRole }: Props) {
             <li className="hidden md:block"><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href={scoped("/favorites")}>{nav('favorites')}</Link></li>
             <li className="hidden md:block"><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href={scoped("/messages")}>{nav('messages')}</Link></li>
             {userName && (
-              <li><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href="/community">{nav('community')}</Link></li>
+              <>
+                <li><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href="/community">{nav('community')}</Link></li>
+                <li><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href="/chat">{nav('liveChat')}</Link></li>
+              </>
             )}
             {!userName && (
               <li><a href="https://adena.app/" target="_blank" rel="noreferrer" className="rounded-lg px-3 py-2 text-teal-700 transition-colors hover:bg-teal-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:text-teal-300 dark:hover:bg-teal-950/40">{nav('freeWallet')} ↗</a></li>

@@ -1,7 +1,7 @@
 import { randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
-import { and, asc, desc, eq, inArray, isNull, ne } from 'drizzle-orm';
+import { and, asc, desc, eq, inArray, isNull, ne, sql } from 'drizzle-orm';
 import { getDb, schema } from '@opencaribe/database';
-import type { LocalMessage, LocalOrder, LocalRating, LocalThread, LocalUser, SellerStats , LocalOffer , LocalForumThread, LocalForumReply } from './local-store';
+import type { LocalMessage, LocalOrder, LocalRating, LocalThread, LocalUser, SellerStats , LocalOffer , LocalForumThread, LocalForumReply , LocalChatMessage, LocalNewsArticle } from './local-store';
 import { isAdminEmail } from './admin';
 
 /**
@@ -28,6 +28,7 @@ function toLocalUser(row: UserRow): LocalUser {
     walletAddress: row.walletAddress ?? undefined,
     role: row.role === 'admin' || row.role === 'moderator' ? row.role : 'user',
     banned: row.banned === true,
+    whatsapp: row.whatsapp ?? undefined,
     createdAt: row.createdAt.toISOString(),
   };
 }
@@ -572,4 +573,56 @@ export async function listAllThreads(limit = 50): Promise<LocalThread[]> {
 export async function listAllOffers(limit = 50): Promise<LocalOffer[]> {
   const rows = await getDb().select().from(schema.offers).orderBy(desc(schema.offers.createdAt)).limit(limit);
   return rows.map(mapOfferRow);
+}
+
+export async function updateUserWhatsapp(userId: string, whatsapp: string): Promise<void> {
+  await getDb().update(schema.users).set({ whatsapp: whatsapp.replace(/[^0-9+]/g, '').slice(0, 24) || null }).where(eq(schema.users.id, userId));
+}
+
+function mapNewsArticle(row: typeof schema.newsArticles.$inferSelect): LocalNewsArticle {
+  return {
+    id: row.id,
+    outlet: row.outlet,
+    title: row.title,
+    url: row.url,
+    summary: row.summary ?? '',
+    publishedAt: row.publishedAt.toISOString(),
+    fetchedAt: row.fetchedAt.toISOString(),
+  };
+}
+
+export async function createChatMessage(userId: string, body: string): Promise<LocalChatMessage | undefined> {
+  const clean = body.trim().slice(0, 300);
+  if (!clean) return undefined;
+  const [row] = await getDb().insert(schema.chatMessages).values({ userId, body: clean }).returning();
+  return row ? { id: row.id, userId: row.userId, body: row.body, createdAt: row.createdAt.toISOString() } : undefined;
+}
+
+export async function listChatMessages(limit = 100): Promise<LocalChatMessage[]> {
+  const rows = await getDb().select().from(schema.chatMessages).orderBy(desc(schema.chatMessages.createdAt)).limit(limit);
+  return rows.map((row) => ({ id: row.id, userId: row.userId, body: row.body, createdAt: row.createdAt.toISOString() })).reverse();
+}
+
+export async function upsertNewsArticles(rows: Array<{ outlet: string; title: string; url: string; summary: string; publishedAt: string }>): Promise<number> {
+  if (rows.length === 0) return 0;
+  const result = await getDb()
+    .insert(schema.newsArticles)
+    .values(rows.map((row) => ({ outlet: row.outlet, title: row.title, url: row.url, summary: row.summary || null, publishedAt: new Date(row.publishedAt) })))
+    .onConflictDoUpdate({ target: schema.newsArticles.url, set: { title: sql`excluded.title`, summary: sql`excluded.summary`, publishedAt: sql`excluded.published_at` } })
+    .returning({ id: schema.newsArticles.id });
+  return result.length;
+}
+
+export async function listNewsArticles(limit = 60): Promise<LocalNewsArticle[]> {
+  const rows = await getDb().select().from(schema.newsArticles).orderBy(desc(schema.newsArticles.publishedAt)).limit(limit);
+  return rows.map(mapNewsArticle);
+}
+
+export async function getNewsMeta(key: string): Promise<string | undefined> {
+  const [row] = await getDb().select().from(schema.newsMeta).where(eq(schema.newsMeta.key, key));
+  return row?.value;
+}
+
+export async function setNewsMeta(key: string, value: string): Promise<void> {
+  await getDb().insert(schema.newsMeta).values({ key, value }).onConflictDoUpdate({ target: schema.newsMeta.key, set: { value } });
 }

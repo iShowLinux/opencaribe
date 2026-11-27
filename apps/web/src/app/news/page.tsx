@@ -67,7 +67,13 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
         </p>
       )}
 
-      <p className="mt-8 text-xs text-slate-500 dark:text-slate-400">{t('news.sourceNote')}</p>
+      <p className="mt-8">
+        <Link href="/headlines" className="text-sm font-medium text-teal-700 hover:underline dark:text-teal-300">
+          {t('headlines.title')} →
+        </Link>
+      </p>
+
+      <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">{t('news.sourceNote')}</p>
     </Container>
   );
 }
