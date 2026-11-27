@@ -25,34 +25,39 @@ export function displayAddress(address: string): string {
  * Throws an Error with a user-presentable message when the extension rejects
  * the request or no account is available.
  */
+async function readAdenaAccount(): Promise<WalletAccount | null> {
+  try {
+    const adena = window.adena;
+    if (!adena) return null;
+    const response = await adena.GetAccount();
+    if (response.status === 'success' && response.data?.address) {
+      return { address: response.data.address, chainId: response.data.chainId ?? '' };
+    }
+  } catch {
+    /* extension not ready */
+  }
+  return null;
+}
+
+/**
+ * Requests a connection and reads the active account. Returns the existing
+ * session when Adena is already established instead of failing.
+ */
 export async function connectAdenaWallet(appName = 'OpenCaribe'): Promise<WalletAccount> {
   if (typeof window === 'undefined' || !window.adena) {
     throw new Error('Wallet not detected. Install Adena to continue.');
   }
 
-  const established = await window.adena.AddEstablish(appName);
-  if (established.status !== 'success') {
-    throw new Error(established.message || 'The wallet connection was rejected.');
+  let account = await readAdenaAccount();
+  if (!account) {
+    const established = await window.adena?.AddEstablish(appName);
+    if (established.status !== 'success' && !/already connected/i.test(established.message ?? '')) {
+      throw new Error(established.message || 'The wallet connection was rejected.');
+    }
+    account = await readAdenaAccount();
   }
-
-  const response = await window.adena.GetAccount();
-  if (response.status !== 'success' || !response.data?.address) {
-    throw new Error(response.message || 'No connected account found.');
+  if (!account) {
+    throw new Error('No connected account found.');
   }
-
-  const address = String(response.data.address);
-  if (!isGnoAddress(address)) {
-    throw new Error('The connected account does not look like a gno.land address.');
-  }
-
-  const publicKey =
-    response.data.public_key && typeof response.data.public_key.value === 'string'
-      ? response.data.public_key.value
-      : undefined;
-
-  return {
-    address,
-    chainId: response.data.chainId ?? '',
-    publicKey,
-  };
+  return account;
 }

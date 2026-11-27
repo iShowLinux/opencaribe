@@ -66,14 +66,17 @@
     "condition": "Condition",
     "price": "Price",
     "negotiable": "Negotiable",
+    "imageLabel": "Photo of the item",
+    "imageHint": "PNG, JPEG or WebP up to 1.5 MB.",
+    "remove": "Remove",
     "free": "Free",
     "contactForPrice": "Contact for price",
     "details": "Details",
-    "location": "Approximate location",    "map": "Map",
+    "location": "Approximate location",
+    "map": "Map",
     "mapNote": "Approximate location of the item.",
     "routeFromYou": "About {distance} km · {minutes} min drive from your area.",
     "directions": "Directions",
-
     "share": "Share",
     "safetyNote": "Meet in a public place and never send money before seeing an item.",
     "memberSince": "Member since"
@@ -107,7 +110,6 @@
     "walletConnectedAs": "Posting as {address}",
     "walletConnect": "Connect wallet",
     "walletSwitch": "Connect a different wallet",
-
     "walletDisconnect": "Disconnect",
     "walletPublish": "Publish with wallet",
     "walletPublishes": "Ready to publish to the live marketplace",
@@ -178,7 +180,7 @@
     "destinationContext": "Shipping to {city}, {country}."
   },
   "community": {
-    "title": "Community",
+    "title": "Title",
     "subtitle": "Current events, platform feedback and support threads. Members only.",
     "all": "All",
     "catEvents": "Current events",
@@ -186,7 +188,6 @@
     "catSupport": "Support",
     "newThread": "Start a thread",
     "category": "Category",
-    "title": "Title",
     "body": "Message",
     "post": "Post thread",
     "replies": "{count} replies",
@@ -196,7 +197,6 @@
     "reply": "Reply",
     "empty": "Nothing here yet.",
     "identityNote": "Names are just display labels — the wallet address is what proves who you are."
-
   },
   "dashboard": {
     "title": "My account",
@@ -230,7 +230,8 @@
     "reviews": "Reviews",
     "noReviews": "No reviews yet.",
     "average": "Average rating",
-    "ratingCount": "{count} review(s)"
+    "ratingCount": "{count} review(s)",
+    "suspended": "Suspended"
   },
   "rating": {
     "title": "Rate this seller",
@@ -245,9 +246,9 @@
   },
   "messages": {
     "walletRequired": "This seller requires buyers to connect a gno.land wallet before messaging.",
-    "insufficientBalance": "Your wallet balance is lower than this item\u2019s asking price. Add funds or pick another listing.",
-    "connectWallet": "Connect wallet",    "switchWallet": "Use a different wallet",
-
+    "insufficientBalance": "Your wallet balance is lower than this item’s asking price. Add funds or pick another listing.",
+    "connectWallet": "Connect wallet",
+    "switchWallet": "Use a different wallet",
     "title": "Messages",
     "empty": "Your conversations will appear here.",
     "signInRequired": "Sign in to read and send messages.",
@@ -285,7 +286,10 @@
     "queue": "Moderation queue",
     "reports": "Open reports",
     "roles": "Roles and permissions",
-    "mfaRequired": "Multi-factor authentication is mandatory for privileged accounts."
+    "mfaRequired": "Multi-factor authentication is mandatory for privileged accounts.",
+    "listingsTitle": "All listings",
+    "membersTitle": "Members",
+    "banned": "Banned"
   },
   "legal": {
     "about": "About the project",
@@ -301,6 +305,7 @@
     "cryptoTitle": "Pay with crypto",
     "cryptoDescription": "Connect your Adena wallet to settle a listing on-chain. Available soon.",
     "comingSoon": "Coming soon",
+    "liveTestnet": "Live on testnet",
     "payTitle": "Crypto checkout (testnet)",
     "paySummary": "Send {amount} to seller {seller}.",
     "payConnect": "Connect wallet and pay",

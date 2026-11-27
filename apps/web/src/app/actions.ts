@@ -90,6 +90,7 @@ export async function submitListing(_previous: SubmitState, formData: FormData):
     attributes: {},
     contactPreference: String(formData.get('contactPreference') ?? 'in_app_messages'),
     imageKeys: [],
+    imageUrl: String(formData.get('imageUrl') ?? ''),
   };
 
   const parsed = createListingSchema(country).safeParse(raw);

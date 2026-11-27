@@ -27,6 +27,7 @@ function toLocalUser(row: UserRow): LocalUser {
     salt: '',
     walletAddress: row.walletAddress ?? undefined,
     role: row.role === 'admin' || row.role === 'moderator' ? row.role : 'user',
+    banned: row.banned === true,
     createdAt: row.createdAt.toISOString(),
   };
 }
@@ -536,4 +537,25 @@ export async function createForumReply(input: { threadId: string; authorId: stri
     .values({ threadId: input.threadId, authorId: input.authorId, body: input.body.trim().slice(0, 4000) })
     .returning();
   return row ? mapForumReply(row) : undefined;
+}
+
+export async function setUserBanned(userId: string, banned: boolean): Promise<void> {
+  await getDb().update(schema.users).set({ banned }).where(eq(schema.users.id, userId));
+  if (banned) {
+    await getDb().delete(schema.sessions).where(eq(schema.sessions.userId, userId));
+  }
+}
+
+export async function listUsers(limit = 50): Promise<LocalUser[]> {
+  const rows = await getDb().select().from(schema.users).orderBy(desc(schema.users.createdAt)).limit(limit);
+  return rows.map((row) => ({
+    id: row.id,
+    email: row.email,
+    name: row.name ?? '',
+    salt: '',
+    passwordHash: '',
+    role: row.role === 'admin' || row.role === 'moderator' ? row.role : 'user',
+    banned: row.banned === true,
+    createdAt: row.createdAt.toISOString(),
+  }));
 }

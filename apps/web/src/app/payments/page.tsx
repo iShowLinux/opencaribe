@@ -4,9 +4,11 @@ import { CryptoPaymentCard } from '@/components/CryptoPaymentCard';
 import { listOrders } from '@/lib/store';
 import { getListingById } from '@/lib/listings-store';
 import { getT } from '@/lib/t';
+import { COUNTRIES } from '@opencaribe/configuration';
 
 export default async function PaymentsPage() {
   const t = await getT();
+  const crypto = COUNTRIES.TT.cryptoPayments;
   const orders = await listOrders();
   const orderRows = await Promise.all(
     orders.map(async (order) => ({ order, listing: await getListingById(order.listingId) })),
@@ -16,9 +18,9 @@ export default async function PaymentsPage() {
     <Container className="max-w-3xl py-12">
       <div className="flex flex-wrap items-center gap-3">
         <h1 className="text-3xl font-black tracking-tight text-navy-900 dark:text-navy-50">{t('payment.pageTitle')}</h1>
-        <Badge tone="warning">{t('payment.comingSoon')}</Badge>
+        {crypto.enabled ? <Badge tone="success">{t('payment.liveTestnet')}</Badge> : <Badge tone="warning">{t('payment.comingSoon')}</Badge>}
       </div>
-      <p className="mt-3 text-slate-600 dark:text-slate-400">{t('payment.pageIntro')}</p>
+      <p className="mt-3 text-slate-600 dark:text-slate-400">{crypto.note.en}</p>
 
       <div className="mt-8">
         <CryptoPaymentCard />

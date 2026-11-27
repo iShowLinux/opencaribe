@@ -1,6 +1,8 @@
 import { Badge, Card, Container, SectionTitle } from '@opencaribe/ui';
 import { getCurrentUser } from '@/lib/session';
-import { listListingsByStatus } from '@/lib/listings-store';
+import { getAllListings, listListingsByStatus } from '@/lib/listings-store';
+import { listUsers } from '@/lib/store';
+import { BanUserButton, RemoveListingButton } from '@/components/ModerationButtons';
 import { getPageViewStats } from '@/lib/stats';
 import { moderateListing } from '@/app/moderation-actions';
 import { LinkButton } from '@/components/LinkButton';
@@ -12,6 +14,8 @@ export default async function AdminPage() {
   const allowed = Boolean(user && (user.role === 'admin' || user.role === 'moderator'));
   const pending = allowed ? await listListingsByStatus('pending_review') : [];
   const stats = allowed ? await getPageViewStats() : null;
+  const allListings = allowed ? (await getAllListings()).slice(0, 25) : [];
+  const members = allowed ? await listUsers(30) : [];
 
   return (
     <Container className="max-w-4xl py-12">
@@ -101,6 +105,38 @@ export default async function AdminPage() {
               {pending.length === 0 && (
                 <p className="text-sm text-slate-600 dark:text-slate-400">{t('admin.noPending')}</p>
               )}
+            </div>
+          </Card>
+
+          <Card className="mt-6 p-6">
+            <h2 className="text-lg font-semibold text-navy-900 dark:text-navy-50">{t('admin.listingsTitle')}</h2>
+            <div className="mt-4 grid gap-2">
+              {allListings.map((listing) => (
+                <div key={listing.id} className="flex items-center justify-between gap-3 rounded-lg border border-slate-200 p-3 dark:border-slate-800">
+                  <div className="min-w-0">
+                    <LinkButton href={`/${listing.countryCode.toLowerCase()}/l/${listing.id}`} size="sm" className="truncate">
+                      {listing.title}
+                    </LinkButton>
+                    <p className="text-xs text-slate-500">{listing.countryCode} · {listing.status}</p>
+                  </div>
+                  {listing.status !== 'removed' && <RemoveListingButton listingId={listing.id} />}
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          <Card className="mt-6 p-6">
+            <h2 className="text-lg font-semibold text-navy-900 dark:text-navy-50">{t('admin.membersTitle')}</h2>
+            <div className="mt-4 grid gap-2">
+              {members.map((member) => (
+                <div key={member.id} className="flex items-center justify-between gap-3 rounded-lg border border-slate-200 p-3 dark:border-slate-800">
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-medium text-navy-900 dark:text-navy-50">{member.name}</p>
+                    <p className="truncate text-xs text-slate-500">{member.email} · {member.role}{member.banned ? ' · banned' : ''}</p>
+                  </div>
+                  <BanUserButton userId={member.id} banned={member.banned} />
+                </div>
+              ))}
             </div>
           </Card>
         </>

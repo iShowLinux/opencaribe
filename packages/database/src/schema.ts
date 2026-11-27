@@ -115,6 +115,7 @@ export const listings = pgTable('listings', {
   cityId: text('city_id').notNull(),
   categoryId: text('category_id').notNull(),
   subcategoryId: text('subcategory_id'),
+  imageUrl: text('image_url'),
   title: text('title').notNull(),
   description: text('description').notNull(),
   amountMinor: bigint('amount_minor', { mode: 'number' }).notNull(),

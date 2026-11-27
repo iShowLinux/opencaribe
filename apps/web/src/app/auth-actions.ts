@@ -75,6 +75,9 @@ export async function loginAction(_previous: AuthState, formData: FormData): Pro
       message: lang === 'es' ? 'Correo o contraseña incorrectos.' : 'Incorrect email or password.',
     };
   }
+  if (user.banned) {
+    return { status: 'error', message: 'This account is suspended.' };
+  }
   if (isAdminEmail(email) && user.role !== 'admin') {
     await setUserRole(user.id, 'admin');
   }

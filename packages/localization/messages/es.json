@@ -66,14 +66,17 @@
     "condition": "Condición",
     "price": "Precio",
     "negotiable": "Negociable",
+    "imageLabel": "Foto del artículo",
+    "imageHint": "PNG, JPEG o WebP de hasta 1,5 MB.",
+    "remove": "Quitar",
     "free": "Gratis",
     "contactForPrice": "Consultar precio",
     "details": "Detalles",
-    "location": "Ubicación aproximada",    "map": "Mapa",
+    "location": "Ubicación aproximada",
+    "map": "Mapa",
     "mapNote": "Ubicación aproximada del artículo.",
     "routeFromYou": "Unos {distance} km · {minutes} min en coche desde tu zona.",
     "directions": "Cómo llegar",
-
     "share": "Compartir",
     "safetyNote": "Queda en un lugar público y nunca envíes dinero antes de ver el artículo.",
     "memberSince": "Miembro desde"
@@ -105,8 +108,8 @@
     "walletNote": "Conecta una billetera de gno.land para publicar al instante sin cuenta, o envía el anuncio a revisión.",
     "walletConnected": "Billetera conectada",
     "walletConnectedAs": "Publicando como {address}",
-    "walletConnect": "Conectar billetera",    "walletSwitch": "Conectar otra billetera",
-
+    "walletConnect": "Conectar billetera",
+    "walletSwitch": "Conectar otra billetera",
     "walletDisconnect": "Desconectar",
     "walletPublish": "Publicar con billetera",
     "walletPublishes": "Listo para publicar en el mercado en vivo",
@@ -177,7 +180,7 @@
     "destinationContext": "Envío hacia {city}, {country}."
   },
   "community": {
-    "title": "Comunidad",
+    "title": "Título",
     "subtitle": "Hilos de actualidad, opinión sobre la plataforma y soporte. Solo miembros.",
     "all": "Todos",
     "catEvents": "Actualidad",
@@ -185,7 +188,6 @@
     "catSupport": "Soporte",
     "newThread": "Crear un hilo",
     "category": "Categoría",
-    "title": "Título",
     "body": "Mensaje",
     "post": "Publicar hilo",
     "replies": "{count} respuestas",
@@ -195,7 +197,6 @@
     "reply": "Responder",
     "empty": "Todavía no hay nada aquí.",
     "identityNote": "Los nombres son solo etiquetas visibles; la dirección de la billetera es lo que demuestra quién eres."
-
   },
   "dashboard": {
     "title": "Mi cuenta",
@@ -229,7 +230,8 @@
     "reviews": "Reseñas",
     "noReviews": "Aún no hay reseñas.",
     "average": "Calificación promedio",
-    "ratingCount": "{count} reseña(s)"
+    "ratingCount": "{count} reseña(s)",
+    "suspended": "Suspendido"
   },
   "rating": {
     "title": "Califica a este vendedor",
@@ -245,8 +247,8 @@
   "messages": {
     "walletRequired": "Este vendedor requiere que los compradores conecten una billetera gno.land antes de enviar mensajes.",
     "insufficientBalance": "El saldo de tu billetera es menor que el precio solicitado. Agrega fondos o elige otro anuncio.",
-    "connectWallet": "Conectar billetera",    "switchWallet": "Usar otra billetera",
-
+    "connectWallet": "Conectar billetera",
+    "switchWallet": "Usar otra billetera",
     "title": "Mensajes",
     "empty": "Tus conversaciones aparecerán aquí.",
     "signInRequired": "Inicia sesión para leer y enviar mensajes.",
@@ -284,7 +286,10 @@
     "queue": "Cola de moderación",
     "reports": "Reportes abiertos",
     "roles": "Roles y permisos",
-    "mfaRequired": "La autenticación de dos factores es obligatoria para cuentas privilegiadas."
+    "mfaRequired": "La autenticación de dos factores es obligatoria para cuentas privilegiadas.",
+    "listingsTitle": "Todos los anuncios",
+    "membersTitle": "Miembros",
+    "banned": "Suspendido"
   },
   "legal": {
     "about": "Sobre el proyecto",
@@ -300,6 +305,7 @@
     "cryptoTitle": "Pagar con criptomonedas",
     "cryptoDescription": "Conecta tu billetera Adena para liquidar un anuncio en cadena. Disponible pronto.",
     "comingSoon": "Próximamente",
+    "liveTestnet": "Activo en red de prueba",
     "payTitle": "Pago con criptomonedas (testnet)",
     "paySummary": "Envía {amount} al vendedor {seller}.",
     "payConnect": "Conectar billetera y pagar",

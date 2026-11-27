@@ -175,3 +175,11 @@ export async function listForumReplies(threadId: string): Promise<local.LocalFor
 export async function createForumReply(input: { threadId: string; authorId: string; body: string }): Promise<local.LocalForumReply | undefined> {
   return impl.createForumReply(input);
 }
+
+export async function setUserBanned(userId: string, banned: boolean): Promise<void> {
+  return impl.setUserBanned(userId, banned);
+}
+
+export async function listUsers(limit = 50): Promise<local.LocalUser[]> {
+  return impl.listUsers(limit);
+}

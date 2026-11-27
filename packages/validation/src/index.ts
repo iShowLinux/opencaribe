@@ -61,6 +61,14 @@ export function createListingSchema(country: CountryConfig) {
     condition: itemConditionSchema,
     attributes: z.record(z.string(), z.string()),
     contactPreference: contactPreferenceSchema,
+    imageUrl: z
+      .string()
+      .max(1_500_000)
+      .refine(
+        (value) => !value || /^https:\/\//.test(value) || /^data:image\/(png|jpe?g|webp);base64,/.test(value),
+        { message: 'Images must be a secure URL or an uploaded PNG/JPEG/WebP file.' },
+      )
+      .optional(),
     imageKeys: z.array(z.string()).max(country.featureFlags.maxImagesPerListing),
   }).superRefine((value, ctx) => {
     if (value.priceType === 'free' && Number(value.price.replace(',', '.')) !== 0) {

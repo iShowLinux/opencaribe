@@ -13,6 +13,7 @@ import { getSellerStats, getUserById } from '@/lib/store';
 import { RateSellerForm } from '@/components/RateSellerForm';
 import { OfferForm } from '@/components/OfferForm';
 import { ItemMap } from '@/components/ItemMap';
+import { RemoveListingButton } from '@/components/ModerationButtons';
 import { CryptoPaymentCard } from '@/components/CryptoPaymentCard';
 import { ReportForm } from '@/components/ReportForm';
 import { categoryImage } from '@/lib/images';
@@ -46,7 +47,7 @@ export default async function ListingPage({ params }: { params: Promise<{ countr
   const sellerAccount = listing.sellerId.startsWith('user:') ? await getUserById(sellerKey) : undefined;
   const walletSellerAddress = listing.sellerId.startsWith('wallet:') ? listing.sellerId.slice(7) : undefined;
   const sellerWallet = listing.walletAddress ?? walletSellerAddress ?? sellerAccount?.walletAddress;
-  const canPayCrypto = Boolean(sellerWallet) && crypto.walletConnect.enabled && ugnotAmount > 0 && listing.priceType !== 'free';
+  const canPayCrypto = Boolean(sellerWallet) && crypto.enabled && listing.currency === 'GNOT' && ugnotAmount > 0 && listing.priceType !== 'free';
   const sellerName = listing.sellerId.startsWith('user:')
     ? (sellerAccount?.name ?? 'Marketplace seller')
     : `${listing.sellerId.slice(7, 13)}…${listing.sellerId.slice(-4)}`;
@@ -125,6 +126,11 @@ export default async function ListingPage({ params }: { params: Promise<{ countr
               <LinkButton href={`/${code.toLowerCase()}/account`} variant="secondary" className="mt-4 w-full">
                 {t('dashboard.title')}
               </LinkButton>
+            )}
+            {viewer && (viewer.role === 'admin' || viewer.role === 'moderator') && (
+              <div className="mt-4 flex justify-end">
+                <RemoveListingButton listingId={listing.id} />
+              </div>
             )}
             <ContactSellerButton countryCode={code} listingId={listing.id} loggedIn={Boolean(viewer)} isOwner={viewer?.id === sellerKey} />
             {listing.status === 'active' && viewer?.id !== sellerKey && (

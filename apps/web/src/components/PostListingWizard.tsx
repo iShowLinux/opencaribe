@@ -37,6 +37,8 @@ export function PostListingWizard({ countryCode, locale, signedIn, categories, r
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [subcategoryId, setSubcategoryId] = useState(categories[0]?.subcategories[0]?.id ?? '');
+  const [imageData, setImageData] = useState('');
+  const [imageName, setImageName] = useState('');
   const [regionId, setRegionId] = useState(regions[0]?.id ?? '');
   const [cityId, setCityId] = useState('');
   const [priceType, setPriceType] = useState('fixed');
@@ -78,6 +80,7 @@ export function PostListingWizard({ countryCode, locale, signedIn, categories, r
       <input type="hidden" name="countryCode" value={countryCode} />
       {wallet && <input type="hidden" name="walletAddress" value={wallet.address} />}
       {/* Honeypot: hidden from people, attractive to bots. */}
+      <input type="hidden" name="imageUrl" value={imageData} />
       <input type="text" name="website" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
 
       <WalletConnectBar account={wallet} onChange={setWallet} />
@@ -145,7 +148,39 @@ export function PostListingWizard({ countryCode, locale, signedIn, categories, r
               aria-invalid={Boolean(fieldError('description'))} className={fieldError('description') ? invalidBorder : undefined} />
             {fieldError('description') && <p role="alert" className="mt-1.5 text-xs text-rose-600 dark:text-rose-400">{fieldError('description')}</p>}
           </div>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+              <Label htmlFor="imageFile">{root('listing.imageLabel')}</Label>
+              <input
+                id="imageFile"
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                className="mt-1.5 w-full text-sm"
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  if (!file) return;
+                  if (!/^image\/(png|jpeg|webp)$/.test(file.type)) return;
+                  if (file.size > 1_500_000) return;
+                  const reader = new FileReader();
+                  reader.onload = () => {
+                    setImageData(String(reader.result ?? ''));
+                    setImageName(file.name);
+                  };
+                  reader.readAsDataURL(file);
+                }}
+              />
+              {imageData && (
+                <div className="mt-2 flex items-center gap-3">
+                  {/* eslint-disable-next-line @next/next/no-img-element -- local data-URL preview */}
+                  <img src={imageData} alt="" className="h-16 w-16 rounded-lg object-cover" />
+                  <span className="text-xs text-slate-500">{imageName}</span>
+                  <button type="button" className="text-xs font-medium text-rose-600 hover:underline" onClick={() => { setImageData(''); setImageName(''); }}>
+                    {root('listing.remove')}
+                  </button>
+                </div>
+              )}
+              <p className="mt-1.5 text-xs text-slate-500">{root('listing.imageHint')}</p>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <Label htmlFor="price">{t('priceLabel')}</Label>
               <Input id="price" name="price" inputMode="decimal" value={price} onChange={(e) => setPrice(e.target.value)}

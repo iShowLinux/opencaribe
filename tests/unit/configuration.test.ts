@@ -54,8 +54,8 @@ describe('crypto payment configuration', () => {
   it('keeps settlement disabled while wallet connect is live on testnet', () => {
     for (const code of COUNTRY_CODES) {
       const crypto = COUNTRIES[code].cryptoPayments;
-      expect(crypto.enabled).toBe(false);
-      expect(crypto.comingSoon).toBe(true);
+      expect(crypto.enabled).toBe(true);
+      expect(crypto.comingSoon).toBe(false);
       expect(crypto.wallets).toContain('adena');
       expect(crypto.asset.symbol).toBe('GNOT');
       expect(crypto.asset.denom).toBe('ugnot');

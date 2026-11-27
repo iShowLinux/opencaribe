@@ -23,6 +23,7 @@ export interface LocalUser {
   salt: string;
   walletAddress?: string;
   role: 'user' | 'moderator' | 'admin';
+  banned: boolean;
   createdAt: string;
 }
 
@@ -190,6 +191,7 @@ export async function createUser(input: { name: string; email: string; password:
     passwordHash: hashPassword(input.password, salt),
     walletAddress: undefined,
     role: isAdminEmail(email) ? 'admin' : 'user',
+    banned: false,
     createdAt: new Date().toISOString(),
   };
   store.users.push(user);
@@ -537,4 +539,22 @@ export async function createForumReply(input: { threadId: string; authorId: stri
 export async function listOffers(): Promise<LocalOffer[]> {
   await ensureLoaded();
   return [...store.offers].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+}
+
+export async function setUserBanned(userId: string, banned: boolean): Promise<void> {
+  await ensureLoaded();
+  const user = store.users.find((entry) => entry.id === userId);
+  if (user) {
+    user.banned = banned;
+    if (banned) {
+      // Drop sessions immediately so the ban takes effect on the next request.
+      store.sessions = store.sessions.filter((session) => session.userId !== userId);
+    }
+    await persist();
+  }
+}
+
+export async function listUsers(limit = 50): Promise<LocalUser[]> {
+  await ensureLoaded();
+  return [...store.users].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, limit);
 }

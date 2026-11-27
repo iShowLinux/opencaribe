@@ -17,6 +17,7 @@ function mapDbRow(row: typeof schema.listings.$inferSelect): PublicListing {
     cityId: row.cityId,
     categoryId: row.categoryId,
     subcategoryId: row.subcategoryId ?? '',
+    imageUrl: row.imageUrl ?? undefined,
     title: row.title,
     description: row.description,
     amountMinor: row.amountMinor,
@@ -70,6 +71,7 @@ export interface DraftInput {
   cityId: string;
   categoryId: string;
   subcategoryId: string;
+  imageUrl?: string;
   price: string;
   currency: CurrencyCode;
   priceType: PriceType;
@@ -133,6 +135,7 @@ export async function persistListing(input: DraftInput): Promise<PublicListing> 
       cityId: input.cityId || '',
       categoryId: input.categoryId,
       subcategoryId: input.subcategoryId || null,
+      imageUrl: input.imageUrl ?? null,
       title: input.title,
       description: input.description,
       amountMinor: parseMoneyToMinor(input.price, input.currency),

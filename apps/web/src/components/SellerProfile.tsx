@@ -44,6 +44,7 @@ export async function SellerProfile({ userId, countryCode }: { userId: string; c
             </p>
           )}
         </div>
+        {seller.banned && <Badge tone="danger">{t('profile.suspended')}</Badge>}
         {stats.count > 0 && (
           <Badge tone="warning" className="px-3 py-1 text-sm">
             ★ {stats.average.toFixed(1)} · {t('profile.ratingCount', { count: stats.count })}
