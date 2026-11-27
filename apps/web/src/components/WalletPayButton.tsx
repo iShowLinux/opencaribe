@@ -15,6 +15,9 @@ interface Props {
   expectedChainId: string;
   networkLabel: string;
   faucetUrl: string;
+  /** Set when the ad is priced in a fiat currency rather than GNOT. */
+  fiatCurrency?: string;
+  referenceRate?: number;
 }
 
 function useMounted(): boolean {
@@ -29,7 +32,7 @@ function useMounted(): boolean {
  * Testnet crypto checkout: connects Adena, asks the buyer to sign a real
  * `/bank.MsgSend` to the seller, then records the transaction server-side.
  */
-export function WalletPayButton({ listingId, sellerAddress, ugnotAmount, expectedChainId, networkLabel, faucetUrl }: Props) {
+export function WalletPayButton({ listingId, sellerAddress, ugnotAmount, expectedChainId, networkLabel, faucetUrl, fiatCurrency, referenceRate }: Props) {
   const t = useTranslations('payment');
   const mounted = useMounted();
   const detected = mounted && Boolean(window.adena);
@@ -148,6 +151,12 @@ export function WalletPayButton({ listingId, sellerAddress, ugnotAmount, expecte
             </>
           )}
         </div>
+      )}
+
+      {fiatCurrency && fiatCurrency !== 'GNOT' && (
+        <p className="mt-2 rounded-lg bg-slate-100 p-2 text-[11px] text-slate-600 dark:bg-slate-800 dark:text-slate-400">
+          {t('payReferenceNote', { currency: fiatCurrency, rate: referenceRate ?? 1 })}
+        </p>
       )}
 
       <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">

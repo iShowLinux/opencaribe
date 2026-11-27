@@ -367,7 +367,8 @@
       "transfer": "Transferencia bancaria",
       "crypto": "Criptomonedas con Adena (próximamente)"
     },
-    "siteBanner": "Paga con criptomonedas usando tu billetera Adena — próximamente"
+    "siteBanner": "Paga con criptomonedas usando tu billetera Adena — próximamente",
+    "payReferenceNote": "Conversión con Adena a la tasa de referencia de demostración: {rate} GNOT por 1 {currency}. El settling en mainnet usará un oráculo en vivo."
   },
   "news": {
     "title": "Noticias del Caribe en vivo",

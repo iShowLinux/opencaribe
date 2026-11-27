@@ -43,11 +43,17 @@ export default async function ListingPage({ params }: { params: Promise<{ countr
   const attributeEntries = Object.entries(listing.attributes ?? {});
   const crypto = COUNTRIES[code].cryptoPayments;
   const currencyDigits = CURRENCIES[listing.currency]?.digits ?? 2;
-  const ugnotAmount = Math.round((listing.amountMinor / 10 ** currencyDigits) * 1_000_000);
+  // Reference conversion for fiat-priced ads: GNOT per one unit of listing
+  // currency, overridable per currency via GNOT_RATE_<CODE> (demo default 1).
+  const referenceRate = Number(
+    process.env[`GNOT_RATE_${listing.currency}`] ?? process.env.GNOT_PER_UNIT ?? '1',
+  );
+  const fiatMajor = listing.amountMinor / 10 ** currencyDigits;
+  const ugnotAmount = Math.round(fiatMajor * (Number.isFinite(referenceRate) && referenceRate > 0 ? referenceRate : 1) * 1_000_000);
   const sellerAccount = listing.sellerId.startsWith('user:') ? await getUserById(sellerKey) : undefined;
   const walletSellerAddress = listing.sellerId.startsWith('wallet:') ? listing.sellerId.slice(7) : undefined;
   const sellerWallet = listing.walletAddress ?? walletSellerAddress ?? sellerAccount?.walletAddress;
-  const canPayCrypto = Boolean(sellerWallet) && crypto.enabled && listing.currency === 'GNOT' && ugnotAmount > 0 && listing.priceType !== 'free';
+  const canPayCrypto = Boolean(sellerWallet) && crypto.enabled && ugnotAmount > 0 && listing.priceType !== 'free';
   const sellerName = listing.sellerId.startsWith('user:')
     ? (sellerAccount?.name ?? 'Marketplace seller')
     : `${listing.sellerId.slice(7, 13)}…${listing.sellerId.slice(-4)}`;
@@ -165,6 +171,8 @@ export default async function ListingPage({ params }: { params: Promise<{ countr
                 expectedChainId={crypto.walletConnect.chainId}
                 networkLabel={crypto.walletConnect.network}
                 faucetUrl={crypto.walletConnect.faucetUrl}
+                fiatCurrency={listing.currency}
+                referenceRate={referenceRate}
               />
             )}
             <p className="mt-4 rounded-lg bg-sand-100 p-3 text-xs text-slate-700 dark:bg-slate-800 dark:text-slate-300">

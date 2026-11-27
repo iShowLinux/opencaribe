@@ -367,7 +367,8 @@
       "transfer": "Bank transfer",
       "crypto": "Crypto via Adena (coming soon)"
     },
-    "siteBanner": "Pay with crypto using your Adena wallet — coming soon"
+    "siteBanner": "Pay with crypto using your Adena wallet — coming soon",
+    "payReferenceNote": "Adena conversion at the demo reference rate: {rate} GNOT per 1 {currency}. Mainnet settlement will use a live oracle."
   },
   "news": {
     "title": "Caribbean News Live",
