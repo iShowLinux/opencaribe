@@ -7,12 +7,17 @@ The application has two storage modes selected by the presence of `DATABASE_URL`
 
 ## 1. Provision PostgreSQL
 
-Recommended: Neon (serverless, Vercel integration, free tier).
+Done for this project: the Neon marketplace integration was installed through
+the authenticated Vercel CLI, which created a free Neon project and connected it
+to opencaribe (Production/Preview/Development), injecting `DATABASE_URL`
+automatically.
 
 ```sh
-# after creating the project, copy the pooled connection string
-vercel env add DATABASE_URL production
+vercel integration accept-terms neon --yes
+vercel integration add neon --name opencaribe-db --json
 ```
+
+For other projects, any Postgres URL works — just `vercel env add DATABASE_URL production`.
 
 ## 2. Apply the schema once
 

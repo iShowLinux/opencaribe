@@ -50,3 +50,4 @@ Thumbs.db
 
 # Demo account/message storage when PostgreSQL is not configured
 .opencaribe/
+.env*

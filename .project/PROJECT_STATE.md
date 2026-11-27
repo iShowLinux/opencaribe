@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 2026-11-26 (PostgreSQL-backed store verified locally; Neon/Vercel env next)
+Last updated: 2026-11-26 (production live on Vercel Postgres/Neon, verified end-to-end)
 
 ## Repository
 
@@ -8,7 +8,7 @@ Public GitHub repository: https://github.com/iShowLinux/opencaribe (branch `main
 
 ## Live deployment
 
-**https://opencaribe.vercel.app** — Vercel production, auto-deploys from `main`. Runs in demo mode until `DATABASE_URL` is set. CLI authenticated as `ishowlinux`; project id `prj_sg1i72F8qGlCMhifSI6o2YJrLjNp`.
+**https://opencaribe.vercel.app** — Vercel production, auto-deploys from `main`, backed by Vercel Postgres (Neon free plan, connected through the Vercel marketplace integration). CLI authenticated as `ishowlinux`; project id `prj_sg1i72F8qGlCMhifSI6o2YJrLjNp`.
 
 ## Where the code lives
 
@@ -60,7 +60,7 @@ Public GitHub repository: https://github.com/iShowLinux/opencaribe (branch `main
 - Listings are served from deterministic demo data unless `DATABASE_URL` is set; DB errors fall back to demo data.
 - Draft creation in the wizard is validated server-side and held in a process-local store; database persistence is Phase 1.
 - Demo listings (24) and category thumbnails use verified Unsplash photo IDs through `next/image`; `next.config.ts` allows only `images.unsplash.com`.
-- With `DATABASE_URL` the same API runs against PostgreSQL (`lib/db-store.ts`): verified end-to-end against a local PostGIS container — register, post (UUID listing appears in search), buyer/seller messaging, sessions persisting across requests.
+- Production PostgreSQL is live: schema applied to Neon, and a Playwright walkthrough against the deployed URL passed register -> post (visible in search across serverless instances) -> two-account messaging -> payments page.
 - Without it, demo accounts/messages/orders persist to `LOCAL_DATA_DIR` (default `./.opencaribe/local-store.json`) when writable, so registration, posting and messaging survive restarts locally; this is explicitly a development/demo store, not the production database.
 - Public listings are filtered to `status === 'active'`; drafts and anonymous pending-review submissions never appear in search results.
 - City is optional on listings (region-level location is enough); exact addresses are never required.

@@ -79,3 +79,9 @@
 - `persistListing()` inserts into `listings` (UUID ids), creating synthetic user rows for wallet/anonymous sellers so `seller_id` FK holds; wallet sellers keep their address for checkout.
 - Ran PostGIS 16 container, applied schema via psql, built production bundle and ran the Playwright walkthrough with `DATABASE_URL`: register -> post (public listing found in search) -> second account opens thread -> seller reply persists. Verified rows in users/listings/message_threads/messages/sessions.
 - Deployment steps documented in `docs/deployment/production-checklist.md`; remaining action is creating Neon and adding `DATABASE_URL`/`BETTER_AUTH_SECRET` (+ optional OAuth secrets) to Vercel Production.
+
+## 2026-11-26 (final) — Production database cutover
+
+- Installed the Neon marketplace integration through the authenticated Vercel CLI (`vercel integration accept-terms neon --yes`, `vercel integration add neon`), creating a free Neon project connected to opencaribe for all environments; `DATABASE_URL` and related vars were injected automatically.
+- Pulled Production env locally (gitignored), applied `packages/database/drizzle/0000_*.sql` to Neon, confirmed all 17 tables exist, then removed the local env file.
+- Redeployed and ran the Playwright walkthrough against https://opencaribe.vercel.app: register -> publish (UUID listing found by search on another instance) -> second account messages seller -> seller reply persists -> /payments renders. Shared-state blocker resolved.
