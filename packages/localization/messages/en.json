@@ -91,6 +91,7 @@
     "preview": "Preview",
     "publish": "Publish listing",
     "success": "Your draft was created.",
+    "priceHint": "Enter an amount greater than zero, or pick Free / Contact for price if there is no fixed price.",
     "draftNote": "Drafts are reviewed before they appear publicly.",
     "back": "Back",
     "next": "Continue",

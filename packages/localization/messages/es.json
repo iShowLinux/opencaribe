@@ -91,6 +91,7 @@
     "preview": "Vista previa",
     "publish": "Publicar anuncio",
     "success": "Se creó tu borrador.",
+    "priceHint": "Ingresa un monto mayor que cero, o elige Gratis / Contactar por precio si no hay precio fijo.",
     "draftNote": "Los borradores se revisan antes de aparecer públicamente.",
     "back": "Atrás",
     "next": "Continuar",

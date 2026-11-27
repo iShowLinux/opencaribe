@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useActionState } from 'react';
 import { useTranslations } from 'next-intl';
 import { CURRENCIES, formatMoney, parseMoneyToMinor, type CurrencyCode, type Locale } from '@opencaribe/configuration';
@@ -39,6 +39,20 @@ export function PostListingWizard({ countryCode, locale, signedIn, categories, r
   const [state, formAction, pending] = useActionState(submitListing, initialState);
   const selectedCategory = categories.find((c) => c.id === categoryId);
   const safeCurrency = currency in CURRENCIES ? (currency as CurrencyCode) : 'TTD';
+  const fieldError = (key: string): string | undefined => state.errors?.[key]?.[0];
+  const invalidBorder = 'border-rose-500 focus-visible:ring-rose-500';
+
+  // Send the user back to the step that owns the first rejected field so the
+  // messages are visible instead of only showing a summary on the review step.
+  useEffect(() => {
+    if (state.status !== 'error' || !state.errors) return;
+    const keys = Object.keys(state.errors);
+    if (keys.some((key) => ['title', 'description', 'price', 'currency', 'priceType', 'condition'].includes(key))) {
+      setStep(2);
+    } else if (keys.length > 0) {
+      setStep(1);
+    }
+  }, [state.status, state.errors]);
   const previewPrice = (() => {
     try {
       return formatMoney(parseMoneyToMinor(price || '0', safeCurrency), safeCurrency, locale);
@@ -68,21 +82,27 @@ export function PostListingWizard({ countryCode, locale, signedIn, categories, r
         <section hidden={step !== 1} className="grid gap-4">
           <div>
             <Label htmlFor="categoryId">{t('categoryLabel')}</Label>
-            <Select id="categoryId" name="categoryId" value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
+            <Select id="categoryId" name="categoryId" value={categoryId} onChange={(e) => setCategoryId(e.target.value)}
+              aria-invalid={Boolean(fieldError('categoryId'))} className={fieldError('categoryId') ? invalidBorder : undefined}>
               {categories.map((category) => <option key={category.id} value={category.id}>{category.names[locale]}</option>)}
             </Select>
+            {fieldError('categoryId') && <p role="alert" className="mt-1.5 text-xs text-rose-600 dark:text-rose-400">{fieldError('categoryId')}</p>}
           </div>
           <div>
             <Label htmlFor="subcategoryId">{t('step1')}</Label>
-            <Select id="subcategoryId" name="subcategoryId" defaultValue={selectedCategory?.subcategories[0]?.id ?? ''}>
+            <Select id="subcategoryId" name="subcategoryId" defaultValue={selectedCategory?.subcategories[0]?.id ?? ''}
+              aria-invalid={Boolean(fieldError('subcategoryId'))} className={fieldError('subcategoryId') ? invalidBorder : undefined}>
               {(selectedCategory?.subcategories ?? []).map((subcategory) => <option key={subcategory.id} value={subcategory.id}>{subcategory.names[locale]}</option>)}
             </Select>
+            {fieldError('subcategoryId') && <p role="alert" className="mt-1.5 text-xs text-rose-600 dark:text-rose-400">{fieldError('subcategoryId')}</p>}
           </div>
           <div>
             <Label htmlFor="regionId">{t('regionLabel')}</Label>
-            <Select id="regionId" name="regionId" defaultValue={regions[0]?.id ?? ''}>
+            <Select id="regionId" name="regionId" defaultValue={regions[0]?.id ?? ''}
+              aria-invalid={Boolean(fieldError('regionId'))} className={fieldError('regionId') ? invalidBorder : undefined}>
               {regions.map((region) => <option key={region.id} value={region.id}>{region.names[locale]}</option>)}
             </Select>
+            {fieldError('regionId') && <p role="alert" className="mt-1.5 text-xs text-rose-600 dark:text-rose-400">{fieldError('regionId')}</p>}
           </div>
           <div>
             <Label htmlFor="cityId">{t('cityLabel')}</Label>
@@ -93,16 +113,26 @@ export function PostListingWizard({ countryCode, locale, signedIn, categories, r
         <section hidden={step !== 2} className="grid gap-4">
           <div>
             <Label htmlFor="title">{t('titleLabel')}</Label>
-            <Input id="title" name="title" value={title} onChange={(e) => setTitle(e.target.value)} maxLength={100} required />
+            <Input id="title" name="title" value={title} onChange={(e) => setTitle(e.target.value)} maxLength={100} required
+              aria-invalid={Boolean(fieldError('title'))} className={fieldError('title') ? invalidBorder : undefined} />
+            {fieldError('title') && <p role="alert" className="mt-1.5 text-xs text-rose-600 dark:text-rose-400">{fieldError('title')}</p>}
           </div>
           <div>
             <Label htmlFor="description">{t('descriptionLabel')}</Label>
-            <Textarea id="description" name="description" minLength={20} maxLength={5000} required />
+            <Textarea id="description" name="description" minLength={20} maxLength={5000} required
+              aria-invalid={Boolean(fieldError('description'))} className={fieldError('description') ? invalidBorder : undefined} />
+            {fieldError('description') && <p role="alert" className="mt-1.5 text-xs text-rose-600 dark:text-rose-400">{fieldError('description')}</p>}
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <Label htmlFor="price">{t('priceLabel')}</Label>
-              <Input id="price" name="price" inputMode="decimal" value={price} onChange={(e) => setPrice(e.target.value)} />
+              <Input id="price" name="price" inputMode="decimal" value={price} onChange={(e) => setPrice(e.target.value)}
+                aria-invalid={Boolean(fieldError('price'))} className={fieldError('price') ? invalidBorder : undefined} />
+              {fieldError('price')
+                ? <p role="alert" className="mt-1.5 text-xs text-rose-600 dark:text-rose-400">{fieldError('price')}</p>
+                : (!price || Number(price.replace(',', '.')) <= 0) && (
+                  <p className="mt-1.5 text-xs text-amber-700 dark:text-amber-300">{t('priceHint')}</p>
+                )}
             </div>
             <div>
               <Label htmlFor="currency">{t('currencyLabel')}</Label>
