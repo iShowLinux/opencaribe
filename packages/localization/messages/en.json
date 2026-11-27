@@ -350,7 +350,7 @@
       "error": "Could not connect to Adena. Please try again."
     },
     "walletName": "Adena wallet",
-    "walletNote": "Wallet connection is live on testnet. Price items in GNOT to accept crypto checkout.",
+    "walletNote": "Wallet connection is live on testnet. Pay any listing with Adena; GNOT prices convert at the reference rate.",
     "sellerNote": "Crypto is optional and never required to contact a seller.",
     "learnMore": "How crypto payments will work",
     "pageTitle": "Crypto payments with Adena",
@@ -365,9 +365,9 @@
     "methods": {
       "cash": "Cash / in person",
       "transfer": "Bank transfer",
-      "crypto": "Crypto via Adena (coming soon)"
+      "crypto": "Crypto via Adena"
     },
-    "siteBanner": "Pay with crypto using your Adena wallet — coming soon",
+    "siteBanner": "Pay with crypto using your Adena wallet — live on testnet.",
     "payReferenceNote": "Adena conversion at the demo reference rate: {rate} GNOT per 1 {currency}. Mainnet settlement will use a live oracle."
   },
   "news": {

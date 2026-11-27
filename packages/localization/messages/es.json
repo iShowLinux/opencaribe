@@ -350,7 +350,7 @@
       "error": "No se pudo conectar con Adena. Inténtalo de nuevo."
     },
     "walletName": "Billetera Adena",
-    "walletNote": "La billetera está activa en la red de prueba. Pon precios en GNOT para aceptar pagos con cripto.",
+    "walletNote": "La billetera está activa en la red de prueba. Paga cualquier anuncio con Adena; los precios en GNOT se convierten a la tasa de referencia.",
     "sellerNote": "El pago con criptomonedas es opcional y nunca es necesario para contactar al vendedor.",
     "learnMore": "Cómo funcionarán los pagos con criptomonedas",
     "pageTitle": "Pagos con criptomonedas y Adena",
@@ -365,9 +365,9 @@
     "methods": {
       "cash": "Efectivo / en persona",
       "transfer": "Transferencia bancaria",
-      "crypto": "Criptomonedas con Adena (próximamente)"
+      "crypto": "Cripto con Adena"
     },
-    "siteBanner": "Paga con criptomonedas usando tu billetera Adena — próximamente",
+    "siteBanner": "Paga con cripto usando tu billetera Adena: activo en la red de prueba.",
     "payReferenceNote": "Conversión con Adena a la tasa de referencia de demostración: {rate} GNOT por 1 {currency}. El settling en mainnet usará un oráculo en vivo."
   },
   "news": {
