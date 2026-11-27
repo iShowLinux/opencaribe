@@ -102,3 +102,25 @@
 - Anonymous listings now only become public after moderator approval; verified end-to-end (pending hidden from search -> approve -> visible).
 - Integrated `@vercel/analytics` in the root layout; wrote custom-domain runbook (`docs/deployment/custom-domain.md`).
 - Verified live with `ADMIN_EMAILS` set in Vercel Production.
+
+## 2026-11-27 (later) — Brand, markets, channels, offers
+
+- Replaced the "OC" tile with an original sailship mark (white sails + hull over
+  a wave on the teal tile) as a React component and `app/icon.svg`; checked at
+  36px/96px and on navy.
+- Added Jamaica, Barbados and Guyana markets end-to-end (currency JMD/BBD/GYD,
+  regions/cities, timezones, locales, shared policy blocks). Country picker and
+  homepage pick them up automatically.
+- Added 8 candidate channels from iptv-org discovery; vetted each with the
+  3-hop CORS check and Chromium playback. 7 enabled after `readyState 4`
+  playback; CBC TV8 parked as disabled with the reason recorded.
+- Built offers: `offers` table + both store backends, offer form on listings,
+  buyer/seller dashboard sections, accept/decline/cancel server actions, unit
+  tests.
+- Added the wallet gate: gno.land wallet required for wallet sellers and
+  GNOT-priced listings; `wugnot.BalanceOf` read through the public RPC blocks
+  messages/offers below the asking amount; fails open when the oracle errors so
+  a network outage never locks the marketplace.
+- Fixed `/admin` 500 (Date parameter serialization in the analytics query).
+- Full production walkthroughs pass: cross-country navigation, dashboard across
+  markets, offers lifecycle, admin moderation + analytics.

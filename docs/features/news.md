@@ -15,7 +15,7 @@ public streams published by Caribbean broadcasters.
 | Catalog unit tests | `tests/unit/news-catalog.test.ts` |
 | UI copy (English / Spanish) | `packages/localization/messages/{en,es}.json` under `news` |
 
-## Current channels (verified 2026-11-26)
+## Current channels (browser-verified 2026-11-27)
 
 Playable in Chromium through hls.js, with CORS and supported codecs confirmed:
 
@@ -32,11 +32,21 @@ Playable in Chromium through hls.js, with CORS and supported codecs confirmed:
 | Antena 21 | Dominican Republic | Spanish | news |
 | Telesistema 11 | Dominican Republic | Spanish | general + news |
 | Telenews Canal 40 | Dominican Republic | Spanish | news |
+| GNN TV | Jamaica | English | news |
+| MTV Guyana | Guyana | English | general |
+| ZIZ TV | Saint Kitts and Nevis | English | general |
+| Nevis Television | Saint Kitts and Nevis | English | general |
+| Caribbean Hot 7 TV | Saint Lucia | English | general |
+| TBN TV | Suriname | Dutch | general |
+| Bizz TV | Trinidad and Tobago | English | general |
 
 Listed but disabled, with the reason recorded in `channels.ts`:
 
 - **TTT**, **CNC3** (Trinidad and Tobago): no stable public HLS endpoint found;
   official watch-live pages are linked instead.
+- **CBC TV8** (Barbados): three-hop manifest/segment checks passed on
+  2026-11-27, but the feed stayed dark during browser playback probes;
+  listed with its official site until a live window is confirmed.
 - **teleSUR**: its feed advertises H.264 Main profile (`avc1.66.x`), which
   Chromium's MSE rejects (`MediaSource.isTypeSupported(...) === false`).
 

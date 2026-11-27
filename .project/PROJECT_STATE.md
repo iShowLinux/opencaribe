@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 2026-11-27 (moderation queue + analytics live; profiles/dashboard/ratings verified)
+Last updated: 2026-11-27 (5 markets, sailship brand, 7 new verified IPTV channels, offers + wallet gate live)
 
 ## Repository
 
@@ -31,6 +31,11 @@ Public GitHub repository: https://github.com/iShowLinux/opencaribe (branch `main
 | Wallet posting | Done (demo) | Register-free posting when Adena is connected: server validates gno address, 5/day limit, honeypot; account/wallet posts publish instantly, anonymous go to review | 
 | Messaging | Done (Postgres + demo) | Per-listing threads, inbox, replies, unread marking via `message_threads`/`thread_participants`/`messages` | 
 | Moderation queue + admin roles | Done (live) | `ADMIN_EMAILS` grants admin on register/login; `/admin` shows the pending-review queue with approve/reject; anonymous posts stay hidden until approved |
+| Offers / bids | Done (live) | Buyers submit offers from any listing; sellers accept/decline on the dashboard; wallet+balance gate applied before sending |
+| Wallet/balance gate | Done (live) | Gno.land wallet required for wallet sellers and GNOT-priced listings; on-chain wugnot balance check blocks low-ball offers/messages; fails open if the RPC oracle is down |
+| Sailship logo | Done (live) | Original vector mark (`BrandMark` + `app/icon.svg`), teal tile with white sails/hull |
+| Markets expanded | Done (live) | TT, VE, JM, BB, GY (JMD/BBD/GYD), country picker, per-country pages, localized defaults |
+| IPTV catalog | Expanded | 7 new browser-verified channels (GNN, MTV Guyana, ZIZ, Nevis TV, Caribbean Hot 7, TBN, Bizz TV); CBC TV8 parked pending live window |
 | Web analytics | Shipped | `@vercel/analytics` mounted in the layout; needs one-click enable in the Vercel dashboard |
 | Custom domain | Prepared | `docs/deployment/custom-domain.md` (DNS + env vars); awaiting the domain you want to point |
 | Profiles / dashboard / ratings | Done (live) | Public seller profiles (`/[country]/u/[userId]`), account dashboard (`/[country]/account`, linked as **My account** in the header when signed in), 1–5 star reviews persisted in `seller_ratings` with one review per reviewer per seller; owners see a dashboard shortcut on their listings and never see the rate form on their own ads | 
