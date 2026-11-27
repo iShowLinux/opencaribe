@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useActionState } from 'react';
 import { useTranslations } from 'next-intl';
 import { CURRENCIES, formatMoney, parseMoneyToMinor, type CurrencyCode, type Locale } from '@opencaribe/configuration';
@@ -44,12 +44,21 @@ export function PostListingWizard({ countryCode, locale, signedIn, categories, r
 
   // Send the user back to the step that owns the first rejected field so the
   // messages are visible instead of only showing a summary on the review step.
+  // Fires once per distinct error signature: re-running on the retry render
+  // would unmount the submit button mid-click and silently swallow the submit.
+  const lastErrorSignature = useRef('');
+  useEffect(() => {
+    // A new submission starts: allow its errors to navigate exactly once.
+    if (pending) lastErrorSignature.current = '';
+  }, [pending]);
   useEffect(() => {
     if (state.status !== 'error' || !state.errors) return;
-    const keys = Object.keys(state.errors);
-    if (keys.some((key) => ['title', 'description', 'price', 'currency', 'priceType', 'condition'].includes(key))) {
+    const signature = Object.keys(state.errors).sort().join('|');
+    if (signature === lastErrorSignature.current) return;
+    lastErrorSignature.current = signature;
+    if (Object.keys(state.errors).some((key) => ['title', 'description', 'price', 'currency', 'priceType', 'condition'].includes(key))) {
       setStep(2);
-    } else if (keys.length > 0) {
+    } else {
       setStep(1);
     }
   }, [state.status, state.errors]);
