@@ -11,6 +11,7 @@ import { WalletPayButton } from '@/components/WalletPayButton';
 import { getCurrentUser } from '@/lib/session';
 import { getSellerStats, getUserById } from '@/lib/store';
 import { RateSellerForm } from '@/components/RateSellerForm';
+import { OfferForm } from '@/components/OfferForm';
 import { CryptoPaymentCard } from '@/components/CryptoPaymentCard';
 import { ReportForm } from '@/components/ReportForm';
 import { categoryImage } from '@/lib/images';
@@ -124,6 +125,15 @@ export default async function ListingPage({ params }: { params: Promise<{ countr
               </LinkButton>
             )}
             <ContactSellerButton countryCode={code} listingId={listing.id} loggedIn={Boolean(viewer)} isOwner={viewer?.id === sellerKey} />
+            {listing.status === 'active' && viewer?.id !== sellerKey && (
+              <OfferForm
+                listingId={listing.id}
+                currency={listing.currency}
+                askingMajor={String(listing.amountMinor / 10 ** (listing.currency === 'GNOT' ? 6 : 2))}
+                digits={listing.currency === 'GNOT' ? 6 : 2}
+                loggedIn={Boolean(viewer)}
+              />
+            )}
             <RateSellerForm sellerKey={listing.sellerId} listingId={listing.id} loggedIn={Boolean(viewer)} isOwner={viewer?.id === sellerKey} />
             {canPayCrypto && sellerWallet && (
               <WalletPayButton

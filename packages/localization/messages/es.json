@@ -137,7 +137,29 @@
     "title": "Anuncios guardados",
     "empty": "Aún no has guardado anuncios."
   },
+  "browse": {
+    "subtitle": "Anuncios activos de todos los mercados, en un solo lugar.",
+    "allCountries": "Todos los países",
+    "resultsCount": "{count} anuncios activos",
+    "empty": "Aún no hay anuncios que coincidan con este filtro."
+  },
+  "offer": {
+    "title": "Hacer una oferta",
+    "signInHint": "Inicia sesión para enviar una oferta al vendedor.",
+    "amount": "Tu oferta ({currency})",
+    "messagePlaceholder": "Mensaje opcional para el vendedor",
+    "submit": "Enviar oferta"
+  },
   "dashboard": {
+  "myOffers": "Mis ofertas",
+  "offersReceived": "Ofertas recibidas",
+  "accept": "Aceptar",
+  "decline": "Rechazar",
+  "cancel": "Cancelar",
+  "wallet": "Billetera",
+  "walletConnect": "Conectar billetera",
+  "walletConnectHint": "Vincula tu billetera gno.land para escribir a vendedores con billetera y pagar con GNOT.",
+  "walletError": "No se pudo conectar la billetera.",
     "title": "Mi cuenta",
     "memberSince": "Miembro desde {date}",
     "wallet": "Billetera",
@@ -174,6 +196,9 @@
     "outOfRange": "Elige una puntuación entre 1 y 5."
   },
   "messages": {
+    "walletRequired": "Este vendedor requiere que los compradores conecten una billetera gno.land antes de enviar mensajes.",
+    "insufficientBalance": "El saldo de tu billetera es menor que el precio solicitado. Agrega fondos o elige otro anuncio.",
+    "connectWallet": "Conectar billetera",
     "title": "Mensajes",
     "empty": "Tus conversaciones aparecerán aquí.",
     "signInRequired": "Inicia sesión para leer y enviar mensajes.",

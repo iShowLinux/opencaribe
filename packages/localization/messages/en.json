@@ -137,7 +137,29 @@
     "title": "Saved listings",
     "empty": "You have not saved any listings yet."
   },
+  "browse": {
+    "subtitle": "Active listings from every market, in one place.",
+    "allCountries": "All countries",
+    "resultsCount": "{count} active listings",
+    "empty": "No listings match this filter yet."
+  },
+  "offer": {
+    "title": "Make an offer",
+    "signInHint": "Sign in to send an offer to the seller.",
+    "amount": "Your offer ({currency})",
+    "messagePlaceholder": "Optional message for the seller",
+    "submit": "Send offer"
+  },
   "dashboard": {
+  "myOffers": "My offers",
+  "offersReceived": "Offers received",
+  "accept": "Accept",
+  "decline": "Decline",
+  "cancel": "Cancel",
+  "wallet": "Wallet",
+  "walletConnect": "Connect wallet",
+  "walletConnectHint": "Link your gno.land wallet to message wallet sellers and pay with GNOT.",
+  "walletError": "Could not connect the wallet.",
     "title": "My account",
     "memberSince": "Member since {date}",
     "wallet": "Wallet",
@@ -174,6 +196,9 @@
     "outOfRange": "Choose a score between 1 and 5."
   },
   "messages": {
+    "walletRequired": "This seller requires buyers to connect a gno.land wallet before messaging.",
+    "insufficientBalance": "Your wallet balance is lower than this item\u2019s asking price. Add funds or pick another listing.",
+    "connectWallet": "Connect wallet",
     "title": "Messages",
     "empty": "Your conversations will appear here.",
     "signInRequired": "Sign in to read and send messages.",

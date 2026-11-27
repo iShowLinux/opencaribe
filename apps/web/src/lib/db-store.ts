@@ -1,7 +1,7 @@
 import { randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
 import { and, asc, desc, eq, inArray, isNull, ne } from 'drizzle-orm';
 import { getDb, schema } from '@opencaribe/database';
-import type { LocalMessage, LocalOrder, LocalRating, LocalThread, LocalUser, SellerStats } from './local-store';
+import type { LocalMessage, LocalOrder, LocalRating, LocalThread, LocalUser, SellerStats , LocalOffer } from './local-store';
 import { isAdminEmail } from './admin';
 
 /**
@@ -405,4 +405,76 @@ export async function getSellerStats(sellerId: string): Promise<SellerStats> {
   if (ratings.length === 0) return { count: 0, average: 0 };
   const total = ratings.reduce((sum, rating) => sum + rating.score, 0);
   return { count: ratings.length, average: Math.round((total / ratings.length) * 100) / 100 };
+}
+
+function mapOfferRow(row: typeof schema.offers.$inferSelect): LocalOffer {
+  return {
+    id: row.id,
+    listingId: row.listingId ?? '',
+    buyerId: row.buyerId,
+    amountMinor: Number(row.amountMinor),
+    currency: row.currency,
+    message: row.message ?? undefined,
+    status: row.status === 'accepted' || row.status === 'declined' || row.status === 'cancelled' ? row.status : 'pending',
+    createdAt: row.createdAt.toISOString(),
+  };
+}
+
+export async function createOffer(input: {
+  listingId: string;
+  buyerId: string;
+  amountMinor: number;
+  currency: string;
+  message?: string;
+}): Promise<LocalOffer> {
+  const [row] = await getDb()
+    .insert(schema.offers)
+    .values({
+      listingId: input.listingId,
+      buyerId: input.buyerId,
+      amountMinor: Math.round(input.amountMinor),
+      currency: input.currency,
+      message: input.message,
+    })
+    .returning();
+  if (!row) throw new Error('OFFER_NOT_CREATED');
+  return mapOfferRow(row);
+}
+
+export async function listOffersForListing(listingId: string): Promise<LocalOffer[]> {
+  const rows = await getDb().select().from(schema.offers).where(eq(schema.offers.listingId, listingId)).orderBy(desc(schema.offers.createdAt));
+  return rows.map(mapOfferRow);
+}
+
+export async function listOffersByBuyer(buyerId: string): Promise<LocalOffer[]> {
+  const rows = await getDb().select().from(schema.offers).where(eq(schema.offers.buyerId, buyerId)).orderBy(desc(schema.offers.createdAt));
+  return rows.map(mapOfferRow);
+}
+
+export async function respondToOffer(offerId: string, status: 'accepted' | 'declined'): Promise<LocalOffer | undefined> {
+  const [row] = await getDb()
+    .update(schema.offers)
+    .set({ status })
+    .where(and(eq(schema.offers.id, offerId), eq(schema.offers.status, 'pending')))
+    .returning();
+  return row ? mapOfferRow(row) : undefined;
+}
+
+export async function cancelOffer(offerId: string, buyerId: string): Promise<LocalOffer | undefined> {
+  const [row] = await getDb()
+    .update(schema.offers)
+    .set({ status: 'cancelled' })
+    .where(and(eq(schema.offers.id, offerId), eq(schema.offers.buyerId, buyerId), eq(schema.offers.status, 'pending')))
+    .returning();
+  return row ? mapOfferRow(row) : undefined;
+}
+
+export async function listOffersForSeller(sellerKey: string): Promise<LocalOffer[]> {
+  const rows = await getDb()
+    .select({ offer: schema.offers })
+    .from(schema.offers)
+    .innerJoin(schema.listings, eq(schema.offers.listingId, schema.listings.id))
+    .where(eq(schema.listings.sellerId, sellerKey))
+    .orderBy(desc(schema.offers.createdAt));
+  return rows.map((row) => mapOfferRow(row.offer));
 }

@@ -71,6 +71,17 @@ export interface LocalRating {
   createdAt: string;
 }
 
+export interface LocalOffer {
+  id: string;
+  listingId: string;
+  buyerId: string;
+  amountMinor: number;
+  currency: string;
+  message?: string;
+  status: 'pending' | 'accepted' | 'declined' | 'cancelled';
+  createdAt: string;
+}
+
 export interface SellerStats {
   count: number;
   average: number;
@@ -83,9 +94,10 @@ interface StoreShape {
   messages: LocalMessage[];
   orders: LocalOrder[];
   ratings: LocalRating[];
+  offers: LocalOffer[];
 }
 
-const empty: StoreShape = { users: [], sessions: [], threads: [], messages: [], orders: [], ratings: [] };
+const empty: StoreShape = { users: [], sessions: [], threads: [], messages: [], orders: [], ratings: [], offers: [] };
 const store: StoreShape = structuredClone(empty);
 
 const dataDir = process.env.LOCAL_DATA_DIR ?? path.join(process.cwd(), '.opencaribe');
@@ -393,5 +405,62 @@ export function resetStoreForTests(): void {
   store.messages = [];
   store.orders = [];
   store.ratings = [];
+  store.offers = [];
   loaded = true;
+}
+
+export async function createOffer(input: {
+  listingId: string;
+  buyerId: string;
+  amountMinor: number;
+  currency: string;
+  message?: string;
+}): Promise<LocalOffer> {
+  await ensureLoaded();
+  const offer: LocalOffer = {
+    id: id('offer'),
+    listingId: input.listingId,
+    buyerId: input.buyerId,
+    amountMinor: Math.round(input.amountMinor),
+    currency: input.currency,
+    message: input.message,
+    status: 'pending',
+    createdAt: new Date().toISOString(),
+  };
+  store.offers.push(offer);
+  await persist();
+  return offer;
+}
+
+export async function listOffersForListing(listingId: string): Promise<LocalOffer[]> {
+  await ensureLoaded();
+  return store.offers.filter((offer) => offer.listingId === listingId).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+}
+
+export async function listOffersByBuyer(buyerId: string): Promise<LocalOffer[]> {
+  await ensureLoaded();
+  return store.offers.filter((offer) => offer.buyerId === buyerId).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+}
+
+export async function respondToOffer(offerId: string, status: 'accepted' | 'declined'): Promise<LocalOffer | undefined> {
+  await ensureLoaded();
+  const offer = store.offers.find((entry) => entry.id === offerId);
+  if (!offer || offer.status !== 'pending') return undefined;
+  offer.status = status;
+  await persist();
+  return offer;
+}
+
+export async function cancelOffer(offerId: string, buyerId: string): Promise<LocalOffer | undefined> {
+  await ensureLoaded();
+  const offer = store.offers.find((entry) => entry.id === offerId);
+  if (!offer || offer.buyerId !== buyerId || offer.status !== 'pending') return undefined;
+  offer.status = 'cancelled';
+  await persist();
+  return offer;
+}
+
+export async function listOffers(): Promise<LocalOffer[]> {
+  await ensureLoaded();
+  return [...store.offers].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 }

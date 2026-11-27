@@ -133,3 +133,14 @@ export async function reportListing(formData: FormData): Promise<{ ok: boolean; 
   const received = locale === 'es' ? 'Gracias. Tu reporte fue recibido.' : 'Thank you. Your report has been received.';
   return { ok: true, message: received };
 }
+
+/** Links the signed-in member's Adena address after a successful connection. */
+export async function connectWalletAction(address: string): Promise<{ ok: boolean; message: string }> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, message: 'Sign in to connect your wallet.' };
+  if (!isGnoAddress(address)) return { ok: false, message: 'That does not look like a gno.land address.' };
+  await attachWallet(user.id, address);
+  revalidatePath('/account', 'page');
+  revalidatePath('/', 'layout');
+  return { ok: true, message: 'Wallet connected.' };
+}

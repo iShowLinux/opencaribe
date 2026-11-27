@@ -1,6 +1,8 @@
 import { Container, Card, SectionTitle, Badge } from '@opencaribe/ui';
 import { LinkButton } from '@/components/LinkButton';
 import { LogoutButton } from '@/components/LogoutButton';
+import { AccountWalletCard } from '@/components/AccountWalletCard';
+import { OfferHistory } from '@/components/OfferHistory';
 import { getCurrentUser } from '@/lib/session';
 import { getSellerStats, listRatingsForSeller } from '@/lib/store';
 import { listListingsBySeller } from '@/lib/listings-store';
@@ -59,6 +61,8 @@ export async function AccountDashboard({ countryCode }: { countryCode?: string }
         <LogoutButton />
       </div>
 
+      <AccountWalletCard linkedAddress={user.walletAddress} />
+
       <Card className="mt-8 p-6">
         <div className="flex items-center justify-between gap-3">
           <h2 className="text-lg font-semibold text-navy-900 dark:text-navy-50">{t('dashboard.myListings')}</h2>
@@ -100,6 +104,7 @@ export async function AccountDashboard({ countryCode }: { countryCode?: string }
           {ratings.length === 0 && <p className="text-sm text-slate-600 dark:text-slate-400">{t('dashboard.noReviews')}</p>}
         </div>
       </Card>
+      <OfferHistory />
     </Container>
   );
 }

@@ -1,6 +1,7 @@
 import { isDatabaseConfigured } from '@opencaribe/database';
 import * as local from './local-store';
 import * as pg from './db-store';
+import { getAllListings } from './listings-store';
 
 /**
  * Storage facade: PostgreSQL when DATABASE_URL is configured, otherwise the
@@ -9,7 +10,7 @@ import * as pg from './db-store';
 const impl = (isDatabaseConfigured() ? pg : local) as typeof local;
 
 export const SESSION_COOKIE = local.SESSION_COOKIE;
-export type { LocalUser, LocalSession, LocalThread, LocalMessage, LocalOrder, LocalRating, SellerStats } from './local-store';
+export type { LocalUser, LocalSession, LocalThread, LocalMessage, LocalOrder, LocalRating, LocalOffer, SellerStats } from './local-store';
 
 export async function findUserByEmail(email: string): Promise<local.LocalUser | undefined> {
   return impl.findUserByEmail(email);
@@ -113,4 +114,39 @@ export async function listRatingsForSeller(sellerId: string): Promise<local.Loca
 
 export async function getSellerStats(sellerId: string): Promise<local.SellerStats> {
   return impl.getSellerStats(sellerId);
+}
+
+export async function createOffer(input: {
+  listingId: string;
+  buyerId: string;
+  amountMinor: number;
+  currency: string;
+  message?: string;
+}): Promise<local.LocalOffer> {
+  return impl.createOffer(input);
+}
+
+export async function listOffersForListing(listingId: string): Promise<local.LocalOffer[]> {
+  return impl.listOffersForListing(listingId);
+}
+
+export async function listOffersByBuyer(buyerId: string): Promise<local.LocalOffer[]> {
+  return impl.listOffersByBuyer(buyerId);
+}
+
+export async function respondToOffer(offerId: string, status: 'accepted' | 'declined'): Promise<local.LocalOffer | undefined> {
+  return impl.respondToOffer(offerId, status);
+}
+
+export async function cancelOffer(offerId: string, buyerId: string): Promise<local.LocalOffer | undefined> {
+  return impl.cancelOffer(offerId, buyerId);
+}
+
+export async function listOffersForSeller(sellerKey: string): Promise<local.LocalOffer[]> {
+  if (!isDatabaseConfigured()) {
+    const listings = await getAllListings();
+    const ids = new Set(listings.filter((listing) => listing.sellerId === sellerKey).map((listing) => listing.id));
+    return (await local.listOffers()).filter((offer) => ids.has(offer.listingId));
+  }
+  return pg.listOffersForSeller(sellerKey);
 }

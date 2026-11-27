@@ -1,4 +1,4 @@
-import { desc, gte, sql } from 'drizzle-orm';
+import { desc, sql } from 'drizzle-orm';
 import { getDb, isDatabaseConfigured, schema } from '@opencaribe/database';
 
 /** Records one anonymous page view. Failures are ignored so analytics never blocks a request. */
@@ -22,7 +22,7 @@ export interface PageViewStats {
 export async function getPageViewStats(): Promise<PageViewStats> {
   if (!isDatabaseConfigured()) return { total: 0, last7Days: 0, topPaths: [] };
   const db = getDb();
-  const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+  const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
   const [totals] = await db
     .select({ total: sql<number>`count(*)::int`, last7Days: sql<number>`count(*) filter (where ${schema.pageViews.createdAt} >= ${since})::int` })
     .from(schema.pageViews);

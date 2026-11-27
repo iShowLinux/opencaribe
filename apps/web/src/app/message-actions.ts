@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { getListingById } from '@/lib/listings-store';
 import { getCurrentUser } from '@/lib/session';
+import { getGnotBalanceMinor } from '@/lib/wallet-balance';
 import {
   describeSeller,
   getThreadForUser,
@@ -22,12 +23,42 @@ function sellerKey(sellerId: string): string {
   return sellerId.startsWith('user:') ? sellerId.slice(5) : sellerId;
 }
 
-export async function startThread(listingId: string): Promise<{ ok: true; threadId: string } | { ok: false; reason: 'auth' | 'missing' | 'own' }> {
+export type StartThreadFailure = 'auth' | 'missing' | 'own' | 'wallet' | 'balance';
+
+export interface StartThreadResult {
+  ok: boolean;
+  threadId?: string;
+  reason?: StartThreadFailure;
+  haveMinor?: number;
+}
+
+/** Wallet gate: crypto-priced ads and wallet sellers require a connected wallet. */
+export async function checkContactGate(
+  user: { id: string; walletAddress?: string },
+  listing: { currency: string; amountMinor: number; sellerId: string; walletAddress?: string },
+): Promise<{ blocked: false } | { blocked: true; reason: 'wallet' | 'balance'; haveMinor?: number }> {
+  const cryptoPriced = listing.currency === 'GNOT';
+  const walletSeller = listing.sellerId.startsWith('wallet:') || Boolean(listing.walletAddress);
+  if ((cryptoPriced || walletSeller) && !user.walletAddress) return { blocked: true, reason: 'wallet' };
+  if (!cryptoPriced) return { blocked: false };
+  const haveMinor = await getGnotBalanceMinor(user.walletAddress as string);
+  if (haveMinor === null) {
+    // Balance oracle unavailable: never lock the marketplace on an RPC outage.
+    return { blocked: false };
+  }
+  if (haveMinor < listing.amountMinor) return { blocked: true, reason: 'balance', haveMinor };
+  return { blocked: false };
+}
+
+export async function startThread(listingId: string): Promise<StartThreadResult> {
   const user = await getCurrentUser();
   if (!user) return { ok: false, reason: 'auth' };
   const listing = await getListingById(listingId);
   if (!listing) return { ok: false, reason: 'missing' };
   if (sellerKey(listing.sellerId) === user.id) return { ok: false, reason: 'own' };
+
+  const gate = await checkContactGate(user, listing);
+  if (gate.blocked) return { ok: false, reason: gate.reason, haveMinor: gate.haveMinor };
 
   const thread = await openThread(listingId, user.id, sellerKey(listing.sellerId));
   revalidatePath('/', 'layout');

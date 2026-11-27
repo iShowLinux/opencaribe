@@ -239,3 +239,19 @@ export const pageViews = pgTable('page_views', {
 ]);
 
 export type PageView = typeof pageViews.$inferSelect;
+
+export const offers = pgTable('offers', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  listingId: uuid('listing_id').notNull().references(() => listings.id, { onDelete: 'cascade' }),
+  buyerId: text('buyer_id').notNull().references(() => users.id),
+  amountMinor: bigint('amount_minor', { mode: 'number' }).notNull(),
+  currency: text('currency').notNull(),
+  message: text('message'),
+  status: text('status').notNull().default('pending'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+}, (table) => [
+  index('offers_listing_idx').on(table.listingId),
+  index('offers_buyer_idx').on(table.buyerId),
+]);
+
+export type Offer = typeof offers.$inferSelect;

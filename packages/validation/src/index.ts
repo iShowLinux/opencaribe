@@ -94,3 +94,15 @@ export const searchFiltersSchema = z.object({
   sort: z.enum(['recent', 'relevance', 'price_asc', 'price_desc']).default('recent'),
   page: z.coerce.number().int().min(1).max(10_000).default(1),
 });
+
+export const offerSchema = z.object({
+  listingId: z.string().min(1),
+  amount: z.coerce.number().positive().max(1_000_000_000),
+  currency: z.string().min(2).max(8),
+  message: z.string().trim().max(500).optional(),
+});
+
+export const offerResponseSchema = z.object({
+  offerId: z.string().min(1),
+  decision: z.enum(['accept', 'decline']),
+});
