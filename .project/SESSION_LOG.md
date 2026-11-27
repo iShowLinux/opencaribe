@@ -124,3 +124,21 @@
 - Fixed `/admin` 500 (Date parameter serialization in the analytics query).
 - Full production walkthroughs pass: cross-country navigation, dashboard across
   markets, offers lifecycle, admin moderation + analytics.
+
+## 2026-11-27 (later) — Community, maps, shipping
+
+- Free wallet nav button for logged-out users (Adena), hidden when signed in.
+- Members-only community: three categories (events/feedback/support), thread pages
+  with replies, author lines show wallet address alongside display name and the
+  UI states that names are only labels (wallet is the proof).
+- Wallet gate now proceeds when a wallet is already linked and offers a
+  "connect a different wallet" path from blocked message/offer states and the
+  account wallet card.
+- Listings render the exact region/city label, an OpenStreetMap embed and a
+  driving route (OSRM) from the visitor's IP-based location when Vercel supplies
+  geolocation headers, plus Google Maps directions link and a Ship-this-item link.
+- `/shipping` shipping matrix: package quote form wired to an optional provider
+  adapter, with direct Pirate Ship label creation (no public API exists, so live
+  rates require a connected carrier account).
+- Fixed the header Browse link outside country pages (`/search` 404) via scoped
+  links and a root `/search` -> `/browse` redirect; footer now lists every market.

@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 2026-11-27 (5 markets, sailship brand, 7 new verified IPTV channels, offers + wallet gate live)
+Last updated: 2026-11-27 (community board, item map + IP routing, Pirate Ship shipping matrix live)
 
 ## Repository
 
@@ -31,6 +31,11 @@ Public GitHub repository: https://github.com/iShowLinux/opencaribe (branch `main
 | Wallet posting | Done (demo) | Register-free posting when Adena is connected: server validates gno address, 5/day limit, honeypot; account/wallet posts publish instantly, anonymous go to review | 
 | Messaging | Done (Postgres + demo) | Per-listing threads, inbox, replies, unread marking via `message_threads`/`thread_participants`/`messages` | 
 | Moderation queue + admin roles | Done (live) | `ADMIN_EMAILS` grants admin on register/login; `/admin` shows the pending-review queue with approve/reject; anonymous posts stay hidden until approved |
+| Community board | Done (live) | Members-only threads in Current events / Platform feedback / Support with replies; wallet address shown next to display names |
+| Item map + routing | Done (live) | Listing location marker (OSM embed) plus OSRM driving route/duration from the visitor's Vercel IP geolocation when available |
+| Shipping matrix | Done (live) | `/shipping` rate-quote form behind an optional provider adapter (`SHIP_PROVIDER_URL`) with direct Pirate Ship label creation |
+| Wallet switching | Done (live) | Already-connected wallets proceed; "Connect a different wallet" always available on the dashboard |
+| Free wallet nav | Done (live) | Logged-out visitors see a Free wallet button linking to Adena; hidden once signed in |
 | Offers / bids | Done (live) | Buyers submit offers from any listing; sellers accept/decline on the dashboard; wallet+balance gate applied before sending |
 | Wallet/balance gate | Done (live) | Gno.land wallet required for wallet sellers and GNOT-priced listings; on-chain wugnot balance check blocks low-ball offers/messages; fails open if the RPC oracle is down |
 | Sailship logo | Done (live) | Original vector mark (`BrandMark` + `app/icon.svg`), teal tile with white sails/hull |
