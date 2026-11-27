@@ -142,3 +142,17 @@
   rates require a connected carrier account).
 - Fixed the header Browse link outside country pages (`/search` 404) via scoped
   links and a root `/search` -> `/browse` redirect; footer now lists every market.
+
+## 2026-11-27 (later) — Moderation powers, photos, payments
+
+- Admins/moderators can delete (soft-remove) listings from `/admin` or directly on
+  a listing, and ban/restore members. Bans drop DB sessions immediately,
+  `getCurrentUser()` treats banned users as signed out, and login is rejected
+  with a suspension message; profiles show a Suspended badge.
+- Post form now accepts one item photo (PNG/JPEG/WebP, <=1.5 MB) stored in the
+  new `listings.image_url` column and rendered on listing pages.
+- Wallet connect no longer fails when Adena is already established; it reuses
+  the existing session first.
+- Crypto payments enabled across markets: sellers can price in GNOT, and
+  listings with a seller wallet expose the Adena `/bank.MsgSend` checkout at
+  the exact asking amount (testnet onyx-1).

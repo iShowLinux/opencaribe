@@ -137,12 +137,14 @@ export function PostListingWizard({ countryCode, locale, signedIn, categories, r
         <section hidden={effectiveStep !== 2} className="grid gap-4">
           <div>
             <Label htmlFor="title">{t('titleLabel')}</Label>
+            <p className="mt-1 text-xs text-slate-500">{root('listing.hintTitle')}</p>
             <Input id="title" name="title" value={title} onChange={(e) => setTitle(e.target.value)} maxLength={100} required
               aria-invalid={Boolean(fieldError('title'))} className={fieldError('title') ? invalidBorder : undefined} />
             {fieldError('title') && <p role="alert" className="mt-1.5 text-xs text-rose-600 dark:text-rose-400">{fieldError('title')}</p>}
           </div>
           <div>
             <Label htmlFor="description">{t('descriptionLabel')}</Label>
+            <p className="mt-1 text-xs text-slate-500">{root('listing.hintDescription')}</p>
             <Textarea id="description" name="description" value={description} onChange={(e) => setDescription(e.target.value)}
               minLength={20} maxLength={5000} required
               aria-invalid={Boolean(fieldError('description'))} className={fieldError('description') ? invalidBorder : undefined} />

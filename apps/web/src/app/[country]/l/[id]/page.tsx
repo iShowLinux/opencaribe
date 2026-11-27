@@ -25,7 +25,7 @@ export default async function ListingPage({ params }: { params: Promise<{ countr
   const code = toCountryCode(rawCode);
   if (!code) notFound();
   const listing = await getListingById(id);
-  if (!listing || listing.countryCode !== code) notFound();
+  if (!listing || listing.countryCode !== code || listing.status === 'removed' || listing.status === 'suspended') notFound();
 
   const locale = (await getLocale()) as Locale;
   const t = await getT();

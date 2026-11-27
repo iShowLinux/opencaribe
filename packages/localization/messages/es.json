@@ -79,7 +79,9 @@
     "directions": "Cómo llegar",
     "share": "Compartir",
     "safetyNote": "Queda en un lugar público y nunca envíes dinero antes de ver el artículo.",
-    "memberSince": "Miembro desde"
+    "memberSince": "Miembro desde",
+    "hintTitle": "Mínimo 8 caracteres.",
+    "hintDescription": "Mínimo 20 caracteres: estado, incluidos y detalles de recogida ayudan a vender."
   },
   "post": {
     "title": "Publicar un anuncio",

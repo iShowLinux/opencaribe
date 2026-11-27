@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 2026-11-27 (community board, item map + IP routing, Pirate Ship shipping matrix live)
+Last updated: 2026-11-27 (staff moderation powers, photo uploads, GNOT pricing + testnet checkout live)
 
 ## Repository
 
@@ -36,6 +36,9 @@ Public GitHub repository: https://github.com/iShowLinux/opencaribe (branch `main
 | Shipping matrix | Done (live) | `/shipping` rate-quote form behind an optional provider adapter (`SHIP_PROVIDER_URL`) with direct Pirate Ship label creation |
 | Wallet switching | Done (live) | Already-connected wallets proceed; "Connect a different wallet" always available on the dashboard |
 | Free wallet nav | Done (live) | Logged-out visitors see a Free wallet button linking to Adena; hidden once signed in |
+| Staff moderation | Done (live) | Admins/moderators can remove any listing from `/admin` or the listing page, and ban/restore member profiles; bans kill sessions immediately and block login |
+| Listing photos | Done (live) | Buyers/sellers upload a PNG/JPEG/WebP photo (≤1.5 MB) on the Post form; stored as `listings.image_url` and rendered on the listing page |
+| Crypto checkout | Live on testnet | Markets accept GNOT pricing; listings with a seller wallet show the Adena bank-send checkout at the exact asking amount; wallet connect tolerates an already-established Adena session |
 | Offers / bids | Done (live) | Buyers submit offers from any listing; sellers accept/decline on the dashboard; wallet+balance gate applied before sending |
 | Wallet/balance gate | Done (live) | Gno.land wallet required for wallet sellers and GNOT-priced listings; on-chain wugnot balance check blocks low-ball offers/messages; fails open if the RPC oracle is down |
 | Sailship logo | Done (live) | Original vector mark (`BrandMark` + `app/icon.svg`), teal tile with white sails/hull |

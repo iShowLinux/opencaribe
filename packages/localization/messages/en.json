@@ -79,7 +79,9 @@
     "directions": "Directions",
     "share": "Share",
     "safetyNote": "Meet in a public place and never send money before seeing an item.",
-    "memberSince": "Member since"
+    "memberSince": "Member since",
+    "hintTitle": "At least 8 characters.",
+    "hintDescription": "At least 20 characters — condition, inclusions and pickup details help it sell."
   },
   "post": {
     "title": "Post an ad",

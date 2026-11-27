@@ -16,7 +16,7 @@ export default async function CountryPage({ params }: { params: Promise<{ countr
   const locale = (await getLocale()) as Locale;
   const t = await getT();
   const all = await getAllListings();
-  const listings = all.filter((listing) => listing.countryCode === code).slice(0, 6);
+  const listings = all.filter((listing) => listing.countryCode === code && listing.status === 'active').slice(0, 6);
 
   return (
     <>
