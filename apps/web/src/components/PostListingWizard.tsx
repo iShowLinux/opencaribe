@@ -152,11 +152,14 @@ export function PostListingWizard({ countryCode, locale, signedIn, categories, r
           </div>
           <div>
               <Label htmlFor="imageFile">{root('listing.imageLabel')}</Label>
-              <input
-                id="imageFile"
-                type="file"
-                accept="image/png,image/jpeg,image/webp"
-                className="mt-1.5 w-full text-sm"
+              <div className="relative mt-1.5 overflow-hidden rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 px-4 py-5 text-center transition-colors hover:border-teal-500 dark:border-slate-700 dark:bg-slate-900">
+                <p className="text-sm font-medium text-navy-900 dark:text-navy-50">📷 {root('listing.uploadCta')}</p>
+                <p className="mt-1 text-xs text-slate-500">{root('listing.imageHint')}</p>
+                <input
+                  id="imageFile"
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                  className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
                 onChange={(event) => {
                   const file = event.target.files?.[0];
                   if (!file) return;
@@ -169,7 +172,8 @@ export function PostListingWizard({ countryCode, locale, signedIn, categories, r
                   };
                   reader.readAsDataURL(file);
                 }}
-              />
+                />
+              </div>
               {imageData && (
                 <div className="mt-2 flex items-center gap-3">
                   {/* eslint-disable-next-line @next/next/no-img-element -- local data-URL preview */}
@@ -180,7 +184,6 @@ export function PostListingWizard({ countryCode, locale, signedIn, categories, r
                   </button>
                 </div>
               )}
-              <p className="mt-1.5 text-xs text-slate-500">{root('listing.imageHint')}</p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
             <div>

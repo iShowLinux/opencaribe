@@ -61,3 +61,63 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* GTA easter-egg theme: triggered by typing /gta anywhere on the site. */
+html.theme-gta {
+  color-scheme: dark;
+}
+
+html.theme-gta body {
+  background:
+    radial-gradient(circle at 15% 0%, rgba(88, 28, 135, 0.55), transparent 55%),
+    linear-gradient(160deg, #2e1065 0%, #1e1b4b 45%, #0f172a 100%);
+  color: #ecfccb;
+}
+
+html.theme-gta .text-navy-900,
+html.theme-gta .dark .text-navy-50,
+html.theme-gta .text-navy-800,
+html.theme-gta .text-slate-700,
+html.theme-gta .dark .text-slate-300 {
+  color: #f7fee7 !important;
+}
+
+html.theme-gta .text-slate-600,
+html.theme-gta .dark .text-slate-400,
+html.theme-gta .text-slate-500 {
+  color: #bef264 !important;
+}
+
+html.theme-gta .bg-teal-700,
+html.theme-gta .dark .bg-teal-500,
+html.theme-gta .bg-teal-600,
+html.theme-gta .bg-teal-800 {
+  background-color: #4d7c0f !important;
+}
+
+html.theme-gta .text-teal-700,
+html.theme-gta .dark .text-teal-300,
+html.theme-gta .text-teal-800,
+html.theme-gta .border-teal-500,
+html.theme-gta .focus\:border-teal-500:focus {
+  color: #a3e635 !important;
+  border-color: #a3e635 !important;
+}
+
+html.theme-gta .bg-white,
+html.theme-gta .dark .bg-slate-900 {
+  background-color: rgba(30, 27, 75, 0.92) !important;
+}
+
+html.theme-gta .dark .bg-slate-800,
+html.theme-gta .border-slate-200,
+html.theme-gta .dark .border-slate-800 {
+  border-color: #6d28d9 !important;
+}
+
+html.theme-gta h1,
+html.theme-gta h2,
+html.theme-gta h3 {
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}

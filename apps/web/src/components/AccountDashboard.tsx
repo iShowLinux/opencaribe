@@ -3,6 +3,7 @@ import { LinkButton } from '@/components/LinkButton';
 import { LogoutButton } from '@/components/LogoutButton';
 import { AccountWalletCard } from '@/components/AccountWalletCard';
 import { OfferHistory } from '@/components/OfferHistory';
+import { OversightPanel } from '@/components/OversightPanel';
 import { getCurrentUser } from '@/lib/session';
 import { getSellerStats, listRatingsForSeller } from '@/lib/store';
 import { listListingsBySeller } from '@/lib/listings-store';
@@ -105,6 +106,7 @@ export async function AccountDashboard({ countryCode }: { countryCode?: string }
         </div>
       </Card>
       <OfferHistory />
+      {user.role === 'admin' || user.role === 'moderator' ? <OversightPanel role={user.role} /> : null}
     </Container>
   );
 }

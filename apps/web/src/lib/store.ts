@@ -183,3 +183,11 @@ export async function setUserBanned(userId: string, banned: boolean): Promise<vo
 export async function listUsers(limit = 50): Promise<local.LocalUser[]> {
   return impl.listUsers(limit);
 }
+
+export async function listAllThreads(limit = 50): Promise<local.LocalThread[]> {
+  return impl.listAllThreads(limit);
+}
+
+export async function listAllOffers(limit = 50): Promise<local.LocalOffer[]> {
+  return impl.listAllOffers(limit);
+}

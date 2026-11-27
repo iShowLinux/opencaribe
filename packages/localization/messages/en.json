@@ -14,7 +14,8 @@
     "freeWallet": "Free wallet",
     "community": "Community",
     "admin": "Administration",
-    "news": "News"
+    "news": "News",
+    "searchPlaceholder": "Search the marketplace"
   },
   "home": {
     "heroTitle": "Find it close to home",
@@ -81,7 +82,8 @@
     "safetyNote": "Meet in a public place and never send money before seeing an item.",
     "memberSince": "Member since",
     "hintTitle": "At least 8 characters.",
-    "hintDescription": "At least 20 characters — condition, inclusions and pickup details help it sell."
+    "hintDescription": "At least 20 characters — condition, inclusions and pickup details help it sell.",
+    "uploadCta": "Tap to upload a photo"
   },
   "post": {
     "title": "Post an ad",
@@ -291,7 +293,10 @@
     "mfaRequired": "Multi-factor authentication is mandatory for privileged accounts.",
     "listingsTitle": "All listings",
     "membersTitle": "Members",
-    "banned": "Banned"
+    "banned": "Banned",
+    "offersTitle": "All offers",
+    "transactionsTitle": "Transactions",
+    "conversationsTitle": "Conversations (read-only)"
   },
   "legal": {
     "about": "About the project",

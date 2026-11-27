@@ -61,14 +61,19 @@ export default async function ListingPage({ params }: { params: Promise<{ countr
       <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_340px]">
         <div>
           <div className="relative h-72 overflow-hidden rounded-xl bg-gradient-to-br from-navy-900 to-teal-800">
-            <Image
-              src={listing.imageUrl ?? categoryImage(listing.categoryId, 1000)}
-              alt=""
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 66vw"
-              className="object-cover"
-            />
+            {listing.imageUrl && /^data:image\//.test(listing.imageUrl) ? (
+              /* eslint-disable-next-line @next/next/no-img-element -- uploaded local photo */
+              <img src={listing.imageUrl} alt={listing.title} className="absolute inset-0 h-full w-full object-cover" />
+            ) : (
+              <Image
+                src={listing.imageUrl ?? categoryImage(listing.categoryId, 1000)}
+                alt=""
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 66vw"
+                className="object-cover"
+              />
+            )}
             <span aria-hidden="true" className="absolute left-3 top-3 rounded-lg bg-navy-950/60 px-3 py-1.5 text-2xl text-white">{category?.icon ?? '📦'}</span>
           </div>
           <h1 className="mt-6 text-3xl font-black tracking-tight text-navy-900 dark:text-navy-50">{listing.title}</h1>

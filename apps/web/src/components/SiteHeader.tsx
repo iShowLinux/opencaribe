@@ -34,6 +34,17 @@ export function SiteHeader({ userName, userRole }: Props) {
           <span className="text-lg tracking-tight">OpenCaribe</span>
         </Link>
 
+        <form action="/search" method="get" className="flex items-center">
+          <label className="sr-only" htmlFor="site-search">{nav('searchPlaceholder')}</label>
+          <input
+            id="site-search"
+            name="q"
+            type="search"
+            placeholder={nav('searchPlaceholder')}
+            className="w-32 rounded-lg border border-slate-300 bg-white px-2.5 py-2 text-sm text-navy-900 placeholder:text-slate-400 focus:w-44 focus:border-teal-500 focus:outline-none sm:w-40 dark:border-slate-700 dark:bg-slate-900 dark:text-navy-50"
+          />
+        </form>
+
         <label className="sr-only" htmlFor="country-select">Country</label>
         <select
           id="country-select"

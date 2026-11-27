@@ -1,6 +1,36 @@
 'use client';
 
+import { useEffect, useState } from "react";
+
 export function ThemeToggle({ labels }: { labels: { light: string; dark: string; theme: string } }) {
+  const [gta, setGta] = useState(false);
+
+  useEffect(() => {
+    const sync = () => setGta(document.documentElement.classList.contains('theme-gta'));
+    sync();
+    window.addEventListener('oc-theme-change', sync);
+    return () => window.removeEventListener('oc-theme-change', sync);
+  }, []);
+
+  if (gta) {
+    return (
+      <button
+        type="button"
+        onClick={() => {
+          document.documentElement.classList.remove('theme-gta');
+          try { localStorage.setItem('opencaribe-gta', '0'); } catch { /* ignore */ }
+          window.dispatchEvent(new Event('oc-theme-change'));
+        }}
+        aria-label={labels.theme}
+        title={labels.theme}
+        className="inline-flex h-10 w-10 items-center justify-center rounded-lg border-2 border-lime-400 bg-purple-950 text-lg text-lime-300"
+      >
+        <span aria-hidden="true">🌴</span>
+        <span className="sr-only">{labels.theme}</span>
+      </button>
+    );
+  }
+
   function toggle() {
     const isDark = document.documentElement.classList.toggle('dark');
     try {

@@ -559,3 +559,17 @@ export async function listUsers(limit = 50): Promise<LocalUser[]> {
     createdAt: row.createdAt.toISOString(),
   }));
 }
+
+export async function listAllThreads(limit = 50): Promise<LocalThread[]> {
+  const rows = await getDb()
+    .select()
+    .from(schema.messageThreads)
+    .orderBy(desc(schema.messageThreads.createdAt))
+    .limit(limit);
+  return Promise.all(rows.map(async (row) => toLocalThread(row, await participantsOf(row.id))));
+}
+
+export async function listAllOffers(limit = 50): Promise<LocalOffer[]> {
+  const rows = await getDb().select().from(schema.offers).orderBy(desc(schema.offers.createdAt)).limit(limit);
+  return rows.map(mapOfferRow);
+}

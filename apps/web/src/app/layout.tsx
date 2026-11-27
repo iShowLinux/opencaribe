@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { Analytics } from '@vercel/analytics/next';
 import { StatsBeacon } from '@/components/StatsBeacon';
 import { CountryMemory } from '@/components/CountryMemory';
+import { GtaMode } from '@/components/GtaMode';
 import { getLocale, getMessages } from 'next-intl/server';
 import { COUNTRIES } from '@opencaribe/configuration';
 import { SiteHeader } from '@/components/SiteHeader';
@@ -57,6 +58,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         </NextIntlClientProvider>
             <Analytics />
       <StatsBeacon />
+      <GtaMode />
       <CountryMemory />
     </body>
     </html>

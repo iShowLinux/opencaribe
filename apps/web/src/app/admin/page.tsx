@@ -1,8 +1,9 @@
 import { Badge, Card, Container, SectionTitle } from '@opencaribe/ui';
 import { getCurrentUser } from '@/lib/session';
 import { getAllListings, listListingsByStatus } from '@/lib/listings-store';
-import { listUsers } from '@/lib/store';
-import { BanUserButton, RemoveListingButton } from '@/components/ModerationButtons';
+
+import { RemoveListingButton } from '@/components/ModerationButtons';
+import { OversightPanel } from '@/components/OversightPanel';
 import { getPageViewStats } from '@/lib/stats';
 import { moderateListing } from '@/app/moderation-actions';
 import { LinkButton } from '@/components/LinkButton';
@@ -15,7 +16,6 @@ export default async function AdminPage() {
   const pending = allowed ? await listListingsByStatus('pending_review') : [];
   const stats = allowed ? await getPageViewStats() : null;
   const allListings = allowed ? (await getAllListings()).slice(0, 25) : [];
-  const members = allowed ? await listUsers(30) : [];
 
   return (
     <Container className="max-w-4xl py-12">
@@ -125,20 +125,7 @@ export default async function AdminPage() {
             </div>
           </Card>
 
-          <Card className="mt-6 p-6">
-            <h2 className="text-lg font-semibold text-navy-900 dark:text-navy-50">{t('admin.membersTitle')}</h2>
-            <div className="mt-4 grid gap-2">
-              {members.map((member) => (
-                <div key={member.id} className="flex items-center justify-between gap-3 rounded-lg border border-slate-200 p-3 dark:border-slate-800">
-                  <div className="min-w-0">
-                    <p className="truncate text-sm font-medium text-navy-900 dark:text-navy-50">{member.name}</p>
-                    <p className="truncate text-xs text-slate-500">{member.email} · {member.role}{member.banned ? ' · banned' : ''}</p>
-                  </div>
-                  <BanUserButton userId={member.id} banned={member.banned} />
-                </div>
-              ))}
-            </div>
-          </Card>
+          {user && <OversightPanel role={user.role === 'admin' ? 'admin' : 'moderator'} />}
         </>
       )}
     </Container>

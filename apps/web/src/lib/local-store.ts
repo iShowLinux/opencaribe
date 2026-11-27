@@ -558,3 +558,13 @@ export async function listUsers(limit = 50): Promise<LocalUser[]> {
   await ensureLoaded();
   return [...store.users].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, limit);
 }
+
+export async function listAllThreads(limit = 50): Promise<LocalThread[]> {
+  await ensureLoaded();
+  return [...store.threads].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, limit);
+}
+
+export async function listAllOffers(limit = 50): Promise<LocalOffer[]> {
+  await ensureLoaded();
+  return [...store.offers].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, limit);
+}

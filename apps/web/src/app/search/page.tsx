@@ -7,5 +7,6 @@ export default async function SearchRedirect({ searchParams }: { searchParams: P
   if (q) params.set('q', q);
   if (category) params.set('category', category);
   const qs = params.toString();
+  if (q.trim().toLowerCase() === '/gta') redirect('/?gta=1');
   redirect(qs ? `/browse?${qs}` : '/browse');
 }
