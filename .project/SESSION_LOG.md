@@ -156,3 +156,20 @@
 - Crypto payments enabled across markets: sellers can price in GNOT, and
   listings with a seller wallet expose the Adena `/bank.MsgSend` checkout at
   the exact asking amount (testnet onyx-1).
+
+## 2026-11-27 (later) — Basin coverage, news, chat
+
+- Expanded COUNTRIES from 5 to 22 markets covering the Caribbean basin with
+  local currencies (BSD, DOP, HTG, CUP, BZD, XCD, SRD, AWG, ANG, EUR) via a
+  shared `caribbeanMarket()` builder; homepage/picker/routing pick them up.
+- `/headlines`: US-outlet RSS aggregation (NYT Americas, WaPo World, CBS World,
+  NPR World) filtered to Caribbean keywords, cached in `news_articles` with an
+  hourly cron (`/api/cron/headlines`, protected by CRON_SECRET) plus first-load
+  refresh.
+- Inbox messages gained a Translate button (server proxy, EN<->ES).
+- Profiles support a WhatsApp number saved from the dashboard and shown as a
+  wa.me link on seller profiles.
+- `/chat`: logged-in live room backed by `chat_messages`, 5s polling, nav entry.
+- Crypto launch hardening: wallet connect reuses established Adena sessions in
+  the checkout and payments card, balance gate uses each market's configured
+  RPC, "coming soon" copy replaced with live-testnet messaging.

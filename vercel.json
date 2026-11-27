@@ -9,7 +9,7 @@
   "crons": [
     {
       "path": "/api/cron/headlines",
-      "schedule": "17 * * * *"
+      "schedule": "23 4 * * *"
     }
   ]
 }

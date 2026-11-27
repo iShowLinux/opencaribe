@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 2026-11-27 (staff moderation powers, photo uploads, GNOT pricing + testnet checkout live)
+Last updated: 2026-11-27 (22 Caribbean markets, US headlines feed, chat translation, WhatsApp, live chat)
 
 ## Repository
 
@@ -42,7 +42,11 @@ Public GitHub repository: https://github.com/iShowLinux/opencaribe (branch `main
 | Offers / bids | Done (live) | Buyers submit offers from any listing; sellers accept/decline on the dashboard; wallet+balance gate applied before sending |
 | Wallet/balance gate | Done (live) | Gno.land wallet required for wallet sellers and GNOT-priced listings; on-chain wugnot balance check blocks low-ball offers/messages; fails open if the RPC oracle is down |
 | Sailship logo | Done (live) | Original vector mark (`BrandMark` + `app/icon.svg`), teal tile with white sails/hull |
-| Markets expanded | Done (live) | TT, VE, JM, BB, GY (JMD/BBD/GYD), country picker, per-country pages, localized defaults |
+| Markets expanded | Done (live) | 22 Caribbean markets incl. TT, VE, JM, BB, GY, BS, DO, HT, PR, CU, BZ, AG, LC, GD, DM, VC, KN, SR, AW, CW, VI, VG; country picker, per-country pages, localized defaults/currencies |
+| Caribbean headlines | Done (live) | `/headlines` aggregates US outlets (NYT Americas, WaPo World, CBS World, NPR World), Caribbean-basin filtered, hourly Vercel cron (`CRON_SECRET`), cached in Postgres |
+| Message translation | Done (live) | Every inbox message has a Translate to EN/ES action via the server-side translation proxy |
+| WhatsApp on profiles | Done (live) | Members save a WhatsApp number on their dashboard; sellers expose a wa.me link on their public profile |
+| Live visitor chat | Done (live) | `/chat` room for signed-in members with 5s polling, persisted messages, header nav entry |
 | IPTV catalog | Expanded | 7 new browser-verified channels (GNN, MTV Guyana, ZIZ, Nevis TV, Caribbean Hot 7, TBN, Bizz TV); CBC TV8 parked pending live window |
 | Web analytics | Shipped | `@vercel/analytics` mounted in the layout; needs one-click enable in the Vercel dashboard |
 | Custom domain | Prepared | `docs/deployment/custom-domain.md` (DNS + env vars); awaiting the domain you want to point |
