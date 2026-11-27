@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 2026-11-26 (production live on Vercel Postgres/Neon, verified end-to-end)
+Last updated: 2026-11-27 (profiles, dashboard and seller ratings live)
 
 ## Repository
 
@@ -30,6 +30,7 @@ Public GitHub repository: https://github.com/iShowLinux/opencaribe (branch `main
 | Gno wallet connect (P1) | Done (read-only) | Adena client island; address/balance/network on `/payments`; chain-mismatch warning; settlement still disabled |
 | Wallet posting | Done (demo) | Register-free posting when Adena is connected: server validates gno address, 5/day limit, honeypot; account/wallet posts publish instantly, anonymous go to review | 
 | Messaging | Done (Postgres + demo) | Per-listing threads, inbox, replies, unread marking via `message_threads`/`thread_participants`/`messages` | 
+| Profiles / dashboard / ratings | Done | Public seller profiles (`/[country]/u/[userId]`), account dashboard (`/[country]/account`), 1–5 star reviews persisted in `seller_ratings` with one review per reviewer per seller | 
 | Testnet crypto checkout | Done (send-only) | Listing page pays a seller wallet via Adena `/bank.MsgSend`; tx hash stored in `payment_orders` and shown on `/payments` | 
 | News / IPTV player | Done (curated) | hls.js player + catalog (`apps/web/src/lib/channels.ts`); 11 channels verified playing in Chromium; TTT/CNC3/teleSUR kept as disabled with recorded reasons |
 | i18n | Done | en/es catalogues, cookie switcher; key-parity test passes |
@@ -60,6 +61,7 @@ Public GitHub repository: https://github.com/iShowLinux/opencaribe (branch `main
 - Listings are served from deterministic demo data unless `DATABASE_URL` is set; DB errors fall back to demo data.
 - Draft creation in the wizard is validated server-side and held in a process-local store; database persistence is Phase 1.
 - Demo listings (24) and category thumbnails use verified Unsplash photo IDs through `next/image`; `next.config.ts` allows only `images.unsplash.com`.
+- Profiles/dashboard/ratings verified on production: seller posts → public profile link + star average; second account rates 4★ with comment; seller dashboard and profile both show it.
 - Production PostgreSQL is live: schema applied to Neon, and a Playwright walkthrough against the deployed URL passed register -> post (visible in search across serverless instances) -> two-account messaging -> payments page.
 - Without it, demo accounts/messages/orders persist to `LOCAL_DATA_DIR` (default `./.opencaribe/local-store.json`) when writable, so registration, posting and messaging survive restarts locally; this is explicitly a development/demo store, not the production database.
 - Public listings are filtered to `status === 'active'`; drafts and anonymous pending-review submissions never appear in search results.

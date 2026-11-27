@@ -85,3 +85,12 @@
 - Installed the Neon marketplace integration through the authenticated Vercel CLI (`vercel integration accept-terms neon --yes`, `vercel integration add neon`), creating a free Neon project connected to opencaribe for all environments; `DATABASE_URL` and related vars were injected automatically.
 - Pulled Production env locally (gitignored), applied `packages/database/drizzle/0000_*.sql` to Neon, confirmed all 17 tables exist, then removed the local env file.
 - Redeployed and ran the Playwright walkthrough against https://opencaribe.vercel.app: register -> publish (UUID listing found by search on another instance) -> second account messages seller -> seller reply persists -> /payments renders. Shared-state blocker resolved.
+
+## 2026-11-27 — Profiles, dashboard and seller ratings
+
+- Added `seller_ratings` table (unique per seller+reviewer, upsert on re-rate) plus store implementations in both backends and facade methods `rateSeller`, `listRatingsForSeller`, `getSellerStats`.
+- New account dashboard (`/[country]/account`): member since, wallet, own listings with status, reviews received, sign-out.
+- New public seller profile (`/[country]/u/[userId]`): active listings, average rating and review list; linked from listing pages ("Sold by …").
+- Listing sidebar shows seller name/profile link, star average and a RateSellerForm (login required, self-rating blocked, score 1–5).
+- Replaced effect-based auto-navigation after validation errors with render-derived step selection (React compiler rule) and fixed nav base to use the effective step.
+- Schema applied to local PostGIS and production Neon; full walkthrough passed on the live site.
