@@ -94,3 +94,11 @@
 - Listing sidebar shows seller name/profile link, star average and a RateSellerForm (login required, self-rating blocked, score 1–5).
 - Replaced effect-based auto-navigation after validation errors with render-derived step selection (React compiler rule) and fixed nav base to use the effective step.
 - Schema applied to local PostGIS and production Neon; full walkthrough passed on the live site.
+
+## 2026-11-27 (later) — Launch hardening: moderation, analytics, domain prep
+
+- Full production audit: all routes 200, no page errors; register/post/dashboard/profile/rating/messaging flows pass.
+- Added roles (`user|moderator|admin`) across both stores, `ADMIN_EMAILS` bootstrap on register/login, `/admin` pending-review queue with approve/reject server action and header "Administration" entry for privileged roles.
+- Anonymous listings now only become public after moderator approval; verified end-to-end (pending hidden from search -> approve -> visible).
+- Integrated `@vercel/analytics` in the root layout; wrote custom-domain runbook (`docs/deployment/custom-domain.md`).
+- Verified live with `ADMIN_EMAILS` set in Vercel Production.

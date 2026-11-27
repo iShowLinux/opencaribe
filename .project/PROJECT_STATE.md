@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 2026-11-27 (profiles, dashboard and seller ratings live)
+Last updated: 2026-11-27 (moderation queue + analytics live; profiles/dashboard/ratings verified)
 
 ## Repository
 
@@ -30,6 +30,9 @@ Public GitHub repository: https://github.com/iShowLinux/opencaribe (branch `main
 | Gno wallet connect (P1) | Done (read-only) | Adena client island; address/balance/network on `/payments`; chain-mismatch warning; settlement still disabled |
 | Wallet posting | Done (demo) | Register-free posting when Adena is connected: server validates gno address, 5/day limit, honeypot; account/wallet posts publish instantly, anonymous go to review | 
 | Messaging | Done (Postgres + demo) | Per-listing threads, inbox, replies, unread marking via `message_threads`/`thread_participants`/`messages` | 
+| Moderation queue + admin roles | Done (live) | `ADMIN_EMAILS` grants admin on register/login; `/admin` shows the pending-review queue with approve/reject; anonymous posts stay hidden until approved |
+| Web analytics | Shipped | `@vercel/analytics` mounted in the layout; needs one-click enable in the Vercel dashboard |
+| Custom domain | Prepared | `docs/deployment/custom-domain.md` (DNS + env vars); awaiting the domain you want to point |
 | Profiles / dashboard / ratings | Done (live) | Public seller profiles (`/[country]/u/[userId]`), account dashboard (`/[country]/account`, linked as **My account** in the header when signed in), 1–5 star reviews persisted in `seller_ratings` with one review per reviewer per seller; owners see a dashboard shortcut on their listings and never see the rate form on their own ads | 
 | Testnet crypto checkout | Done (send-only) | Listing page pays a seller wallet via Adena `/bank.MsgSend`; tx hash stored in `payment_orders` and shown on `/payments` | 
 | News / IPTV player | Done (curated) | hls.js player + catalog (`apps/web/src/lib/channels.ts`); 11 channels verified playing in Chromium; TTT/CNC3/teleSUR kept as disabled with recorded reasons |
