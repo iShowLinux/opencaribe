@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { COUNTRIES, COUNTRY_CODES, isCountryCode } from '@opencaribe/configuration';
 import { Container } from '@opencaribe/ui';
 import { LinkButton } from './LinkButton';
+import { BrandMark } from './BrandMark';
 import { LocaleSwitcher } from './LocaleSwitcher';
 import { ThemeToggle } from './ThemeToggle';
 
@@ -29,7 +30,7 @@ export function SiteHeader({ userName, userRole }: Props) {
     <header className="sticky top-0 z-40 border-b border-slate-200 bg-sand-50/95 backdrop-blur dark:border-slate-800 dark:bg-navy-950/95">
       <Container className="flex flex-wrap items-center gap-x-4 gap-y-2 py-3">
         <Link href="/" className="flex items-center gap-2 font-bold text-navy-900 dark:text-navy-50">
-          <span aria-hidden="true" className="grid h-9 w-9 place-items-center rounded-lg bg-teal-700 text-base text-white dark:bg-teal-500 dark:text-navy-950">OC</span>
+          <BrandMark size={36} />
           <span className="text-lg tracking-tight">OpenCaribe</span>
         </Link>
 

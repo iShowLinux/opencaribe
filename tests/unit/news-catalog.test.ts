@@ -44,8 +44,8 @@ describe('news channel catalog', () => {
 
   it('filters by country and hides disabled channels by default', () => {
     const jamaica = listNewsChannels({ country: 'JM' });
-    expect(jamaica).toHaveLength(1);
-    expect(jamaica[0].id).toBe('tvj-jamaica');
+    expect(jamaica.map((channel) => channel.id)).toContain('tvj-jamaica');
+    expect(jamaica.length).toBeGreaterThanOrEqual(2);
     expect(listNewsChannels().every((channel) => channel.enabled)).toBe(true);
     expect(getNewsChannel('ttt-trinidad')).toBeDefined();
     expect(listNewsChannels().some((channel) => channel.id === 'ttt-trinidad')).toBe(false);

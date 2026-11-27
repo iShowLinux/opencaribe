@@ -244,6 +244,216 @@ export const COUNTRIES: Record<CountryCode, CountryConfig> = {
       notes: 'VES and VED must remain distinct in any historical record. Confirm current currency rules before enabling paid features.',
     },
   },
+
+  JM: {
+    code: 'JM',
+    displayName: 'Jamaica',
+    supportedLanguages: ['en'],
+    defaultLocale: 'en',
+    supportedCurrencies: ['JMD', 'USD'],
+    defaultCurrency: 'JMD',
+    telephonePrefix: '+1-876',
+    timeZone: 'America/Jamaica',
+    regions: [
+      {
+        id: 'jm-kingston',
+        names: t('Kingston', 'Kingston'),
+        cities: [
+          { id: 'jm-kingston-city', names: t('Kingston', 'Kingston'), approxLatitude: 17.9714, approxLongitude: -76.7922 },
+          { id: 'jm-half-way-tree', names: t('Half Way Tree', 'Half Way Tree'), approxLatitude: 18.0125, approxLongitude: -76.796 },
+        ],
+      },
+
+      {
+        id: 'jm-saint-james',
+        names: t('Saint James', 'Saint James'),
+        cities: [
+          { id: 'jm-montego-bay', names: t('Montego Bay', 'Montego Bay'), approxLatitude: 18.4762, approxLongitude: -77.8939 },
+        ],
+      },
+    ],
+    enabledCategories: ['*'],
+    featureFlags: {
+      requireEmailVerification: true,
+      allowGuestBrowsing: true,
+      enableMessaging: true,
+      enableMapSearch: false,
+      enableLocationDetection: false,
+      moderationQueue: true,
+      maxImagesPerListing: 8,
+      listingExpirationDays: 30,
+      maxListingTitleLength: 100,
+      maxListingDescriptionLength: 5000,
+    },
+    cryptoPayments: {
+      enabled: false,
+      comingSoon: true,
+      wallets: ['adena'],
+      note: t(
+        'Paying with GNOT is not enabled yet. Connect your Adena wallet to see your testnet balance and be ready when payments launch.',
+        'Pagar con GNOT aún no está habilitado. Conecta tu billetera Adena para ver tu saldo de prueba y estar listo cuando se lancen los pagos.',
+      ),
+      asset: { symbol: 'GNOT', denom: 'ugnot', decimals: 6 },
+      walletConnect: {
+        enabled: true,
+        network: 'testnet',
+        chainId: 'onyx-1',
+        rpcUrl: 'https://rpc.onyx.testnets.gno.land:443',
+        faucetUrl: 'https://faucet.gno.land',
+      },
+    },
+    legalDocuments: {
+      privacyPolicy: 'privacyPolicy',
+      termsOfService: 'termsOfService',
+      communityGuidelines: 'communityGuidelines',
+    },
+    moderation: {
+      requiresApprovalCategories: ['housing', 'jobs'],
+      prohibitedItemKeys: ['weapons', 'controlledSubstances', 'counterfeit', 'human_trafficking', 'stolenGoods'],
+      allowUsedGoods: true,
+      allowTobaccoAndAlcohol: false,
+      notes: 'Category-specific rules are maintained in docs/security and must be reviewed with local counsel before launch.',
+    },
+  },
+  BB: {
+    code: 'BB',
+    displayName: 'Barbados',
+    supportedLanguages: ['en'],
+    defaultLocale: 'en',
+    supportedCurrencies: ['BBD', 'USD'],
+    defaultCurrency: 'BBD',
+    telephonePrefix: '+1-246',
+    timeZone: 'America/Barbados',
+    regions: [
+      {
+        id: 'bb-bridgetown',
+        names: t('Bridgetown', 'Bridgetown'),
+        cities: [
+          { id: 'bb-bridgetown-city', names: t('Bridgetown', 'Bridgetown'), approxLatitude: 13.0975, approxLongitude: -59.6165 },
+          { id: 'bb-saint-michael', names: t('Saint Michael', 'Saint Michael'), approxLatitude: 13.1, approxLongitude: -59.62 },
+        ],
+      },
+
+      {
+        id: 'bb-saint-james',
+        names: t('Saint James', 'Saint James'),
+        cities: [
+          { id: 'bb-holetown', names: t('Holetown', 'Holetown'), approxLatitude: 13.1892, approxLongitude: -59.6388 },
+        ],
+      },
+    ],
+    enabledCategories: ['*'],
+    featureFlags: {
+      requireEmailVerification: true,
+      allowGuestBrowsing: true,
+      enableMessaging: true,
+      enableMapSearch: false,
+      enableLocationDetection: false,
+      moderationQueue: true,
+      maxImagesPerListing: 8,
+      listingExpirationDays: 30,
+      maxListingTitleLength: 100,
+      maxListingDescriptionLength: 5000,
+    },
+    cryptoPayments: {
+      enabled: false,
+      comingSoon: true,
+      wallets: ['adena'],
+      note: t(
+        'Paying with GNOT is not enabled yet. Connect your Adena wallet to see your testnet balance and be ready when payments launch.',
+        'Pagar con GNOT aún no está habilitado. Conecta tu billetera Adena para ver tu saldo de prueba y estar listo cuando se lancen los pagos.',
+      ),
+      asset: { symbol: 'GNOT', denom: 'ugnot', decimals: 6 },
+      walletConnect: {
+        enabled: true,
+        network: 'testnet',
+        chainId: 'onyx-1',
+        rpcUrl: 'https://rpc.onyx.testnets.gno.land:443',
+        faucetUrl: 'https://faucet.gno.land',
+      },
+    },
+    legalDocuments: {
+      privacyPolicy: 'privacyPolicy',
+      termsOfService: 'termsOfService',
+      communityGuidelines: 'communityGuidelines',
+    },
+    moderation: {
+      requiresApprovalCategories: ['housing', 'jobs'],
+      prohibitedItemKeys: ['weapons', 'controlledSubstances', 'counterfeit', 'human_trafficking', 'stolenGoods'],
+      allowUsedGoods: true,
+      allowTobaccoAndAlcohol: false,
+      notes: 'Category-specific rules are maintained in docs/security and must be reviewed with local counsel before launch.',
+    },
+  },
+  GY: {
+    code: 'GY',
+    displayName: 'Guyana',
+    supportedLanguages: ['en'],
+    defaultLocale: 'en',
+    supportedCurrencies: ['GYD', 'USD'],
+    defaultCurrency: 'GYD',
+    telephonePrefix: '+592',
+    timeZone: 'America/Guyana',
+    regions: [
+      {
+        id: 'gy-demerara',
+        names: t('Demerara', 'Demerara'),
+        cities: [
+          { id: 'gy-georgetown', names: t('Georgetown', 'Georgetown'), approxLatitude: 6.8045, approxLongitude: -58.1558 },
+        ],
+      },
+
+      {
+        id: 'gy-east-berbice',
+        names: t('East Berbice', 'East Berbice'),
+        cities: [
+          { id: 'gy-new-amsterdam', names: t('New Amsterdam', 'New Amsterdam'), approxLatitude: 6.254, approxLongitude: -57.527 },
+        ],
+      },
+    ],
+    enabledCategories: ['*'],
+    featureFlags: {
+      requireEmailVerification: true,
+      allowGuestBrowsing: true,
+      enableMessaging: true,
+      enableMapSearch: false,
+      enableLocationDetection: false,
+      moderationQueue: true,
+      maxImagesPerListing: 8,
+      listingExpirationDays: 30,
+      maxListingTitleLength: 100,
+      maxListingDescriptionLength: 5000,
+    },
+    cryptoPayments: {
+      enabled: false,
+      comingSoon: true,
+      wallets: ['adena'],
+      note: t(
+        'Paying with GNOT is not enabled yet. Connect your Adena wallet to see your testnet balance and be ready when payments launch.',
+        'Pagar con GNOT aún no está habilitado. Conecta tu billetera Adena para ver tu saldo de prueba y estar listo cuando se lancen los pagos.',
+      ),
+      asset: { symbol: 'GNOT', denom: 'ugnot', decimals: 6 },
+      walletConnect: {
+        enabled: true,
+        network: 'testnet',
+        chainId: 'onyx-1',
+        rpcUrl: 'https://rpc.onyx.testnets.gno.land:443',
+        faucetUrl: 'https://faucet.gno.land',
+      },
+    },
+    legalDocuments: {
+      privacyPolicy: 'privacyPolicy',
+      termsOfService: 'termsOfService',
+      communityGuidelines: 'communityGuidelines',
+    },
+    moderation: {
+      requiresApprovalCategories: ['housing', 'jobs'],
+      prohibitedItemKeys: ['weapons', 'controlledSubstances', 'counterfeit', 'human_trafficking', 'stolenGoods'],
+      allowUsedGoods: true,
+      allowTobaccoAndAlcohol: false,
+      notes: 'Category-specific rules are maintained in docs/security and must be reviewed with local counsel before launch.',
+    },
+  },
 };
 
 export const COUNTRY_CODES = Object.keys(COUNTRIES) as CountryCode[];

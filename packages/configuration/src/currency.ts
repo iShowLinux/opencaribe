@@ -40,6 +40,24 @@ export const CURRENCIES: Record<CurrencyCode, CurrencyDefinition> = {
     name: { en: 'Gno.land Token', es: 'Token de Gno.land' },
     note: 'On-chain amounts are denominated in ugnot (1 GNOT = 1,000,000 ugnot). Volatile asset; never converted implicitly.',
   },
+  JMD: {
+    code: 'JMD',
+    digits: 2,
+    symbol: 'J$',
+    name: { en: 'Jamaican Dollar', es: 'Dólar jamaicano' },
+  },
+  BBD: {
+    code: 'BBD',
+    digits: 2,
+    symbol: 'Bds$',
+    name: { en: 'Barbadian Dollar', es: 'Dólar de Barbados' },
+  },
+  GYD: {
+    code: 'GYD',
+    digits: 2,
+    symbol: 'G$',
+    name: { en: 'Guyanese Dollar', es: 'Dólar guyanés' },
+  },
 };
 
 export function getCurrency(code: CurrencyCode): CurrencyDefinition {

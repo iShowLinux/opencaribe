@@ -11,20 +11,29 @@ import {
 } from '@opencaribe/configuration';
 
 describe('country configuration', () => {
-  it('defines both launch markets with the required values', () => {
-    expect(COUNTRY_CODES).toEqual(['TT', 'VE']);
+  it('defines every configured market with the required values', () => {
+    expect(COUNTRY_CODES).toEqual(['TT', 'VE', 'JM', 'BB', 'GY']);
     expect(COUNTRIES.TT.defaultCurrency).toBe('TTD');
     expect(COUNTRIES.TT.telephonePrefix).toBe('+1-868');
     expect(COUNTRIES.TT.timeZone).toBe('America/Port_of_Spain');
     expect(COUNTRIES.VE.defaultCurrency).toBe('VES');
     expect(COUNTRIES.VE.telephonePrefix).toBe('+58');
     expect(COUNTRIES.VE.timeZone).toBe('America/Caracas');
+    expect(COUNTRIES.JM.defaultCurrency).toBe('JMD');
+    expect(COUNTRIES.BB.defaultCurrency).toBe('BBD');
+    expect(COUNTRIES.GY.defaultCurrency).toBe('GYD');
+    for (const code of ['JM', 'BB', 'GY'] as const) {
+      expect(COUNTRIES[code].regions.length).toBeGreaterThan(0);
+      expect(COUNTRIES[code].cryptoPayments.walletConnect.rpcUrl).toMatch(/^https:\/\//);
+    }
   });
 
-  it('supports both languages in both countries', () => {
+  it('supports English everywhere and Spanish in the launch markets', () => {
     for (const code of COUNTRY_CODES) {
-      expect(COUNTRIES[code].supportedLanguages).toEqual(expect.arrayContaining(['en', 'es']));
+      expect(COUNTRIES[code].supportedLanguages).toContain('en');
     }
+    expect(COUNTRIES.TT.supportedLanguages).toEqual(expect.arrayContaining(['en', 'es']));
+    expect(COUNTRIES.VE.supportedLanguages).toEqual(expect.arrayContaining(['en', 'es']));
   });
 
   it('has 31 enabled, translatable categories', () => {

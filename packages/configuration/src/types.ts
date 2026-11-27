@@ -1,6 +1,6 @@
 export type Locale = 'en' | 'es';
-export type CountryCode = 'TT' | 'VE';
-export type CurrencyCode = 'TTD' | 'USD' | 'VES' | 'VED' | 'GNOT';
+export type CountryCode = 'TT' | 'VE' | 'JM' | 'BB' | 'GY';
+export type CurrencyCode = 'TTD' | 'USD' | 'VES' | 'VED' | 'GNOT' | 'JMD' | 'BBD' | 'GYD';
 export type LocalizedText = Record<Locale, string>;
 
 export interface CurrencyDefinition {
