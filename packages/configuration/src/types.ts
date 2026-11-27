@@ -30,7 +30,9 @@ export type CountryCode =
   | 'MQ'
   | 'GP'
   | 'GF'
-  | 'BQ';
+  | 'BQ'
+  | 'CO'
+  | 'PA';
 export type CurrencyCode =
   | 'TTD'
   | 'USD'
@@ -50,7 +52,9 @@ export type CurrencyCode =
   | 'AWG'
   | 'ANG'
   | 'EUR'
-  | 'KYD';
+  | 'KYD'
+  | 'COP'
+  | 'PAB';
 export type LocalizedText = Record<Locale, string>;
 
 export interface CurrencyDefinition {

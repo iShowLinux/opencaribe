@@ -69,6 +69,8 @@ export const CURRENCIES: Record<CurrencyCode, CurrencyDefinition> = {
   ANG: { code: 'ANG', digits: 2, symbol: 'ƒ', name: { en: 'Netherlands Antillean Guilder', es: 'Guilden antillano neerlandés' } },
   EUR: { code: 'EUR', digits: 2, symbol: '€', name: { en: 'Euro', es: 'Euro' } },
   KYD: { code: 'KYD', digits: 2, symbol: 'CI$', name: { en: 'Cayman Islands Dollar', es: 'Dólar de las Islas Caimán' } },
+  COP: { code: 'COP', digits: 2, symbol: 'COL$', name: { en: 'Colombian Peso', es: 'Peso colombiano' } },
+  PAB: { code: 'PAB', digits: 2, symbol: 'B/.', name: { en: 'Panamanian Balboa', es: 'Balboa panameño' } },
 };
 
 export function getCurrency(code: CurrencyCode): CurrencyDefinition {

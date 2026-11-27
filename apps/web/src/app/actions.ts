@@ -69,9 +69,6 @@ export async function submitListing(_previous: SubmitState, formData: FormData):
   if (walletAddress && !isGnoAddress(walletAddress)) {
     return { status: 'error', message: translate(locale, 'post.walletInvalid') };
   }
-  if (walletAddress && walletPostLimitReached(walletAddress)) {
-    return { status: 'error', message: translate(locale, 'post.walletLimit') };
-  }
   const user = await getCurrentUser();
 
   const raw = {
@@ -101,6 +98,12 @@ export async function submitListing(_previous: SubmitState, formData: FormData):
       (errors[key] ??= []).push(issue.message);
     }
     return { status: 'error', message: 'Please correct the highlighted fields.', errors };
+  }
+
+  // Wallet-post rate limit applies to unauthenticated posts and is only
+  // checked after validation succeeds, so failed attempts never burn quota.
+  if (walletAddress && !user && walletPostLimitReached(walletAddress)) {
+    return { status: 'error', message: translate(locale, 'post.walletLimit') };
   }
 
   const draft = await persistListing({

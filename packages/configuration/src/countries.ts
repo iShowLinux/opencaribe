@@ -853,6 +853,40 @@ export const COUNTRIES: Record<CountryCode, CountryConfig> = {
       ] },
     ],
   }),
+
+  CO: caribbeanMarket({
+    code: 'CO',
+    displayName: 'Colombia',
+    supportedLanguages: ['en','es'],
+    defaultLocale: 'es',
+    defaultCurrency: 'COP',
+    telephonePrefix: '+57',
+    timeZone: 'America/Bogota',
+    regions: [
+      { id: 'co-bogota', names: t('Bogotá', 'Bogotá'), cities: [
+        { id: 'co-bogota-city', names: t('Bogotá', 'Bogotá'), approxLatitude: 4.711, approxLongitude: -74.0721 },
+        { id: 'co-medellin', names: t('Medellín', 'Medellín'), approxLatitude: 6.2442, approxLongitude: -75.5812 },
+      ] },
+      { id: 'co-barranquilla', names: t('Barranquilla', 'Barranquilla'), cities: [
+        { id: 'co-barranquilla-city', names: t('Barranquilla', 'Barranquilla'), approxLatitude: 10.9685, approxLongitude: -74.7813 },
+      ] },
+    ],
+  }),
+  PA: caribbeanMarket({
+    code: 'PA',
+    displayName: 'Panama',
+    supportedLanguages: ['en','es'],
+    defaultLocale: 'es',
+    defaultCurrency: 'PAB',
+    telephonePrefix: '+507',
+    timeZone: 'America/Panama',
+    regions: [
+      { id: 'pa-panama', names: t('Panamá', 'Panamá'), cities: [
+        { id: 'pa-panama-city', names: t('Ciudad de Panamá', 'Ciudad de Panamá'), approxLatitude: 8.9824, approxLongitude: -79.5199 },
+        { id: 'pa-colon', names: t('Colón', 'Colón'), approxLatitude: 9.356, approxLongitude: -79.9008 },
+      ] },
+    ],
+  }),
 };
 
 /** Compact builder for Caribbean markets sharing the platform policy blocks. */
