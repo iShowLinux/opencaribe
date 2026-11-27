@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useRef, useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
@@ -96,6 +97,17 @@ export function AuthForm({ mode, socialProviders = [] }: Props) {
           )}
           <Button type="submit" disabled={busy} className="w-full">{busy ? '…' : submitLabel}</Button>
           {message && <p role="status" className="text-sm text-slate-700 dark:text-slate-300">{message}</p>}
+          <p className="text-center text-sm text-slate-600 dark:text-slate-400">
+            {mode === 'login' && (
+              <>{t('noAccount')} <Link href="/register" className="font-semibold text-teal-700 hover:underline dark:text-teal-300">{t('signUp')}</Link></>
+            )}
+            {mode === 'register' && (
+              <>{t('haveAccount')} <Link href="/login" className="font-semibold text-teal-700 hover:underline dark:text-teal-300">{t('signIn')}</Link></>
+            )}
+            {mode === 'forgot' && (
+              <Link href="/login" className="font-semibold text-teal-700 hover:underline dark:text-teal-300">{t('backToSignIn')}</Link>
+            )}
+          </p>
         </form>
       </Card>
     </Container>

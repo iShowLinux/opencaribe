@@ -9,6 +9,7 @@
     "favorites": "Favorites",
     "messages": "Messages",
     "signIn": "Sign in",
+    "signUp": "Sign up",
     "account": "My account",
     "admin": "Administration",
     "news": "News"
@@ -118,6 +119,10 @@
     "password": "Password",
     "name": "Display name",
     "signIn": "Sign in",
+    "noAccount": "New to OpenCaribe?",
+    "signUp": "Create an account",
+    "haveAccount": "Already have an account?",
+    "backToSignIn": "Back to sign in",
     "createAccount": "Create account",
     "sendReset": "Send reset link",
     "notConfigured": "Authentication is not configured in this environment. Copy .env.example to .env, set BETTER_AUTH_SECRET and connect a database, then restart.",

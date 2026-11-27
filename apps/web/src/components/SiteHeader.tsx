@@ -47,7 +47,8 @@ export function SiteHeader() {
             <li><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href={`${base}/post`}>{nav('post')}</Link></li>
             <li className="hidden md:block"><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href={`${base}/favorites`}>{nav('favorites')}</Link></li>
             <li className="hidden md:block"><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href={`${base}/messages`}>{nav('messages')}</Link></li>
-            <li><LinkButton href="/login" size="sm" className="px-3 py-2">{nav('signIn')}</LinkButton></li>
+            <li><LinkButton href="/login" variant="secondary" size="sm" className="px-3 py-2">{nav('signIn')}</LinkButton></li>
+            <li><LinkButton href="/register" size="sm" className="px-3 py-2">{nav('signUp')}</LinkButton></li>
           </ul>
         </nav>
 
