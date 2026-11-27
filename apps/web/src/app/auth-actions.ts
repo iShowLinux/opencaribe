@@ -2,7 +2,8 @@
 
 import { cookies } from 'next/headers';
 import { isValidLocale } from '@opencaribe/localization';
-import { createSession, createUser, destroySession, SESSION_COOKIE, verifyUser } from '@/lib/store';
+import { createSession, createUser, destroySession, SESSION_COOKIE, setUserRole, verifyUser } from '@/lib/store';
+import { isAdminEmail } from '@/lib/admin';
 
 export interface AuthState {
   status: 'idle' | 'error' | 'success';
@@ -73,6 +74,9 @@ export async function loginAction(_previous: AuthState, formData: FormData): Pro
       status: 'error',
       message: lang === 'es' ? 'Correo o contraseña incorrectos.' : 'Incorrect email or password.',
     };
+  }
+  if (isAdminEmail(email) && user.role !== 'admin') {
+    await setUserRole(user.id, 'admin');
   }
   await startSession(user.id);
   return { status: 'success' };

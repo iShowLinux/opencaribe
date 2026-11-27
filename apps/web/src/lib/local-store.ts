@@ -1,4 +1,5 @@
 import { randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
+import { isAdminEmail } from './admin';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 
@@ -21,6 +22,7 @@ export interface LocalUser {
   passwordHash: string;
   salt: string;
   walletAddress?: string;
+  role: 'user' | 'moderator' | 'admin';
   createdAt: string;
 }
 
@@ -155,6 +157,8 @@ export async function createUser(input: { name: string; email: string; password:
     name: input.name.trim(),
     salt,
     passwordHash: hashPassword(input.password, salt),
+    walletAddress: undefined,
+    role: isAdminEmail(email) ? 'admin' : 'user',
     createdAt: new Date().toISOString(),
   };
   store.users.push(user);
@@ -219,6 +223,15 @@ export async function destroySession(token: string | undefined): Promise<void> {
   await ensureLoaded();
   store.sessions = store.sessions.filter((entry) => entry.token !== token);
   await persist();
+}
+
+export async function setUserRole(userId: string, role: 'user' | 'moderator' | 'admin'): Promise<void> {
+  await ensureLoaded();
+  const user = store.users.find((entry) => entry.id === userId);
+  if (user) {
+    user.role = role;
+    await persist();
+  }
 }
 
 export async function attachWallet(userId: string, walletAddress: string): Promise<void> {

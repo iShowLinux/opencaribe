@@ -163,3 +163,35 @@ export async function listListingsBySeller(sellerId: string): Promise<PublicList
     .orderBy(desc(schema.listings.createdAt));
   return rows.map(mapDbRow);
 }
+
+/** Lists every listing in a given state (moderation queue, sold board, etc.). */
+export async function listListingsByStatus(status: string): Promise<PublicListing[]> {
+  if (!isDatabaseConfigured()) {
+    return [...store.values()]
+      .filter((listing) => listing.status === status)
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  }
+  const rows = await getDb()
+    .select()
+    .from(schema.listings)
+    .where(eq(schema.listings.status, status as 'draft' | 'pending_review' | 'active' | 'rejected' | 'sold' | 'expired' | 'suspended' | 'removed'))
+    .orderBy(desc(schema.listings.createdAt));
+  return rows.map(mapDbRow);
+}
+
+/** Explicit status transition used by moderators and owners. */
+export async function setListingStatus(id: string, status: PublicListing['status']): Promise<PublicListing | undefined> {
+  if (!isDatabaseConfigured()) {
+    const local = store.get(id);
+    if (!local) return undefined;
+    local.status = status;
+    store.set(id, local);
+    return local;
+  }
+  const [row] = await getDb()
+    .update(schema.listings)
+    .set({ status: status as 'draft' | 'pending_review' | 'active' | 'rejected' | 'sold' | 'expired' | 'suspended' | 'removed' })
+    .where(eq(schema.listings.id, id))
+    .returning();
+  return row ? mapDbRow(row) : undefined;
+}

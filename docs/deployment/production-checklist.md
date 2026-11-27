@@ -61,3 +61,13 @@ Run the walkthrough manually or with Playwright:
 - Password hashes use scrypt with a per-user salt stored in `accounts.password`
   as `salt:hash`.
 - No credentials are ever written to the repository or Vercel build output.
+
+## 5. Analytics and moderation
+
+- Web analytics are enabled with `@vercel/analytics` (privacy-friendly, no ad
+  cookies). Data appears under Vercel project → Analytics.
+- Privileged accounts: list owner emails in `ADMIN_EMAILS` (comma separated).
+  Those accounts receive the admin role on register/login, see an
+  **Administration** link in the header, and can approve/reject anonymous
+  (`pending_review`) listings at `/admin`.
+- A custom domain recipe lives in `custom-domain.md`.

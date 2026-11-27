@@ -2,6 +2,7 @@ import { randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
 import { and, asc, desc, eq, inArray, isNull, ne } from 'drizzle-orm';
 import { getDb, schema } from '@opencaribe/database';
 import type { LocalMessage, LocalOrder, LocalRating, LocalThread, LocalUser, SellerStats } from './local-store';
+import { isAdminEmail } from './admin';
 
 /**
  * PostgreSQL implementation of the demo store API. Used when DATABASE_URL is
@@ -25,6 +26,7 @@ function toLocalUser(row: UserRow): LocalUser {
     passwordHash: '',
     salt: '',
     walletAddress: row.walletAddress ?? undefined,
+    role: row.role === 'admin' || row.role === 'moderator' ? row.role : 'user',
     createdAt: row.createdAt.toISOString(),
   };
 }
@@ -72,7 +74,7 @@ export async function createUser(input: { name: string; email: string; password:
   const salt = randomBytes(16).toString('hex');
 
   try {
-    await db.insert(schema.users).values({ id, email, name: input.name.trim() });
+    await db.insert(schema.users).values({ id, email, name: input.name.trim(), role: isAdminEmail(email) ? 'admin' : 'user' });
   } catch (error) {
     if (error instanceof Error && /unique/i.test(error.message)) throw new Error('EMAIL_TAKEN');
     throw error;
@@ -165,6 +167,10 @@ export async function destroySession(token: string | undefined): Promise<void> {
 
 export async function attachWallet(userId: string, walletAddress: string): Promise<void> {
   await getDb().update(schema.users).set({ walletAddress }).where(eq(schema.users.id, userId));
+}
+
+export async function setUserRole(userId: string, role: 'user' | 'moderator' | 'admin'): Promise<void> {
+  await getDb().update(schema.users).set({ role }).where(eq(schema.users.id, userId));
 }
 
 async function participantsOf(threadId: string): Promise<string[]> {

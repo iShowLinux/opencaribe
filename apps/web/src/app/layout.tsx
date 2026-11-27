@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { NextIntlClientProvider } from 'next-intl';
+import { Analytics } from '@vercel/analytics/next';
 import { getLocale, getMessages } from 'next-intl/server';
 import { COUNTRIES } from '@opencaribe/configuration';
 import { SiteHeader } from '@/components/SiteHeader';
@@ -47,12 +48,13 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       <body className="min-h-screen">
         <NextIntlClientProvider locale={locale} messages={messages}>
           <div className="flex min-h-screen flex-col">
-            <SiteHeader userName={viewer?.name ?? null} />
+            <SiteHeader userName={viewer?.name ?? null} userRole={viewer?.role ?? null} />
             <main className="flex-1">{children}</main>
             <SiteFooter />
           </div>
         </NextIntlClientProvider>
-      </body>
+            <Analytics />
+    </body>
     </html>
   );
 }

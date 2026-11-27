@@ -45,6 +45,10 @@ export async function destroySession(token: string | undefined): Promise<void> {
   return impl.destroySession(token);
 }
 
+export async function setUserRole(userId: string, role: 'user' | 'moderator' | 'admin'): Promise<void> {
+  return impl.setUserRole(userId, role);
+}
+
 export async function attachWallet(userId: string, walletAddress: string): Promise<void> {
   return impl.attachWallet(userId, walletAddress);
 }

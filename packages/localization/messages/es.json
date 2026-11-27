@@ -201,6 +201,11 @@
   "admin": {
     "title": "Administración",
     "restricted": "Esta área requiere una cuenta autenticada de moderador o administrador.",
+    "subtitle": "Revisa los anuncios en cola y los reportes de moderación.",
+    "pendingReviews": "Revisiones pendientes",
+    "approve": "Aprobar",
+    "reject": "Rechazar",
+    "noPending": "La cola de moderación está vacía.",
     "queue": "Cola de moderación",
     "reports": "Reportes abiertos",
     "roles": "Roles y permisos",

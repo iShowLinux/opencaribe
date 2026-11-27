@@ -11,9 +11,10 @@ import { ThemeToggle } from './ThemeToggle';
 
 interface Props {
   userName?: string | null;
+  userRole?: string | null;
 }
 
-export function SiteHeader({ userName }: Props) {
+export function SiteHeader({ userName, userRole }: Props) {
   const nav = useTranslations('nav');
   const common = useTranslations('common');
   const pathname = usePathname();
@@ -49,6 +50,9 @@ export function SiteHeader({ userName }: Props) {
             <li><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href="/news">{nav('news')}</Link></li>
             <li><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href={`${base}/search`}>{nav('browse')}</Link></li>
             <li><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href={`${base}/post`}>{nav('post')}</Link></li>
+            {(userRole === 'admin' || userRole === 'moderator') && (
+              <li><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href="/admin">{nav('admin')}</Link></li>
+            )}
             <li className="hidden md:block"><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href={`${base}/favorites`}>{nav('favorites')}</Link></li>
             <li className="hidden md:block"><Link className="rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:hover:bg-slate-800" href={`${base}/messages`}>{nav('messages')}</Link></li>
             {userName ? (

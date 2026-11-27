@@ -201,6 +201,11 @@
   "admin": {
     "title": "Administration",
     "restricted": "This area requires an authenticated moderator or administrator account.",
+    "subtitle": "Review queued listings and moderation reports.",
+    "pendingReviews": "Pending reviews",
+    "approve": "Approve",
+    "reject": "Reject",
+    "noPending": "The moderation queue is empty.",
     "queue": "Moderation queue",
     "reports": "Open reports",
     "roles": "Roles and permissions",
